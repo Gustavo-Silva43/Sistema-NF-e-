@@ -89,3 +89,45 @@
     });
 </script>
 {% endblock %}
+
+<!-- 1.Estrutura Base e Estilo (CSS) 
+
+{% extends "base.html" %}: Diz ao Django que este arquivo herda o layout de um arquivo mestre chamado base.html (onde costumam ficar o menu e o rodapé).
+
+<style>: Define a aparência da página.
+    .tabs li: Cria os botões das abas na horizontal.
+    .tab-content: Por padrão, todos os conteúdos das abas ficam escondidos (display: none).
+    .tab-content.active: Apenas a aba com a classe active aparece na tela.
+-->
+
+<!-- 
+    2. O Menu de Abas
+
+    <ul class="tabs">: Lista de botões que o usuário clica.
+    data-tab="cliente": Este é um atributo personalizado. Ele "avisa" ao JavaScript qual id de conteúdo deve ser aberto quando aquele botão for clicado.
+-->
+
+<!--3. O Formulário e Segurança
+
+    <form method="post">: Inicia o formulário que enviará os dados para o servidor.
+    {% csrf_token %}: Uma medida de segurança obrigatória do Django que evita ataques de falsificação de solicitações entre sites.
+-->
+
+<!-- 4. Conteúdo das Abas (Exemplos)
+
+    <div id="cliente" class="tab-content active">: Esta é a primeira aba. Ela começa com a classe active para ser a primeira coisa que o usuário vê.
+    Dentro dela, há uma <table> para alinhar os campos (CNPJ, Inscrição Estadual, etc.) lado a lado, simulando o layout de um sistema ERP tradicional.
+
+    <div id="produtos" class="tab-content">: Aba para os itens da nota.
+        <thead>: Define os títulos das colunas (Quantidade, Valor Unitário, etc.).
+            <tbody>: Onde os dados dos produtos seriam renderizados. O comentário menciona o uso de Inline formset, que é a forma do Django de permitir adicionar vários produtos de uma vez em um único formulário.
+    -->
+
+<!-- 5. O Motor do Sistema (JavaScript) O código no final é responsável pela interatividade sem precisar recarregar a página:
+
+    1.document.querySelectorAll('.tab-link').forEach(...): Seleciona todos os botões de aba e adiciona um "ouvido" de clique em cada um.
+
+    2.classList.remove('active'): Quando você clica em uma aba nova, ele primeiro esconde a aba que estava aberta e desmarca o botão anterior.
+
+    3.document.getElementById(tab.dataset.tab).classList.add('active'): Ele pega o nome que estava no data-tab do botão clicado e mostra a div correspondente.
+-->
