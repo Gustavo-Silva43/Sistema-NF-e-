@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    body { background: #d4e4d4; font-family: Arial; }
+    .tabs { list-style: none; padding: 0; background: #a0c0a0; }
+    .tabs li { display: inline-block; padding: 8px 12px; background: #c0e0c0; border: 1px solid #80a080; margin-right: 2px; cursor: pointer; }
+    .tabs li.active { background: #e0f0e0; font-weight: bold; }
+    .tab-content { display: none; padding: 20px; background: white; border: 2px solid #80a0c0; margin-top: 10px; }
+    .tab-content.active { display: block; }
+    table { width: 100%; border-collapse: collapse; }
+    td { padding: 5px; border: 1px solid #80a0c0; }
+    input, select, textarea { width: 100%; }
+</style>
+
+<h2>Dados NF-e</h2>
+
+<ul class="tabs">
+    <li class="tab-link active" data-tab="cliente">Cliente</li>
+    <li class="tab-link" data-tab="endereco">End.Entrega</li>
+    <li class="tab-link" data-tab="base">Base de Cálculo</li>
+    <li class="tab-link" data-tab="base">Produto</li>
+    <li class="tab-link" data-tab="pagamento">Pagamento</li>
+    <li class="tab-link" data-tab="cobranca">Cobrança</li>
+    <li class="tab-link" data-tab="transporte">Transportadoras e Volumes</li>
+    <li class="tab-link" data-tab="info">Informações Complementares</li>
+    <li class="tab-link" data-tab="arquivos">Arquivos da NF-e</li>
+    <li class="tab-link" data-tab="info_nfe">Info NF-e</li>
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div id="cliente" class="tab-content active">
+        <!-- Campos do cliente eexatamente como na foto -->
+        <table>
+            <tr>
+                <td> Tipo Pessoa</td>
+                <td>Tipo de Comtribuinte</td>
+                <td>CNPJ</td>
+                <td>Inscrição Estadual</td>
+                <td>Inscrição Municipal</td>
+            </tr>
+            <tr><!--Preencha com {{ form.cliente }} ou campos manuais --></tr>
+        </table>
+        <h3>Cliente</h3>
+        <table><!-- Todos os campos do cliente --></table>
+    </div>
+
+    <!-- Repita para cada aba com os campos correspondentes -->
+
+    <div id="produtos" class="tab-content">
+        <table>
+            <thead>
+                <tr>
+                    <th> N° do Item</th>
+                    <th>Cód. Produto</th>
+                    <th>EAN</th>
+                    <th>Descrição do Produto</th>
+                    <th>NCM</th>
+                    <th>NVE</th>
+                    <th>TIPI</th>
+                    <th>CFOP</th>
+                    <th>Unidade</th>
+                    <th>Qtd.</th>
+                    <th>Vr. Unitário</th>
+                    <th>Vr.Total Bruto</th>
+                    <!-- etc -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Use Inline formset para itens -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Continue para as outras abas.... -->
+
+    <button type="submit"> Salvar NF-e</button>
+</form>   
+
+<script>
+    document.querySelectorAll('.tab-link').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab.dataset.tab).classList.add('active');
+            tab.classList.add('active');
+        });
+    });
+</script>
+{% endblock %}
