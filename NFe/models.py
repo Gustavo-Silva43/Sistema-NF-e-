@@ -23,7 +23,7 @@ class Emitente(models.Model):
     municipio = models.CharField(max_length=100)
     uf = models.CharField(max_length=2)
     cep = models.CharField(max_length=8)
-    telefone - models.CharField(max_length=20, blank=True)
+    telefone = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         returnself.razao_social
@@ -275,4 +275,5 @@ class Duplicata(models.Model):
 
 # valor = models.DecimalField("Valor", max_digits=12, decimal_places=2) O valor financeiro daquela parcela específica.
 # max_digits=12: Permite valores até 999.999.999,99.
+
 #decimal_places=2: Garante a precisão de duas casas decimais para os centavos.
