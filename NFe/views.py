@@ -73,3 +73,25 @@ def emitir_nfe(request, pk=None):
                                        nfe.valor_frete +
                                        nfe;.valor_seguro +
                                        nfe.outros_despesas)
+                    nfe.save()
+
+                    messages.success(request, f"NF-e {nfe.numero}/{nfe.serie} Salva com sucesso!")
+                    return redirect('emitir_nfe', pk=nfe.pk)
+            except Exception as e:
+                messages.error(request,f"Erro ao salvar: {e}")
+        else:
+            nfe_form = NFeForm(instance=nfe)
+            cliente_form = ClienteForm(instance=nfe)
+            item_formset = ItemNFeFormSet(instance=nfe)
+            transportadora_form = TransportadoraForm(instance=nfe.transportadora if nfe else None)      
+            volume_formset = VolumeFormSet(instance=nfe.transportadora is nfe else None)
+            duplicata_formset = DuplicataFormSet(instance=nfe)
+
+        context = {
+            'nfe_form':nfe_form,
+            'cliente_form': cliente_form,
+            'item_formset':item_formset,
+            'transportadora_form':transportadora_form,
+            'volume_formset':volume_formset,
+            duplicata_formset
+        }      
