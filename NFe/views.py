@@ -99,3 +99,56 @@ def emitir_nfe(request, pk=None):
         }      
 
         return render(request,'nfe/form_nfe.html', context)
+    
+# 1. Preparação e Verificação do Emitente
+# def emitir_nfe(request, pk=None):: Define a função. Se receber um pk (Primary Key), ela edita uma nota; se for None, cria uma nova.
+
+# nfe = get_object_or_404(NFe, pk=pk): Tenta buscar a nota no banco. Se não achar, mostra erro 404.
+
+# emitente = Emitente.objects.first(): Busca a sua empresa no banco. Como uma empresa geralmente emite suas próprias notas, assume-se que só existe um emitente cadastrado.
+
+# if not emitente...: Se você esqueceu de cadastrar sua própria empresa, o sistema te impede de continuar e te manda para a tela de cadastro.
+
+
+# 2. Recebendo os Dados (O bloco if request.method == 'POST')
+# Quando você clica em "Salvar", o Django entra aqui para processar o que foi digitado:
+
+# nfe_form = NFeForm(request.POST, instance=nfe): Carrega os dados gerais da nota vindos do navegador.
+
+# cliente_form, item_formset, etc.: Carregam os dados do cliente, os produtos, a transportadora e as duplicatas. O request.POST contém os valores digitados e o instance garante que estamos editando o objeto certo.
+
+
+# 3. Validação e Segurança (transaction.atomic)
+# if (nfe_form.is_valid() and ...): Verifica se todos os campos obrigatórios foram preenchidos corretamente e se não há erros (como CPF inválido).
+
+# with transaction.atomic():: Isso é crucial. Significa "Tudo ou Nada". Se houver um erro ao salvar o último item, o Django desfaz tudo o que salvou antes para não deixar "lixo" no banco de dados.
+
+
+# 4. O Processo de Salvamento
+# O código segue uma ordem lógica de dependência:
+
+# Salva o Cliente: Primeiro salva quem está comprando.
+
+# Salva a NF-e: Salva a nota, vinculando ela ao emitente (você) e ao cliente salvo no passo anterior.
+
+# Salva Itens: Percorre a lista de produtos, calcula o total_itens e vincula cada um à nota.
+
+# Transporte: Verifica se os dados da transportadora foram preenchidos (any(...)). Se sim, salva a transportadora e seus respectivos volumes (caixas).
+
+# Duplicatas: Salva as parcelas de pagamento vinculadas à nota.
+
+
+# 5. Cálculo Final e Resposta
+# nfe.valor_total = (...): Faz a conta matemática final (Produtos - Desconto + Frete + Seguro + Outros) para garantir que o total da nota esteja correto antes de salvar definitivamente.
+
+# messages.success(...): Mostra uma barrinha verde de sucesso no topo do site.
+
+# return redirect(...): Recarrega a página com os dados salvos.
+
+
+# 6. O bloco else e o render
+# O else: Se você estiver apenas entrando na página (sem clicar em salvar), ele cria os formulários limpos (ou preenchidos para edição) para serem exibidos.
+
+# context = { ... }: Organiza todos os formulários e dados para que o arquivo HTML consiga "enxergá-los".
+
+# return render(...): Pega o arquivo form_nfe.html, coloca os formulários dentro dele e entrega a página pronta no seu navegador.
