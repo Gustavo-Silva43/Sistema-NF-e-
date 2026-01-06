@@ -71,7 +71,7 @@ def emitir_nfe(request, pk=None):
                     nfe.valor_total = (total_itens - 
                                        nfe.valor_desconto +
                                        nfe.valor_frete +
-                                       nfe;.valor_seguro +
+                                       nfe.valor_seguro +
                                        nfe.outros_despesas)
                     nfe.save()
 
@@ -84,7 +84,7 @@ def emitir_nfe(request, pk=None):
             cliente_form = ClienteForm(instance=nfe)
             item_formset = ItemNFeFormSet(instance=nfe)
             transportadora_form = TransportadoraForm(instance=nfe.transportadora if nfe else None)      
-            volume_formset = VolumeFormSet(instance=nfe.transportadora is nfe else None)
+            volume_formset = VolumeFormSet(instance=nfe.transportadora if nfe else None)
             duplicata_formset = DuplicataFormSet(instance=nfe)
 
         context = {
@@ -93,5 +93,9 @@ def emitir_nfe(request, pk=None):
             'item_formset':item_formset,
             'transportadora_form':transportadora_form,
             'volume_formset':volume_formset,
-            duplicata_formset
+            'duplicata_formset': duplicata_formset,
+            'nfe': nfe,
+            'emitente':emitente,
         }      
+
+        return render(request,'nfe/form_nfe.html', context)
