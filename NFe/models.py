@@ -26,7 +26,7 @@ class Emitente(models.Model):
     telefone = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
-        returnself.razao_social
+        return self.razao_social
 
 # O primeiro bloco de codigo
 # então, ele e um bloco de codigo que mostra como vai ser o banco, de forma que o django puxer para o framework que o django e são a mesma. 
@@ -145,8 +145,8 @@ class NFe(models.Model):
 # natureza_operacao (CharField): Representa o motivo da emissão da nota (ex: "VENDA", "DEVOLUÇÃO", "REMESSA").
 # max_length=100: Limita o texto a 100 caracteres.
 # default="VENDA": Caso você não preencha nada, o sistema automaticamente salvará como "VENDA", que é o uso mais comum.
-
 # informacoes_complementares (TextField): É um campo de texto longo para observações que aparecem na DANFE para o cliente (ex: dados bancários para depósito, número do pedido de compra, etc.).
+
 # blank=True: Permite que o campo fique vazio no formulário.
 
 # informacoes_fisico (TextField): Campo destinado a notas específicas para o Fisco (autoridades fiscais). Também é um campo de texto longo e opcional (blank=True).
@@ -158,6 +158,12 @@ class NFe(models.Model):
     valor_total = models.DecimalField("Valor Total", max_digits=12, decimal_places=2, default=0)
     valor_desconto = models.DecimalField("Desconto", max_digits=12, decimal_places=2, default=0)
     valor_liquido = models.DecimalField("Valor Líquido", max_digits=12, decimal_places=2, default=0)
+
+   
+   # ADICIONE ESTES CAMPOS:
+    valor_frete = models.DecimalField("Valor do Frete", max_digits=12, decimal_places=2, default=0)
+    valor_seguro = models.DecimalField("Valor do Seguro", max_digits=12, decimal_places=2, default=0)
+    outras_despesas = models.DecimalField("Outras Despesas", max_digits=12, decimal_places=2, default=0)
 
 #  Esses campos finalizam a parte financeira do seu modelo de Nota Fiscal. Eles utilizam o tipo DecimalField, que é o padrão ouro para lidar com dinheiro em programação, pois evita erros de arredondamento que ocorrem com números do tipo "float".
 
@@ -174,7 +180,7 @@ class NFe(models.Model):
 # 
 
 class ItemNFe(models.Model):
-    nfe = models.Foreignkey(NFe, on_delete=models.CASCADE, related_name="itens")
+    nfe = models.ForeignKey(NFe, on_delete=models.CASCADE, related_name="itens")
     item_pedido = models.PositiveIntegerField("N° do Item do Pedido de Compra")
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.DecimalField("Qtd.", max_digits=12, decimal_places=2)
@@ -275,5 +281,4 @@ class Duplicata(models.Model):
 
 # valor = models.DecimalField("Valor", max_digits=12, decimal_places=2) O valor financeiro daquela parcela específica.
 # max_digits=12: Permite valores até 999.999.999,99.
-
 #decimal_places=2: Garante a precisão de duas casas decimais para os centavos.
