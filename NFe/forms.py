@@ -9,7 +9,7 @@ class NFeForm(forms.ModelForm):
         fields = [
             'numero', 'serie','natureza_operacao',
             'valor_desconto', 'valor_frete', 'valor_seguro', 'outras_despesas',
-            'informacoes_complementares', 'infornacoes_fisico'
+            'informacoes_complementares', 'informacoes_fisico','informacoes_nfe'
         ]
         widgets = {
             'informacoes_complementares': forms.Textarea(attrs={'rows':4}),
@@ -28,7 +28,7 @@ class ClienteForm(forms.ModelForm):
 class ItemNFeForm(forms.ModelForm):
     class Meta:
         model = ItemNFe
-        fields = ['numero_item', 'codigo_produto', 'descricao', 'ncm', 'cfop', 'unidade', 'valor_unitario']
+        fields = ['item_pedido', 'produto', 'quantidade', 'valor_unitario', 'valor_total_bruto']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -37,7 +37,7 @@ class ItemNFeForm(forms.ModelForm):
 # Formsets - pra lidar com múltiplos itens, volumes e duplicatas
 ItemNFeFormSet = inlineformset_factory( 
     NFe, ItemNFe, form=ItemNFeForm,
-    extra=5, can_delete=True, min_num=1, validade_min=True
+    extra=5, can_delete=True, min_num=1, validate_min=True
 )
 
 VolumeFormSet = inlineformset_factory(
@@ -48,14 +48,14 @@ VolumeFormSet = inlineformset_factory(
 
 DuplicataFormSet = inlineformset_factory(
     NFe, Duplicata,
-    fields = ['numero', 'data_vecimento', 'valor'],
+    fields = ['numero', 'data_vencimento', 'valor'],
     extra=3, can_delete=True
 )
 
-class TransPortadoraForm(forms.ModelFrom):
+class TransportadoraForm(forms.ModelForm):
     class Meta:
         model = Transportadora
-        fields = ['nome', 'cnpj', 'ie', 'logradouro', 'municipio', 'uf', 'tipo-frete']
+        fields = ['nome', 'cnpj', 'ie', 'logradouro', 'municipio', 'uf', 'tipo_frete']
 
 # Este arquivo forms.py é onde o Django define como os dados serão inseridos pelo usuário no navegador. Ele transforma os seus Models em formulários HTML automáticos e utiliza Formsets para permitir que você adicione vários itens (como produtos ou duplicatas) em uma única tela.
 
