@@ -26,7 +26,7 @@ class Emitente(models.Model):
     telefone = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
-        return self.razao_social
+        return self.nome_razao
 
 # O primeiro bloco de codigo
 # então, ele e um bloco de codigo que mostra como vai ser o banco, de forma que o django puxer para o framework que o django e são a mesma. 
