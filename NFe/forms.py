@@ -2,7 +2,6 @@ from django import forms
 from django.forms import inlineformset_factory
 from. models import NFe, Cliente, ItemNFe, Transportadora, Volume, Duplicata
 
-# Form principal da NF-e - só os campos gerais
 class NFeForm(forms.ModelForm):
     class Meta:
         model = NFe
@@ -15,7 +14,6 @@ class NFeForm(forms.ModelForm):
             'informacoes_complementares': forms.Textarea(attrs={'rows':4}),
             'informacoes_fisico': forms.Textarea(attrs={'rows': 3}),
         }
-# Cliente pode ser novoou existente - Vamos permitir criar na hora
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
@@ -24,7 +22,6 @@ class ClienteForm(forms.ModelForm):
             'nome_fantasia': forms.TextInput(attrs={'placeholder': 'Opcional'}),
             'completamento': forms.TextInput(attrs={'placeholder': 'Opcional'}),
         }
-# Itens da NF-e - vários
 class ItemNFeForm(forms.ModelForm):
     class Meta:
         model = ItemNFe
@@ -34,7 +31,6 @@ class ItemNFeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['descricao'].widget.attrs.update({'size':'60'})
 
-# Formsets - pra lidar com múltiplos itens, volumes e duplicatas
 ItemNFeFormSet = inlineformset_factory( 
     NFe, ItemNFe, form=ItemNFeForm,
     extra=5, can_delete=True, min_num=1, validate_min=True
