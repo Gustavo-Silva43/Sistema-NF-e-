@@ -12,9 +12,9 @@
     input, select, textarea { width: 100%; }
 </style>
 
-<h2>Dados NF-e</h2>
 
 <ul class="tabs">
+    <li class="tab-link active" data-tab="Dados NF-e">Dados NF-e</li>
     <li class="tab-link active" data-tab="cliente">Cliente</li>
     <li class="tab-link" data-tab="endereco">End.Entrega</li>
     <li class="tab-link" data-tab="base">Base de Cálculo</li>
@@ -31,22 +31,60 @@
     {% csrf_token %}
 
     <div id="cliente" class="tab-content active">
-        <!-- Campos do cliente eexatamente como na foto -->
         <table>
             <tr>
                 <td> Tipo Pessoa</td>
-                <td>Tipo de Comtribuinte</td>
+                <td>Tipo de Contribuinte</td>
                 <td>CNPJ</td>
                 <td>Inscrição Estadual</td>
                 <td>Inscrição Municipal</td>
+                <td>Cliente</td>
+                <td>Informação Estrangeira</td>
+                <td>CEP</td>
+                <td>Logradouro</td>
+                <td>N°</td>
+                <td>Complemento</td>
+                <td>Bairro</td>
+                <td>Cód.IBGE</td>
+                <td>Município</td>
+                <td>UF</td>
+                <td>Cód.País</td>
+                <td>País</td>
+                <td>Telefone</td>
+                <td>Inscr. SUFRAMA</td>
+                <td>Lote SUFRAMA</td>
+                <td>E-mail</td>
+                 <td>E-mail Contador</td>
             </tr>
-            <tr><!--Preencha com {{ form.cliente }} ou campos manuais --></tr>
+            <tr>
+                   
+            </tr>
+                <td>{{ cliente_form.tipo_Pessoa}}</td>
+                <td>{{ cliente_form.tipo_de_contribuinte}}</td>
+                <td>{{ cliente_form.cnpj}}</td>
+                <td>{{ cliente_form.inscricao_estadual}}</td>
+                <td>{{ cliente_form.inscricao_municipal}}</td>
+                <td>{{ cliente_form.cliente}}</td>
+                <td>{{ cliente_form.Informacao_estrangeira}}</td>
+                <td>{{ cliente_form.cliente}}</td>
+                <td>{{ cliente_form.informacoes_estrangeiros}}</td>
+                <td>{{ cliente_form.cep}}</td>
+                <td>{{ cliente_form.logradouro}}</td>
+                <td>{{ cliente_form.numero}}</td>
+                <td>{{ cliente_form.complementos}}</td>
+                <td>{{ cliente_form.bairro}}</td>
+                <td>{{ cliente_form.cod_Pais}}</td>
+                <td>{{ cliente_form.pais}}</td>
+                <td>{{ cliente_form.telefone}}</td>
+                <td>{{ cliente_form.inscr_suframa}}</td>
+                <td>{{ cliente_form.lote_suframa}}</td>
+                <td>{{ cliente_form.email}}</td>
+                <td>{{ cliente_form.email_contador}}</td>
+            </tr>
         </table>
-        <h3>Cliente</h3>
-        <table><!-- Todos os campos do cliente --></table>
+        <table> </table>
     </div>
 
-    <!-- Repita para cada aba com os campos correspondentes -->
 
     <div id="produtos" class="tab-content">
         <table>
@@ -64,16 +102,13 @@
                     <th>Qtd.</th>
                     <th>Vr. Unitário</th>
                     <th>Vr.Total Bruto</th>
-                    <!-- etc -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Use Inline formset para itens -->
             </tbody>
         </table>
     </div>
 
-    <!-- Continue para as outras abas.... -->
 
     <button type="submit"> Salvar NF-e</button>
 </form>   
@@ -92,7 +127,7 @@
 
 <!-- 1.Estrutura Base e Estilo (CSS) 
 
-{% extends "base.html" %}: Diz ao Django que este arquivo herda o layout de um arquivo mestre chamado base.html (onde costumam ficar o menu e o rodapé).
+ Diz ao Django que este arquivo herda o layout de um arquivo mestre chamado base.html (onde costumam ficar o menu e o rodapé).
 
 <style>: Define a aparência da página.
     .tabs li: Cria os botões das abas na horizontal.
