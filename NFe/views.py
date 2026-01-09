@@ -8,16 +8,14 @@ from .forms import(
 )
 
 def emitir_nfe(request, pk=None):
-    # pk = None -> nova NF-e | pk = id -> editar existente
     nfe = None
     if pk:
         nfe = get_object_or_404(NFe, pk=pk)
     
-    # Pega o emitente (assume que tem só um cadastrado)
     emitente = Emitente.objects.first()
-    if not emitente and not pk:
-        messages.error(request, "Cadastre o emitente da empresa primeiro!")
-        return redirect('admin:nfe_emitente_add')
+    # if not emitente and not pk:
+    #     messages.error(request, "Cadastre o emitente da empresa primeiro!")
+    #     return redirect('admin:nfe_emitente_add')
 
     if request.method == 'POST':
         nfe_form = NFeForm(request.POST, instance=nfe)
@@ -32,17 +30,12 @@ def emitir_nfe(request, pk=None):
             volume_formset.is_valid() and duplicata_formset.is_valid()):
 
             try:
-                with transaction.atomic(): # Tudo ou nada
-                    # 1. Salva o cliente
+                with transaction.atomic(): 
                     cliente = cliente_form.save()
-
-                    # 2.Salva a NF-e
                     nfe = nfe_form.save(commit=False)
                     nfe.emitente = emitente
                     nfe.cliente = cliente
                     nfe.save()
-
-                    # 3. Salva itens
                     itens = item_formset.save(commit=False)
                     total_itens = 0
                     for item in itens:
@@ -51,7 +44,6 @@ def emitir_nfe(request, pk=None):
                         total_itens += item.valor_total
                     item_formset.save_m2m() if hasattr(item_formset, 'save_m2m') else None
 
-                    # 4.Salva transporte e volumes
                     if any(transportadora_form.cleaned_data.values()):
                         transportadora = transportadora_form.save(commit=False)
                         transportadora.nfe = nfe
@@ -60,14 +52,12 @@ def emitir_nfe(request, pk=None):
                         for v in volumes:
                             v.transportadora = transportadora
                             v.save()
-                    
-                    # 5. Salva duplicatas
+
                     duplicatas = duplicata_formset.save(commit=False)
                     for d in duplicatas:
                         d.nfe = nfe
                         d.save()
-                    
-                    # 6. Calcula o valor total da nota
+
                     nfe.valor_total = (total_itens - 
                                        nfe.valor_desconto +
                                        nfe.valor_frete +
@@ -79,26 +69,26 @@ def emitir_nfe(request, pk=None):
                     return redirect('emitir_nfe', pk=nfe.pk)
             except Exception as e:
                 messages.error(request,f"Erro ao salvar: {e}")
-        else:
-            nfe_form = NFeForm(instance=nfe)
-            cliente_form = ClienteForm(instance=nfe)
-            item_formset = ItemNFeFormSet(instance=nfe)
-            transportadora_form = TransportadoraForm(instance=nfe.transportadora if nfe else None)      
-            volume_formset = VolumeFormSet(instance=nfe.transportadora if nfe else None)
-            duplicata_formset = DuplicataFormSet(instance=nfe)
+    else:
+        nfe_form = NFeForm(instance=nfe)
+        cliente_form = ClienteForm(instance=nfe)
+        item_formset = ItemNFeFormSet(instance=nfe)
+        transportadora_form = TransportadoraForm(instance=nfe.transportadora if nfe else None)      
+        volume_formset = VolumeFormSet(instance=nfe.transportadora if nfe else None)
+        duplicata_formset = DuplicataFormSet(instance=nfe)
 
-        context = {
-            'nfe_form':nfe_form,
-            'cliente_form': cliente_form,
-            'item_formset':item_formset,
-            'transportadora_form':transportadora_form,
-            'volume_formset':volume_formset,
-            'duplicata_formset': duplicata_formset,
-            'nfe': nfe,
-            'emitente':emitente,
-        }      
+    context = {
+        'nfe_form':nfe_form,
+        'cliente_form': cliente_form,
+        'item_formset':item_formset,
+        'transportadora_form':transportadora_form,
+        'volume_formset':volume_formset,
+        'duplicata_formset': duplicata_formset,
+        'nfe': nfe,
+        'emitente':emitente,
+    }      
 
-        return render(request,'nfe/form_nfe.html', context)
+    return render(request,'form_nfe.html', context)
     
 # 1. Preparação e Verificação do Emitente
 # def emitir_nfe(request, pk=None):: Define a função. Se receber um pk (Primary Key), ela edita uma nota; se for None, cria uma nova.
