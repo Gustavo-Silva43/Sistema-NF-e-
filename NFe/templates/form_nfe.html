@@ -1,117 +1,160 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-    body { background: #d4e4d4; font-family: Arial; }
-    .tabs { list-style: none; padding: 0; background: #a0c0a0; }
-    .tabs li { display: inline-block; padding: 8px 12px; background: #c0e0c0; border: 1px solid #80a080; margin-right: 2px; cursor: pointer; }
-    .tabs li.active { background: #e0f0e0; font-weight: bold; }
-    .tab-content { display: none; padding: 20px; background: white; border: 2px solid #80a0c0; margin-top: 10px; }
+    /* Cores e fontes fiéis às fotos */
+    body { background: #d4e4d4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 11px; }
+    
+    /* Container das abas */
+    .tabs { list-style: none; padding: 0; margin: 0; display: flex; background: #e0e0e0; border-bottom: 1px solid #999; }
+    .tabs li { 
+        padding: 5px 12px; 
+        background: #f0f0f0; 
+        border: 1px solid #999; 
+        border-bottom: none; 
+        margin-right: 2px; 
+        cursor: pointer; 
+        color: #333;
+    }
+    .tabs li.active { background: white; font-weight: bold; border-top: 3px solid #666; }
+
+    /* Área de conteúdo */
+    .tab-content { display: none; background: #d4e4d4; padding: 10px; border: 1px solid #999; border-top: none; min-height: 400px; }
     .tab-content.active { display: block; }
-    table { width: 100%; border-collapse: collapse; }
-    td { padding: 5px; border: 1px solid #80a0c0; }
-    input, select, textarea { width: 100%; }
+
+    /* Estilização das tabelas de campos (Igual às fotos) */
+    .form-group-box { border: 1px solid #80a0c0; margin-bottom: 8px; background: #d4e4d4; }
+    .form-table { width: 100%; border-collapse: collapse; }
+    .label-cell { 
+        background: #b0cce0; /* Azul claro dos títulos nas fotos */
+        color: #003366; 
+        padding: 2px 5px; 
+        border: 1px solid #80a0c0;
+        font-weight: normal;
+    }
+    .input-cell { border: 1px solid #80a0c0; background: white; padding: 0; }
+    
+    /* Inputs chapados e sem borda interna */
+    input, select, textarea { 
+        width: 100%; 
+        border: none; 
+        padding: 4px; 
+        font-size: 11px; 
+        outline: none;
+        background: transparent;
+    }
+    
+    /* Tabela de Itens (Grade Escura) */
+    .grid-table { width: 100%; border-collapse: collapse; background: white; }
+    .grid-table thead th { 
+        background: #333; 
+        color: white; 
+        font-weight: normal; 
+        padding: 4px; 
+        border: 1px solid #555;
+        text-align: left;
+    }
+    .grid-table td { border: 1px solid #ccc; padding: 2px; }
+
+    .btn-salvar { background: #f0f0f0; border: 1px solid #999; padding: 10px 20px; cursor: pointer; margin-top: 10px; }
 </style>
 
-
 <ul class="tabs">
-    <li class="tab-link active" data-tab="Dados NF-e">Dados NF-e</li>
     <li class="tab-link active" data-tab="cliente">Cliente</li>
-    <li class="tab-link" data-tab="endereco">End.Entrega</li>
-    <li class="tab-link" data-tab="base">Base de Cálculo</li>
-    <li class="tab-link" data-tab="base">Produto</li>
-    <li class="tab-link" data-tab="pagamento">Pagamento</li>
+    <li class="tab-link" data-tab="entrega">End. Entrega</li>
+    <li class="tab-link" data-tab="emitente">Emitente</li>
+    <li class="tab-link" data-tab="produtos">Produtos</li>
     <li class="tab-link" data-tab="cobranca">Cobrança</li>
-    <li class="tab-link" data-tab="transporte">Transportadoras e Volumes</li>
     <li class="tab-link" data-tab="info">Informações Complementares</li>
-    <li class="tab-link" data-tab="arquivos">Arquivos da NF-e</li>
-    <li class="tab-link" data-tab="info_nfe">Info NF-e</li>
+    
 </ul>
 
 <form method="post">
     {% csrf_token %}
 
     <div id="cliente" class="tab-content active">
-        <table>
-            <tr>
-                <td> Tipo Pessoa</td>
-                <td>Tipo de Contribuinte</td>
-                <td>CNPJ</td>
-                <td>Inscrição Estadual</td>
-                <td>Inscrição Municipal</td>
-                <td>Cliente</td>
-                <td>Informação Estrangeira</td>
-                <td>CEP</td>
-                <td>Logradouro</td>
-                <td>N°</td>
-                <td>Complemento</td>
-                <td>Bairro</td>
-                <td>Cód.IBGE</td>
-                <td>Município</td>
-                <td>UF</td>
-                <td>Cód.País</td>
-                <td>País</td>
-                <td>Telefone</td>
-                <td>Inscr. SUFRAMA</td>
-                <td>Lote SUFRAMA</td>
-                <td>E-mail</td>
-                 <td>E-mail Contador</td>
-            </tr>
-            <tr>
-                   
-            </tr>
-                <td>{{ cliente_form.tipo_Pessoa}}</td>
-                <td>{{ cliente_form.tipo_de_contribuinte}}</td>
-                <td>{{ cliente_form.cnpj}}</td>
-                <td>{{ cliente_form.inscricao_estadual}}</td>
-                <td>{{ cliente_form.inscricao_municipal}}</td>
-                <td>{{ cliente_form.cliente}}</td>
-                <td>{{ cliente_form.Informacao_estrangeira}}</td>
-                <td>{{ cliente_form.cliente}}</td>
-                <td>{{ cliente_form.informacoes_estrangeiros}}</td>
-                <td>{{ cliente_form.cep}}</td>
-                <td>{{ cliente_form.logradouro}}</td>
-                <td>{{ cliente_form.numero}}</td>
-                <td>{{ cliente_form.complementos}}</td>
-                <td>{{ cliente_form.bairro}}</td>
-                <td>{{ cliente_form.cod_Pais}}</td>
-                <td>{{ cliente_form.pais}}</td>
-                <td>{{ cliente_form.telefone}}</td>
-                <td>{{ cliente_form.inscr_suframa}}</td>
-                <td>{{ cliente_form.lote_suframa}}</td>
-                <td>{{ cliente_form.email}}</td>
-                <td>{{ cliente_form.email_contador}}</td>
-            </tr>
-        </table>
-        <table> </table>
+        <div class="form-group-box">
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 15%;">Tipo Pessoa</td>
+                    <td class="label-cell" style="width: 45%;">Tipo de Contribuinte</td>
+                    <td class="label-cell" style="width: 20%;">CNPJ</td>
+                    <td class="label-cell" style="width: 20%;">Inscrição Estadual</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
+                    <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
+                    <td class="input-cell">{{ cliente_form.cnpj }}</td>
+                    <td class="input-cell">{{ cliente_form.ie }}</td>
+                </tr>
+            </table>
+            <table class="form-table">
+                <tr><td class="label-cell">Cliente</td></tr>
+                <tr><td class="input-cell">{{ cliente_form.nome }}</td></tr>
+            </table>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 10%;">CEP</td>
+                    <td class="label-cell" style="width: 50%;">Logradouro</td>
+                    <td class="label-cell" style="width: 10%;">N°</td>
+                    <td class="label-cell" style="width: 30%;">Bairro</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.cep }}</td>
+                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
+                    <td class="input-cell">{{ cliente_form.numero }}</td>
+                    <td class="input-cell">{{ cliente_form.bairro }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-
 
     <div id="produtos" class="tab-content">
-        <table>
-            <thead>
-                <tr>
-                    <th> N° do Item</th>
-                    <th>Cód. Produto</th>
-                    <th>EAN</th>
-                    <th>Descrição do Produto</th>
-                    <th>NCM</th>
-                    <th>NVE</th>
-                    <th>TIPI</th>
-                    <th>CFOP</th>
-                    <th>Unidade</th>
-                    <th>Qtd.</th>
-                    <th>Vr. Unitário</th>
-                    <th>Vr.Total Bruto</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        {{ item_formset.management_form }}
+        <div style="overflow-x: auto;">
+            <table class="grid-table">
+                <thead>
+                    <tr>
+                        <th>N° Item</th>
+                        <th>Cd. Produto</th>
+                        <th>Descrição do Produto</th>
+                        <th>NCM</th>
+                        <th>CFOP</th>
+                        <th>Qtd</th>
+                        <th>Vr. Unitário</th>
+                        <th>Vr. Total Bruto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in item_formset %}
+                    <tr>
+                        <td>{{ form.item_pedido }}</td>
+                        <td>{{ form.produto }}</td>
+                        <td>{{ form.descricao }}</td>
+                        <td>{{ form.ncm }}</td>
+                        <td>{{ form.cfop }}</td>
+                        <td>{{ form.quantidade }}</td>
+                        <td>{{ form.valor_unitario }}</td>
+                        <td>{{ form.valor_total_bruto }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
+    <div id="info" class="tab-content">
+        <div class="form-group-box">
+            <div class="label-cell">Informações complementares da NF (máximo 250 caracteres)</div>
+            <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
+        </div>
+        <div class="form-group-box">
+            <div class="label-cell">Informações adicionais ao Fisco</div>
+            <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
+        </div>
+    </div>
 
-    <button type="submit"> Salvar NF-e</button>
-</form>   
+    <button type="submit" class="btn-salvar">Salvar NF-e</button>
+</form>
 
 <script>
     document.querySelectorAll('.tab-link').forEach(tab => {
