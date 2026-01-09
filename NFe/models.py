@@ -1,6 +1,6 @@
 from django.db import models
 from decimal import Decimal
-
+from django.core.validators import RegexValidator
 # class Emitente(models.Model): Define a criação da classe (tabela). Ao herdar de models.Model, o Django entende que deve criar uma tabela no banco de dados para esse objeto.
 # nome_razao = models.CharField("Nome / Razão Social", max_length=200) Cria um campo de texto curto (CharField). O primeiro argumento é o "verbose name", que é o nome que aparecerá nos formulários do Django Admin. O max_length=200 limita o nome a 200 caracteres.
 # nome_fantasia = mod
@@ -57,25 +57,124 @@ class Emitente(models.Model):
 # def __str__(self): return self.nome_razao Diz ao Django: "Sempre que precisar mostrar este cliente em uma lista, mostre o Nome/Razão Social dele".
 
 class Cliente(models.Model):
-    nome_razão = models.CharField("Nome / Razão Social", max_length=200)
-    nome_fantasia = models.CharField("Nome Fantasia", max_length=200, blank=True, null=True)
-    cpf_cnpj = models.CharField("CPF/ CNPJ", max_length=14)
-    inscricao_estadual = models.CharField("Inscrição Estadual", max_length=20, blank=True, null=True)
-    inscricao_municipal = models.CharField("Inscrição Municipal", max_length=20, blank=True, null=True)
-    logradouro = models.CharField("Logradouro", max_length=200)
-    numero = models.CharField("Número", max_length=20)
-    complemento = models.CharField(max_length=100, blank=True, null=True)
-    bairro = models.CharField("Bairro",max_length=100)
-    cod_ibge_municipio = models.CharField("Cód. IBGE Município", max_length=7, blank=True)
-    Municipio = models.CharField("Município", max_length=100)
-    uf = models.CharField("UF", max_length=2)
-    cep = models.CharField("CEP", max_length=8)
-    telefone = models.CharField("Telefone", max_length=20, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    informacao_estrangeira = models.TextField(blank=True, null=True)
+    TIPO_PESSOA_CHOICES = [
+        ('f', 'Física'),
+        ('J', 'Jurídica'),
+    ]
+
+    tipo_pessoa = models.CharField(
+        'Tipo Pessoa', 
+        max_length=1,
+        choices=TIPO_PESSOA_CHOICES,
+        default='J'
+    )
+
+
+    TIPO_CONTRIBUINTE_CHOICES = [
+        ('1', 'Contribuinte ICMS'),
+        ('2', 'Contribuinte Isento'),
+        ('9', 'Não Contribuinte'),
+    ]
+
+    tipo_contribuinte = models.CharField(
+        'Tipo de Contribuinte',
+        max_length=1,
+        choices=TIPO_CONTRIBUINTE_CHOICES,
+        default='1'
+    )
+
+    cnpj = models.CharField(
+        'CNPJ / CPF',
+        max_length=18,
+        unique=True,
+        validators=[
+            RegexValidator(
+                r'^\d{11}|\d{14}$',
+                message='CPF deve ter 11 digitos ou CNPJ 14 digitos (sem pontos/máscara)'
+            )
+        ],
+        help_text='Informe apenas números (com máscara: 00.000.000/0000-00 ou 000.000.000-00)'
+    )
+
+    inscricao_estadual = models.CharField(
+        'Inscrição Estadual',
+        max_length=20,
+        blank=True,
+        help_text='Preenchimento obrigatório se contribuinte ICMS',
+        null=True
+    )
+
+    inscricao_municipal = models.CharField(
+        'Inscrição Municipal',
+        max_length=20,
+        blank=True
+    )
+
+    nome = models.CharField(
+        'Cliente',
+        max_length=200  
+    )
+    
+    informacao_estrangeira = models.CharField(
+        'Informação Estrangeira',
+        max_length=200,
+        blank=True,
+        help_text='Preenchimento quando destinatário for estrangeiro'
+    )
+
+    cep = models.CharField('CEP', max_length=9, help_text='Formato: 00000-000 (será limpo no save)')
+    logradouro = models.CharField('Logradouro', max_length=200)
+    numero = models.CharField('N°', max_length=20, blank=True)
+    bairro = models.CharField('Bairro', max_length=100)
+
+    cod_ibge = models.CharField(
+        'Cód. IBGE',
+        max_length=7,
+        help_text='Código do município no IBGE (7 digitos)'
+    )
+
+    municipio = models.CharField('Município', max_length=100)
+    uf = models.CharField('UF', max_length=2)
+
+    cod_pais = models.CharField(
+        'Cód. País',
+        max_length=4,
+        default='1058',
+        help_text='Código do pais (1058 = Brasil)'
+    )
+
+    pais = models.CharField(
+        'Pais',
+        max_length=60,
+        default='Brasil'
+    )
+
+    telefone = models.CharField('Telefone', max_length=20, blank=True)
+    email = models.EmailField('E-mail', blank=True)
+    email_contador = models.EmailField('E-mail Contador', blank=True, null=True)
+
+    inscri_suframa = models.CharField(
+        'Inscr. SUFRAMA',
+        max_length=20,
+        blank=True
+    )
+
+    criado_em = models.DateTimeField('Criado em', auto_now_add=True)
+    atualizado_em = models.DateTimeField('Atualizado em', auto_now=True)
+    ativo = models.BooleanField('Ativo', default=True)
+
+    class Meta:
+        verbose_name = 'Cliente'
+        verbose_name_plural = 'Clientes'
+        ordering = ['nome']
 
     def __str__(self):
-        return self.nome_razao
+        return f"{self.nome} - {self.cnpj}"
+    
+    def save(self, *args, **kwargs):
+        self.cnpj = ''.join(filter(str.isdigit, self.cnpj)) if self.cnpj else ''
+        self.cep = ''.join(filter(str.isdigit, self.cep)) if self.cep else ''
+        super().save(*args, **kwargs)
 
 # esse model, dessa parte do codigo, esta mostrando como deve ser o banco, que na verdade ele vai ser assim já. esse e a tabela cliente, como vai ficar ele.
 # "Você está 100% certo! Esse código é exatamente o "mapa" ou a "planta baixa" que diz ao banco de dados: "Crie uma tabela chamada Cliente com estas colunas e estas regras"."
