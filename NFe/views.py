@@ -4,7 +4,7 @@ from django.db import transaction
 from .models import NFe, Emitente
 from .forms import(
     NFeForm, ClienteForm, ItemNFeFormSet,
-    TransportadoraForm, VolumeFormSet, DuplicataFormSet
+    TransportadoraForm, VolumeFormSet, DuplicataFormSet,EmitenteForm
 )
 
 def emitir_nfe(request, pk=None):
@@ -13,9 +13,6 @@ def emitir_nfe(request, pk=None):
         nfe = get_object_or_404(NFe, pk=pk)
     
     emitente = Emitente.objects.first()
-    # if not emitente and not pk:
-    #     messages.error(request, "Cadastre o emitente da empresa primeiro!")
-    #     return redirect('admin:nfe_emitente_add')
 
     if request.method == 'POST':
         nfe_form = NFeForm(request.POST, instance=nfe)
@@ -24,6 +21,7 @@ def emitir_nfe(request, pk=None):
         transportadora_form = TransportadoraForm(request.POST, instance=nfe.transportadora if nfe else None)
         volume_formset = VolumeFormSet(request.POST, instance=nfe.transportadora if nfe else None)
         duplicata_formset = DuplicataFormSet(request.POST, instance=nfe)
+        emitente_form = EmitenteForm(request.POST, instance=emitente)
 
         if (nfe_form.is_valid() and cliente_form.is_valid() and
             item_formset.is_valid() and transportadora_form.is_valid() and
@@ -31,55 +29,81 @@ def emitir_nfe(request, pk=None):
 
             try:
                 with transaction.atomic(): 
+                    
+                    if emitente_form.is_valid():
+                        emitente = emitente_form.save()
+
+                    
                     cliente = cliente_form.save()
                     nfe = nfe_form.save(commit=False)
                     nfe.emitente = emitente
                     nfe.cliente = cliente
                     nfe.save()
-                    itens = item_formset.save(commit=False)
+
+                   
                     total_itens = 0
+                    
+                    
+                    for deleted_obj in item_formset.deleted_objects:
+                        deleted_obj.delete()
+
+                    
+                    itens = item_formset.save(commit=False)
                     for item in itens:
                         item.nfe = nfe
                         item.save()
-                        total_itens += item.valor_total
-                    item_formset.save_m2m() if hasattr(item_formset, 'save_m2m') else None
+                        
+                        valor_do_item = getattr(item, 'valor_total_bruto', 0) or 0
+                        total_itens += valor_do_item
+                    
+                    if hasattr(item_formset, 'save_m2m'):
+                        item_formset.save_m2m()
 
-                    if any(transportadora_form.cleaned_data.values()):
+                    
+                    if transportadora_form.is_valid() and any(transportadora_form.cleaned_data.values()):
                         transportadora = transportadora_form.save(commit=False)
                         transportadora.nfe = nfe
                         transportadora.save()
+                        
                         volumes = volume_formset.save(commit=False)
                         for v in volumes:
                             v.transportadora = transportadora
                             v.save()
 
+                    
                     duplicatas = duplicata_formset.save(commit=False)
                     for d in duplicatas:
                         d.nfe = nfe
                         d.save()
 
-                    nfe.valor_total = (total_itens - 
-                                       nfe.valor_desconto +
-                                       nfe.valor_frete +
-                                       nfe.valor_seguro +
-                                       nfe.outros_despesas)
+                    nfe.valor_total = (
+                        total_itens - 
+                        (nfe.valor_desconto or 0) +
+                        (nfe.valor_frete or 0) +
+                        (nfe.valor_seguro or 0) +
+                        (nfe.outros_despesas or 0)
+                    )
                     nfe.save()
 
                     messages.success(request, f"NF-e {nfe.numero}/{nfe.serie} Salva com sucesso!")
                     return redirect('emitir_nfe', pk=nfe.pk)
+
             except Exception as e:
-                messages.error(request,f"Erro ao salvar: {e}")
+                messages.error(request, f"Erro ao salvar: {e}")
     else:
         nfe_form = NFeForm(instance=nfe)
-        cliente_form = ClienteForm(instance=nfe)
+        cliente_form = ClienteForm(instance=nfe. cliente if nfe else None)
         item_formset = ItemNFeFormSet(instance=nfe)
         transportadora_form = TransportadoraForm(instance=nfe.transportadora if nfe else None)      
         volume_formset = VolumeFormSet(instance=nfe.transportadora if nfe else None)
         duplicata_formset = DuplicataFormSet(instance=nfe)
+        emitente_form = EmitenteForm(instance=emitente)
+
 
     context = {
         'nfe_form':nfe_form,
         'cliente_form': cliente_form,
+        'emitente_form': emitente_form,
         'item_formset':item_formset,
         'transportadora_form':transportadora_form,
         'volume_formset':volume_formset,
