@@ -1,19 +1,46 @@
 from django import forms
 from django.forms import inlineformset_factory
-from. models import NFe, Cliente, ItemNFe, Transportadora, Volume, Duplicata
+from. models import NFe, Cliente, ItemNFe, Transportadora, Volume, Duplicata, Emitente
 
 class NFeForm(forms.ModelForm):
     class Meta:
         model = NFe
+        # Certifique-se de incluir os novos campos na lista 'fields'
         fields = [
-            'numero', 'serie','natureza_operacao',
-            'valor_desconto', 'valor_frete', 'valor_seguro', 'outras_despesas',
-            'informacoes_complementares', 'informacoes_fisico','informacoes_nfe'
+            'pedido', 'numero', 'serie', 'modelo', 'tipo_emissao', 
+            'tipo_nfe', 'finalidade', 'natureza_operacao',
+            'presenca_comprador', 'operacao_consumidor', 'local_destino',
+            'referenciar_nfe', 'transmitir', 'cce', 'cancelar', # Novos campos aqui
+            'justificativa', 'data_emissao'
         ]
+        
+        # Define como cada campo deve aparecer (Widgets)
         widgets = {
-            'informacoes_complementares': forms.Textarea(attrs={'rows':4}),
-            'informacoes_fisico': forms.Textarea(attrs={'rows': 3}),
+            # Os "quadradinhos" de marcar
+            'transmitir': forms.CheckboxInput(attrs={'class': 'check-nfe'}),
+            'cce': forms.CheckboxInput(attrs={'class': 'check-nfe'}),
+            'cancelar': forms.CheckboxInput(attrs={'class': 'check-nfe'}),
+            'operacao_consumidor': forms.CheckboxInput(attrs={'class': 'check-nfe'}),
+            'referenciar_nfe': forms.CheckboxInput(attrs={'class': 'check-nfe'}),
+            
+            # Campos de texto com estilo de grade
+            'pedido': forms.TextInput(attrs={'class': 'input-cell'}),
+            'natureza_operacao': forms.TextInput(attrs={'class': 'input-cell'}),
+            'justificativa': forms.Textarea(attrs={'class': 'input-cell', 'rows': 2}),
+            
+            # Campo de data especial para o navegador
+            'data_emissao': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'input-cell'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Se quiser remover os labels automáticos para usar apenas os da tabela azul:
+        # for field in self.fields:
+        #     self.fields[field].label = '
+
+
+
+        
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
@@ -25,11 +52,12 @@ class ClienteForm(forms.ModelForm):
 class ItemNFeForm(forms.ModelForm):
     class Meta:
         model = ItemNFe
-        fields = ['item_pedido', 'produto', 'quantidade', 'valor_unitario', 'valor_total_bruto']
+        fields = ['item_pedido', 'produto', 'descricao','quantidade', 'valor_unitario', 'valor_total_bruto']
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['descricao'].widget.attrs.update({'size':'60'})
+        if 'descricao' in self.fields:
+            self.fields['descricao'].widget.attrs.update({'size':'60'})
 
 ItemNFeFormSet = inlineformset_factory( 
     NFe, ItemNFe, form=ItemNFeForm,
@@ -52,6 +80,15 @@ class TransportadoraForm(forms.ModelForm):
     class Meta:
         model = Transportadora
         fields = ['nome', 'cnpj', 'ie', 'logradouro', 'municipio', 'uf', 'tipo_frete']
+
+class EmitenteForm(forms.ModelForm):
+    class Meta:
+        model = Emitente
+        fields = '__all__'
+        widgets = {
+            'cnpj':forms.TextInput(attrs={'class': 'input-cell'}),
+            'nome_razao':forms.TextInput(attrs={'class': 'Input-cell'}),
+        }
 
 # Este arquivo forms.py é onde o Django define como os dados serão inseridos pelo usuário no navegador. Ele transforma os seus Models em formulários HTML automáticos e utiliza Formsets para permitir que você adicione vários itens (como produtos ou duplicatas) em uma única tela.
 
