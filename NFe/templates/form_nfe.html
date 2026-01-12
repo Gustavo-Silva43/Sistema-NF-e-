@@ -59,6 +59,7 @@
 </style>
 
 <ul class="tabs">
+    <li class="tab-link active" data-tab="dados">Dados NF-e</li>
     <li class="tab-link active" data-tab="cliente">Cliente</li>
     <li class="tab-link" data-tab="entrega">End. Entrega</li>
     <li class="tab-link" data-tab="emitente">Emitente</li>
@@ -109,38 +110,36 @@
     </div>
 
     <div id="produtos" class="tab-content">
-        {{ item_formset.management_form }}
-        <div style="overflow-x: auto;">
-            <table class="grid-table">
-                <thead>
-                    <tr>
-                        <th>N° Item</th>
-                        <th>Cd. Produto</th>
-                        <th>Descrição do Produto</th>
-                        <th>NCM</th>
-                        <th>CFOP</th>
-                        <th>Qtd</th>
-                        <th>Vr. Unitário</th>
-                        <th>Vr. Total Bruto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for form in item_formset %}
-                    <tr>
-                        <td>{{ form.item_pedido }}</td>
-                        <td>{{ form.produto }}</td>
-                        <td>{{ form.descricao }}</td>
-                        <td>{{ form.ncm }}</td>
-                        <td>{{ form.cfop }}</td>
-                        <td>{{ form.quantidade }}</td>
-                        <td>{{ form.valor_unitario }}</td>
-                        <td>{{ form.valor_total_bruto }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    {{ item_formset.management_form }}
+    
+    <div style="overflow-x: auto;">
+        <table class="grid-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">N° Item</th>
+                    <th style="width: 100px;">Cd. Produto</th>
+                    <th>Descrição do Produto</th>
+                    <th style="width: 80px;">Qtd</th>
+                    <th style="width: 100px;">Vr. Unitário</th>
+                    <th style="width: 100px;">Vr. Total Bruto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in item_formset %}
+                <tr>
+                    {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
+                    
+                    <td>{{ form.item_pedido }}</td>
+                    <td>{{ form.produto }}</td>
+                    <td>{{ form.descricao }}</td> <td>{{ form.quantidade }}</td>
+                    <td>{{ form.valor_unitario }}</td>
+                    <td>{{ form.valor_total_bruto }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+</div>
 
     <div id="info" class="tab-content">
         <div class="form-group-box">
