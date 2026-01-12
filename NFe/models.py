@@ -215,11 +215,59 @@ def __str__(self):
 # Assim como no código anterior, lembre-se de adicionar o método __str__ para que, quando você olhar a lista de produtos no Django, apareça o nome do produto e não algo como <Produto: Produto object (1)>.
 
 class NFe(models.Model):
-    numero = models.PositiveIntegerField("Número da NF-e")
-    serie = models.CharField("Série", max_length=3, default="")
-    data_emissao = models.DateTimeField(auto_now_add=True)
-    emitente = models.ForeignKey(Emitente, on_delete=models.PROTECT)
-    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
+    MODELO_CHOICES = [('55', '55 - NF-e'), ('65', '65 - NFC-e')]
+    TP_EMIS_CHOICES = [('1', 'Normal'), ('9', 'Contingência')]
+    TP_NF_CHOICES = [('0', 'Entrada'), ('1', 'Saída')]
+    FIN_NF_CHOICES = [('1', 'Normal'), ('2', 'Complementar'), ('3', 'Ajuste'), ('4', 'Devolução')]
+    DESTINO_CHOICES = [('1', 'Interna'), ('2', 'Interestadual'), ('3', 'Exterior')]
+    PRESENCA_CHOICES = [('0', 'Não se aplica'), ('1', 'Presencial'),('2', 'Internet')]
+
+    pedido = models.CharField("Pedido", max_length=20, blank=True, null=True)
+    numero = models.IntegerField("Número NF-e")
+    serie = models.IntegerField("Sèrie")
+    modelo = models.CharField("Modelo", max_length=2, choices=MODELO_CHOICES, default='55')
+    tipo_emissão = models.CharField("Tipo Emissão", max_length=1, choices=TP_EMIS_CHOICES, default='1')
+    tipo_nfe = models.CharField("Tipo NF-e", max_length=1, choices=TP_NF_CHOICES, default='1')
+    finalidade = models.CharField("Finalidade", max_length=1, choices=FIN_NF_CHOICES, default='1')
+    natureza_operacao = models.CharField("Natureza Operação", max_length=60)
+
+    presenca_comprador = models.CharField("Presença Comprador", max_length=1, choices=PRESENCA_CHOICES, default='1')
+    operacao_consumidor = models.BooleanField("Operação com Consumidor?", default=False)
+    local_destino = models.CharField(" Local Destino", max_length=1, choices=DESTINO_CHOICES, default='1')
+    referenciar_nfe = models.BooleanField("Referenciar NF-e?", default=False)
+
+    chave_acesso = models.CharField("Chave de Acesso", max_length=44, blank=True, null=True)
+    cdv = models.CharField("cDV", max_length=1, blank=True, null=True)
+    recibo = models.CharField("Recibo", max_length=20, blank=True, null=True)
+    protocolo = models.CharField("Protocolo", max_length=10, blank=True, null=True)
+    digito_validador = models.CharField("Digito Validador", max_length=10, blank=True, null=True)
+
+    data_emissão = models.DateTimeField("Data/Hora Emissão")
+    data_receebimento = models.DataTimeField("Data/Hora Recebimento", blank=True, null=True)
+    status_sefaz = models.CharField("Status SEFAZ", max_length=100, blank=True, null=True)
+    codigo_retorno = models.IntegerField("Código Retorno", blank=True, null=True)
+
+    transmitir = models.BooleanField("Transmitir", default=False)
+    cce = models.BooleanField("CCe", default=False)
+    cancelar = models.BooleanField("Cancelar", default=False)
+
+    tipo_evento = models.CharField("Tipo Evento", max_length=20, blank=True, null=True)
+    protocolo_evento = models.CharField("Protocolo Evento", max_length=20, blank=True, null=True)
+    sequencia_evento = models.IntegerField("Seq. Evento", default=1)
+
+    emitente = models.ForeignKey('Emitente', on_delete=models.PROTECT)
+    cliente = models.ForeignKey('Cliente', on_delete=models.PROTECT)
+
+    valor_total = models.DecimalField(max_digits=15, decimal_places=2,default=0.00)
+
+    class Meta:
+        verbose_name = "NF-e"
+        verbose_name_plural = "NF-e"
+    
+    def __str__(self):
+        return f"{self.numero} - {self.natureza_operacao}"
+
+
 
 # numero = models.PositiveIntegerField(...): Armazena o número da nota. O tipo PositiveIntegerField é ideal porque garante que nunca teremos uma nota com número negativo.
 
@@ -253,10 +301,7 @@ class NFe(models.Model):
 # informacoes_nfe (TextField): Parece ser um campo interno para anotações extras sobre o processamento da nota.
 
 
-    # Totais
-    valor_total = models.DecimalField("Valor Total", max_digits=12, decimal_places=2, default=0)
-    valor_desconto = models.DecimalField("Desconto", max_digits=12, decimal_places=2, default=0)
-    valor_liquido = models.DecimalField("Valor Líquido", max_digits=12, decimal_places=2, default=0)
+    
 
    
    # ADICIONE ESTES CAMPOS:
