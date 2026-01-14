@@ -356,5 +356,24 @@ class Pagamento(models.Model):
         def __str__(self):
             return f"{self.numero_forma} - {self.get_forma_pagamento_display()} - R$ {self.valor_pagamento}"
 
+    class Cobranca(models.Model):
+        valor_total = models.DecimalField("Valor Total", max_digits=15, decimal_places=2, default=0)
+        desconto = models.DecimalField("Desconto", max_digits=15, decimal_places=2, default=0)
+        valor_liquido = models.DecimalField("Valor Líquido", max_digits=15, decimal_places=2, default=0)
+        numero_fatura = models.CharField("Nº Fatura", max_length=60, blank=True)
+        id_banco = models.CharField("Id Banco", max_length=100, blank=True)
 
+        gerar_boleto = models.BooleanField(" Gerar os Boletos e encaminhar com a NFe?", default=False)
 
+        def __str__(self):
+            return f"Cobranca {self.numero_fatura}"
+    
+    class Duplicata(models.Model):
+        cobranca = models.ForeignKey(cobranca, relade_name='duplicatas', on_delete=models.CASCADE)
+
+        numero_duplicata = models.CharField("Nº Duplicata", max_length=60)
+        data_vencimento = models.DateField("Data Vencimento")
+        valor_duplicata = models.DecimalField("Valor", max_digits=15, decimal_places=2)
+
+        def __str__(self):
+        return self.numero_duplicata
