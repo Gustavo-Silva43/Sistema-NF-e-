@@ -151,7 +151,7 @@ class Produto(models.Model):
     tipi = models.CharField("TIPI", max_length=3, blank=True, null=True)
     cfop = models.CharField("CFOP", max_length=4)
     unidade = models.CharField("Unidade", max_length=6)
-    quantidade = models.DecimalField("Qtd", mmax_digits=15, decimal_places=4)
+    quantidade = models.DecimalField("Qtd", max_digits=15, decimal_places=4)
     valor_unitario = models.DecimalField("Vr. Untário", max_digits=15)
     valor_total_bruto = models.DecimalField("Vr. Total Bruto", max_digits=15, decimal_places=2)
 
@@ -260,7 +260,7 @@ class NFe(models.Model):
     digito_validador = models.CharField("Digito Validador", max_length=10, blank=True, null=True)
 
     data_emissão = models.DateTimeField("Data/Hora Emissão")
-    data_receebimento = models.DataTimeField("Data/Hora Recebimento", blank=True, null=True)
+    data_receebimento = models.DateTimeField("Data/Hora Recebimento", blank=True, null=True)
     status_sefaz = models.CharField("Status SEFAZ", max_length=3, choices=STATUS_CHOICES, blank=True, null=True)
     codigo_retorno = models.IntegerField("Código Retorno", blank=True, null=True)
 
@@ -286,39 +286,36 @@ class NFe(models.Model):
     def __str__(self):
         return f"{self.numero} - {self.natureza_operacao}"
 
+class Transportadora_Volumes(models.Model):
+    nfe = models.OneToOneField('NFe', on_delete=models.CASCADE, related_name='transporte')
 
+    # Transportadora
+    tipo_frete = models.CharField("Tipo de Frente", max_length=100, blank=True)
+    nome_transportadora = models.CharField("Nome da Transportadora", max_length=255, blank=True)
+    cnpj_transportadora = models.CharField("CNPJ", max_length=10, decimal_places=2, blank=True)
+    ie_transportadora = models.CharField("IE",  max_length=15, blank=True)
+    logradouro = models.CharField("Logradouro", max_length=255, blank=True)
+    municipio = models.CharField("Município", max_length=100, blank=True)
+    uf_transportadora = models.CharField("UF", max_length=2, blank=True)
 
-# class ItemNFe(models.Model):
-#     nfe = models.ForeignKey(NFe, on_delete=models.CASCADE, related_name="itens")
-#     item_pedido = models.PositiveIntegerField("N° do Item do Pedido de Compra")
-#     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-#     quantidade = models.DecimalField("Qtd.", max_digits=12, decimal_places=2)
-#     valor_unitario = models.DecimalField("Vr. Unitário", max_digits=12, decimal_places=2)
-#     valor_total_bruto = models.DecimalField("Vr. Total Bruto", max_digits=12, decimal_places=2)
-#     valor_tributo = models.DecimalField("Und. Tributo", max_digits=12, decimal_places=2, default=0)
+    # veiculo
+    placa_veiculo = models.CharField("Placa", max_length=8, blank=True)
+    uf_veiculo = models.CharField("UF", max_length=2, blank=True)
+    rntc_veiculo = models.CharField("RNTC", max_length=20, blank=True)
 
+    # Volumes
 
+    qtd_volumes = models.CharField("Qtd. Volume", max_length=20, blank=True)
+    especie_volume = models.CharField("Espécie Volume", max_length=20, blank=True)
+    marca_volume = models.CharField("Marca", max_length=60, blank=True)
+    numero_volumes = models.CharField("Nº Volumes", max_length=60, blank=True)
+    peso_liquido = models.DecimalField("Peso Líquido", max_digits=15, decimal_places=3, default=0)
+    peso_bruto = models.DecimalField("Pesso Bruto", max_digits=15, decimal_places=3, default=0)
 
-class Transportadora(models.Model):
-    nfe = models.OneToOneField(NFe, on_delete=models.CASCADE, related_name="tranportadora")
-    nome = models.CharField("Nome da Transportadora", max_length=200,blank=True)
-    cnpj = models.CharField("CNPJ", max_length=14, blank=True)
-    ie = models.CharField("IE", max_length=20, blank=True)
-    logradouro = models.CharField(max_length=200, blank=True)
-    municipio = models.CharField(max_length=100, blank=True)
-    uf = models.CharField(max_length=2, blank=True)
-    tipo_frete = models.CharField("Tipo de Frete", max_length=20, default="0 - Por conta do emitente")
+    def __str__(self):
+        return f"Transporte da NF{self.nfe.id}"
+    
 
-
-
-class Volume(models.Model):
-    transportadora = models.ForeignKey(Transportadora, on_delete=models.CASCADE, related_name="volumes")
-    quantidade = models.PositiveIntegerField("Qtd. Volumes")
-    especie = models.CharField("Espécie Volume", max_length=50)
-    marca = models.CharField("Marca", max_length=50, blank=True)
-    numeracao = models.CharField("N° Volumes", max_length=50, blank=True)
-    peso_liquido = models.DecimalField("Peso Líquido", max_digits=10, decimal_places=3)
-    peso_bruto = models.DecimalField("Peso Bruto", max_digits=10, decimal_places=3)
 
 
 class Pagamento(models.Model):
@@ -328,8 +325,7 @@ class Pagamento(models.Model):
     ]
 
     FORMA_PAGTO_CHOICES = [
-        ('01', '01 - Dinheiro')
-        ('02', '02 - Cheque'),
+        ('01', '01 - Dinheiro')        ('02', '02 - Cheque'),
         ('03', '03 - Cartão de Credito'),
         ('04', '04 - Cartão de Débito'),
         ('15', '15 - Boleto Bancário'),
@@ -356,24 +352,105 @@ class Pagamento(models.Model):
         def __str__(self):
             return f"{self.numero_forma} - {self.get_forma_pagamento_display()} - R$ {self.valor_pagamento}"
 
-    class Cobranca(models.Model):
-        valor_total = models.DecimalField("Valor Total", max_digits=15, decimal_places=2, default=0)
-        desconto = models.DecimalField("Desconto", max_digits=15, decimal_places=2, default=0)
-        valor_liquido = models.DecimalField("Valor Líquido", max_digits=15, decimal_places=2, default=0)
-        numero_fatura = models.CharField("Nº Fatura", max_length=60, blank=True)
-        id_banco = models.CharField("Id Banco", max_length=100, blank=True)
+class Cobranca(models.Model):
+    valor_total = models.DecimalField("Valor Total", max_digits=15, decimal_places=2, default=0)
+    desconto = models.DecimalField("Desconto", max_digits=15, decimal_places=2, default=0)
+    valor_liquido = models.DecimalField("Valor Líquido", max_digits=15, decimal_places=2, default=0)
+    numero_fatura = models.CharField("Nº Fatura", max_length=60, blank=True)
+    id_banco = models.CharField("Id Banco", max_length=100, blank=True)
 
-        gerar_boleto = models.BooleanField(" Gerar os Boletos e encaminhar com a NFe?", default=False)
+    gerar_boleto = models.BooleanField(" Gerar os Boletos e encaminhar com a NFe?", default=False)
 
-        def __str__(self):
-            return f"Cobranca {self.numero_fatura}"
-    
-    class Duplicata(models.Model):
-        cobranca = models.ForeignKey(cobranca, relade_name='duplicatas', on_delete=models.CASCADE)
+    def __str__(self):
+        return f"Cobranca {self.numero_fatura}"
 
-        numero_duplicata = models.CharField("Nº Duplicata", max_length=60)
-        data_vencimento = models.DateField("Data Vencimento")
-        valor_duplicata = models.DecimalField("Valor", max_digits=15, decimal_places=2)
+class Duplicata(models.Model):
+    cobranca = models.ForeignKey(Cobranca, related_name='duplicatas', on_delete=models.CASCADE)
 
-        def __str__(self):
+    numero_duplicata = models.CharField("Nº Duplicata", max_length=60)
+    data_vencimento = models.DateField("Data Vencimento")
+    valor_duplicata = models.DecimalField("Valor", max_digits=15, decimal_places=2)
+
+    def __str__(self):
         return self.numero_duplicata
+
+class base_calculo(models.Model):
+    nfe = models.OneToOneField('NFe', related_name='Base de Cálculo', on_delete=models.CASCADE)
+
+    base_calculo_icms = models.DecimalField("Base de Cálculo ICMS", max_digits=15, decimal_places=2, default=0)
+    total_icms = models.DecimalField("Total do ICMS", max_digits=15, decimal_places=2, default=0)
+
+    base_calculo_icms_st = models.DecimalField("base Cálculo ICMS ST", max_digits=15, decimal_places=2, default=0)
+    total_icms_st = models.DecimalField("Total do ICMS ST", max_digits=15, decimal_places=2, default=0)
+
+    total_ipi = models.DecimalField("Valor Total IPI", max_digits=15, decimal_places=2, default=0)
+    total_pis = models.DecimalField("Valor Total PIS", max_digits=15, decimal_places=2, default=0)
+    total_cofins = models.DecimalField("Valor Total COFINS", max_digits=15, decimal_places=2, default=0)
+    total_tributos_incidentes = models.DecimalField("Total Tributo Incidentes", max_digits=15, decimal_places=2, default=0)
+
+    valor_frete = models.DecimalField("Valor do Frete", max_digits=15, decimal_places=2, default=0)
+    valor_seguro = models.DecimalField("Valor Seguro", max_digits=15, decimal_places=2, default=0)
+    desconto = models.DecimalField("Desconto", max_digits=15, decimal_places=2, default=0)
+    outros_despesas = models.DecimalField("Outras Despesas", max_digits=15, decimal_places=2, default=0)
+
+    icms_inter_uf_dest = models.DecimalField("ICMS Inter. UF Destino", max_digits=15, decimal_places=2, default=0)
+    icms_inter_uf_remet = models.DecimalField("ICMS Inter. UF Remetente", max_digits=15, decimal_places=2, default=0)
+    icms_fcp_uf_dest = models.DecimalField("ICMS FCP UF Destino", max_digits=15, decimal_places=2, default=0)
+
+    total_produto = models.DecimalField("Valor Total Produto", max_digits=15, decimal_places=2, default=0)
+    total_nf = models.DecimalField("Total da NF", max_digits=15, decimal_places=2, default=0)
+
+    def __str__(self):
+        return f"Totais NF {self.nfe.id}"
+
+
+class InformacoesAdicionais(models.Model):
+    nfe = models.OneToOneField('Nfe', on_delete=models.CASCADE,related_name='informacoes_adicionais')
+
+    informacoes_complementares = models.CharField(
+        "Informações Complementares da NFe",
+        max_length=250, 
+        blank=True,
+        null=True,
+        help_text="Máximo 250 caracteres"
+    )
+
+    informacoes_fisico = models.CharField(
+        "Informações Adicionais ao Fisico",
+        max_length=250,
+        blank=True,
+        null=True,
+        help_text="Máximo 250 caracteres"
+    )
+
+    def __str__(self):
+        return f"Informações da NF {self.nfe.id}"
+
+class ArquivosNFe(models.Model):
+    nfe = models.OneToOneField('NFe', on_delete=models.CASCADE, related_name='arquivos_nfe')
+
+    arquivos = models.TextField("Arquivos Da NFe", blank=True, null=True)
+
+    def __str__(self):
+        return f"Arquivos da NF {self.nfe.id}"
+
+
+class Info_nfe(models.Model):
+    nfe = models.OneToOneField('NFe', on_delete=models.CASCADE, related_name='info_status')
+
+    informacoes_nfe = models.CharField(
+        "Informações sobre a NFe", 
+        max_length=250,
+        blank=True,
+        null=True
+    )
+
+    retorno = models.CharField(
+        "Retorno", 
+        max_length=250,
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return f"Status NF {self.nfe.id}"
