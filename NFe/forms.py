@@ -122,3 +122,41 @@ class EmitenteForm(forms.ModelForm):
 
 # 6. TransportadoraForm
 # class TransportadoraForm(forms.ModelForm):: Cria o formulário para os dados da empresa que fará o frete.
+
+
+
+from django import forms
+from .models import *
+
+class NfeForm(forms.ModelForm):
+    class Meta:
+        model = NFe
+        fields = '__all_'
+        widgets = {
+            'data_emisssão': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'input-nfe'}),
+            'justificativa': forms.Textearea(attrs={'rows': 2, 'class': 'textarea-nfe'}),
+        }
+
+class TransportadoraForm(forms.ModelForm):
+    class Meta:
+        model = Transportadora_Volumes
+        fields = '__all__'
+        exclude = ['nfe']
+        widgets = {
+            'tipo_frete': forms.TextInput(attrs={'class': 'input-nfe-blue'}),
+            'nome_transportadora': forms.TextInput(attrs={'class': 'input-nfe-blue'}),
+            'cnpj_transporadora': forms.TextInput(attrs={'class': 'input-nfe-blue'}),
+            'placa_video': forms.TextInput(attrs={'class': 'input-nfe-blue'})
+        }
+class CobrancaForm(forms.ModelForm):
+    class Meta:
+        model = Cobranca
+        fields = '__all__'
+        widgets = {
+            'id_banco': forms.TextInput(attrs={'class': 'input-nfe-blue'}),
+        }
+class InfoStatusForm(forms.ModelForm):
+    class Meta:
+        model = Info_nfe
+        fields = ['informacoes_nfe', 'retorno']
+        widgets =
