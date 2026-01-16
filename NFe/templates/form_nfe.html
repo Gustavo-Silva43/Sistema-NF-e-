@@ -1,72 +1,121 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "nfe/base.html" %} {% block content %}
 <style>
-    /* Cores e fontes fiéis às fotos */
-    body { background: #d4e4d4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 11px; }
-    
-    /* Container das abas */
-    .tabs { list-style: none; padding: 0; margin: 0; display: flex; background: #e0e0e0; border-bottom: 1px solid #999; }
-    .tabs li { 
-        padding: 5px 12px; 
-        background: #f0f0f0; 
-        border: 1px solid #999; 
-        border-bottom: none; 
-        margin-right: 2px; 
-        cursor: pointer; 
-        color: #333;
+    body {
+        background: #d4e4d4;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 11px;
     }
-    .tabs li.active { background: white; font-weight: bold; border-top: 3px solid #666; }
 
-    /* Área de conteúdo */
-    .tab-content { display: none; background: #d4e4d4; padding: 10px; border: 1px solid #999; border-top: none; min-height: 400px; }
-    .tab-content.active { display: block; }
+    .tabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background: #e0e0e0;
+        border-bottom: 1px solid #999;
+    }
 
-    /* Estilização das tabelas de campos (Igual às fotos) */
-    .form-group-box { border: 1px solid #80a0c0; margin-bottom: 8px; background: #d4e4d4; }
-    .form-table { width: 100%; border-collapse: collapse; }
-    .label-cell { 
-        background: #b0cce0; /* Azul claro dos títulos nas fotos */
-        color: #003366; 
-        padding: 2px 5px; 
+    .tabs li {
+        padding: 5px 12px;
+        background: #f0f0f0;
+        border: 1px solid #999;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+    }
+
+    .tabs li.active {
+        background: white;
+        font-weight: bold;
+        border-top: 3px solid #666;
+    }
+
+    .tab-content {
+        display: none;
+        background: #d4e4d4;
+        padding: 10px;
+        border: 1px solid #999;
+        border-top: none;
+        min-height: 400px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-group-box {
         border: 1px solid #80a0c0;
-        font-weight: normal;
+        margin-bottom: 8px;
     }
-    .input-cell { border: 1px solid #80a0c0; background: white; padding: 0; }
-    
-    /* Inputs chapados e sem borda interna */
-    input, select, textarea { 
-        width: 100%; 
-        border: none; 
-        padding: 4px; 
-        font-size: 11px; 
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+    }
+
+    .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        border: none;
+        padding: 4px;
+        font-size: 11px;
         outline: none;
         background: transparent;
     }
-    
-    /* Tabela de Itens (Grade Escura) */
-    .grid-table { width: 100%; border-collapse: collapse; background: white; }
-    .grid-table thead th { 
-        background: #333; 
-        color: white; 
-        font-weight: normal; 
-        padding: 4px; 
+
+    .grid-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .grid-table thead th {
+        background: #333;
+        color: white;
+        padding: 4px;
         border: 1px solid #555;
         text-align: left;
     }
-    .grid-table td { border: 1px solid #ccc; padding: 2px; }
 
-    .btn-salvar { background: #f0f0f0; border: 1px solid #999; padding: 10px 20px; cursor: pointer; margin-top: 10px; }
+    .grid-table td {
+        border: 1px solid #ccc;
+        padding: 2px;
+    }
+
+    .btn-salvar {
+        background: #f0f0f0;
+        border: 1px solid #999;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-weight: bold;
+    }
 </style>
 
 <ul class="tabs">
-    <li class="tab-link active" data-tab="dados">Dados NF-e</li>
+    <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
     <li class="tab-link active" data-tab="cliente">Cliente</li>
-    <li class="tab-link" data-tab="entrega">End. Entrega</li>
-    <li class="tab-link" data-tab="emitente">Emitente</li>
-    <li class="tab-link" data-tab="produtos">Produtos</li>
-    <li class="tab-link" data-tab="cobranca">Cobrança</li>
-    <li class="tab-link" data-tab="info">Informações Complementares</li>
-    
+    <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
+    <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
+    <li class="tab-link" data-tab="Pagamento">Pagamento</li>
+    <li class="tab-link active" data-tab="Cobranca">Cobranca</li>
+    <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
+    <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
+    <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
 </ul>
 
 <form method="post">
@@ -78,24 +127,64 @@
                 <tr>
                     <td class="label-cell" style="width: 15%;">Tipo Pessoa</td>
                     <td class="label-cell" style="width: 45%;">Tipo de Contribuinte</td>
-                    <td class="label-cell" style="width: 20%;">CNPJ</td>
-                    <td class="label-cell" style="width: 20%;">Inscrição Estadual</td>
+                    <td class="label-cell" style="width: 45%;">CNPJ e CPF</td>
+                    <td class="label-cell" style="width: 45%;">Inscrição Estadual</td>
+                    <td class="label-cell" style="width: 45%;">Inscrição Municipal</td>
+                    <td class="label-cell" style="width: 20%;">Cliente</td>
+                    <td class="label-cell" style="width: 20%;">Informação Estrangeira</td>
+                    <td class="label-cell" style="width: 45%;">CEP</td>
+                    <td class="label-cell" style="width: 20%;">Logradouro</td>
+                    <td class="label-cell" style="width: 90%;">Nº</td>
+                    <td class="label-cell" style="width: 45%;">Complemento</td>
+                    <td class="label-cell" style="width: 20%;">Bairro</td>
+                    <td class="label-cell" style="width: 20%;">Cód.IBGE</td>
+                    <td class="label-cell" style="width: 20%;">Município</td>
+                    <td class="label-cell" style="width: 20%;">UF</td>
+                    <td class="label-cell" style="width: 20%;">Cód.País</td>
+                    <td class="label-cell" style="width: 45%;">País</td>
+                    <td class="label-cell" style="width: 20%;">Telefone</td>
+                    <td class="label-cell" style="width: 20%;">Inscr.SUFRAMA</td>
+                    <td class="label-cell" style="width: 45%;">Lote SUFRAMA</td>
+                    <td class="label-cell" style="width: 20%;">E-mail</td>
+                    <td class="label-cell" style="width: 45%;">E-mail Contador</td>
                 </tr>
                 <tr>
                     <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
                     <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
                     <td class="input-cell">{{ cliente_form.cnpj }}</td>
                     <td class="input-cell">{{ cliente_form.ie }}</td>
+                    <td class="input-cell">{{ cliente_form.inscricao_municipal }}</td>
+                    <td class="input-cell">{{ cliente_form.cliente }}</td>
+                    <td class="input-cell">{{ cliente_form.informacao_estrangeira }}</td>
+                    <td class="input-cell">{{ cliente_form.cep }}</td>
+                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
+                    <td class="input-cell">{{ cliente_form.numero }}</td>
+                    <td class="input-cell">{{ cliente_form.complemento }}</td>
+                    <td class="input-cell">{{ cliente_form.bairro }}</td>
+                    <td class="input-cell">{{ cliente_form.codigo_ibge }}</td>
+                    <td class="input-cell">{{ cliente_form.municipio }}</td>
+                    <td class="input-cell">{{ cliente_form.uf }}</td>
+                    <td class="input-cell">{{ cliente_form.codigo_pais }}</td>
+                    <td class="input-cell">{{ cliente_form.pais }}</td>
+                    <td class="input-cell">{{ cliente_form.telefone }}</td>
+                    <td class="input-cell">{{ cliente_form.inscricao_suframa }}</td>
+                    <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
+                    <td class="input-cell">{{ cliente_form.email }}</td>
+                    <td class="input-cell">{{ cliente_form.email_contador }}</td>
                 </tr>
             </table>
             <table class="form-table">
-                <tr><td class="label-cell">Cliente</td></tr>
-                <tr><td class="input-cell">{{ cliente_form.nome }}</td></tr>
+                <tr>
+                    <td class="label-cell">Nome / Razão Social</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.nome }}</td>
+                </tr>
             </table>
             <table class="form-table">
                 <tr>
-                    <td class="label-cell" style="width: 10%;">CEP</td>
-                    <td class="label-cell" style="width: 50%;">Logradouro</td>
+                    <td class="label-cell" style="width: 15%;">CEP</td>
+                    <td class="label-cell" style="width: 45%;">Logradouro</td>
                     <td class="label-cell" style="width: 10%;">N°</td>
                     <td class="label-cell" style="width: 30%;">Bairro</td>
                 </tr>
@@ -110,28 +199,26 @@
     </div>
 
     <div id="produtos" class="tab-content">
-    {{ item_formset.management_form }}
-    
-    <div style="overflow-x: auto;">
+        {{ item_formset.management_form }}
         <table class="grid-table">
             <thead>
                 <tr>
-                    <th style="width: 50px;">N° Item</th>
-                    <th style="width: 100px;">Cd. Produto</th>
-                    <th>Descrição do Produto</th>
+                    <th style="width: 50px;">Item</th>
+                    <th style="width: 100px;">Cód. Prod.</th>
+                    <th>Descrição</th>
                     <th style="width: 80px;">Qtd</th>
-                    <th style="width: 100px;">Vr. Unitário</th>
-                    <th style="width: 100px;">Vr. Total Bruto</th>
+                    <th style="width: 100px;">Vr. Unit</th>
+                    <th style="width: 100px;">Total Bruto</th>
                 </tr>
             </thead>
             <tbody>
                 {% for form in item_formset %}
                 <tr>
                     {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
-                    
                     <td>{{ form.item_pedido }}</td>
-                    <td>{{ form.produto }}</td>
-                    <td>{{ form.descricao }}</td> <td>{{ form.quantidade }}</td>
+                    <td>{{ form.codigo_produto }}</td>
+                    <td>{{ form.descricao }}</td>
+                    <td>{{ form.quantidade }}</td>
                     <td>{{ form.valor_unitario }}</td>
                     <td>{{ form.valor_total_bruto }}</td>
                 </tr>
@@ -139,11 +226,10 @@
             </tbody>
         </table>
     </div>
-</div>
 
     <div id="info" class="tab-content">
         <div class="form-group-box">
-            <div class="label-cell">Informações complementares da NF (máximo 250 caracteres)</div>
+            <div class="label-cell">Informações complementares da NF</div>
             <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
         </div>
         <div class="form-group-box">
@@ -152,10 +238,11 @@
         </div>
     </div>
 
-    <button type="submit" class="btn-salvar">Salvar NF-e</button>
+    <button type="submit" class="btn-salvar">SALVAR NOTA FISCAL</button>
 </form>
 
 <script>
+    // Lógica das Abas
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -164,47 +251,16 @@
             tab.classList.add('active');
         });
     });
+
+    // Lógica de Cálculo Automático (Qtd * Valor)
+    document.addEventListener('input', function (e) {
+        if (e.target.name.includes('quantidade') || e.target.name.includes('valor_unitario')) {
+            let row = e.target.closest('tr');
+            let qtd = parseFloat(row.querySelector('input[name$="-quantidade"]').value) || 0;
+            let unit = parseFloat(row.querySelector('input[name$="-valor_unitario"]').value) || 0;
+            let totalField = row.querySelector('input[name$="-valor_total_bruto"]');
+            if (totalField) totalField.value = (qtd * unit).toFixed(2);
+        }
+    });
 </script>
 {% endblock %}
-
-<!-- 1.Estrutura Base e Estilo (CSS) 
-
- Diz ao Django que este arquivo herda o layout de um arquivo mestre chamado base.html (onde costumam ficar o menu e o rodapé).
-
-<style>: Define a aparência da página.
-    .tabs li: Cria os botões das abas na horizontal.
-    .tab-content: Por padrão, todos os conteúdos das abas ficam escondidos (display: none).
-    .tab-content.active: Apenas a aba com a classe active aparece na tela.
--->
-
-<!-- 
-    2. O Menu de Abas
-
-    <ul class="tabs">: Lista de botões que o usuário clica.
-    data-tab="cliente": Este é um atributo personalizado. Ele "avisa" ao JavaScript qual id de conteúdo deve ser aberto quando aquele botão for clicado.
--->
-
-<!--3. O Formulário e Segurança
-
-    <form method="post">: Inicia o formulário que enviará os dados para o servidor.
-    {% csrf_token %}: Uma medida de segurança obrigatória do Django que evita ataques de falsificação de solicitações entre sites.
--->
-
-<!-- 4. Conteúdo das Abas (Exemplos)
-
-    <div id="cliente" class="tab-content active">: Esta é a primeira aba. Ela começa com a classe active para ser a primeira coisa que o usuário vê.
-    Dentro dela, há uma <table> para alinhar os campos (CNPJ, Inscrição Estadual, etc.) lado a lado, simulando o layout de um sistema ERP tradicional.
-
-    <div id="produtos" class="tab-content">: Aba para os itens da nota.
-        <thead>: Define os títulos das colunas (Quantidade, Valor Unitário, etc.).
-            <tbody>: Onde os dados dos produtos seriam renderizados. O comentário menciona o uso de Inline formset, que é a forma do Django de permitir adicionar vários produtos de uma vez em um único formulário.
-    -->
-
-<!-- 5. O Motor do Sistema (JavaScript) O código no final é responsável pela interatividade sem precisar recarregar a página:
-
-    1.document.querySelectorAll('.tab-link').forEach(...): Seleciona todos os botões de aba e adiciona um "ouvido" de clique em cada um.
-
-    2.classList.remove('active'): Quando você clica em uma aba nova, ele primeiro esconde a aba que estava aberta e desmarca o botão anterior.
-
-    3.document.getElementById(tab.dataset.tab).classList.add('active'): Ele pega o nome que estava no data-tab do botão clicado e mostra a div correspondente.
--->
