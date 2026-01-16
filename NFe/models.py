@@ -142,6 +142,7 @@ class Cliente(models.Model):
 
 class Produto(models.Model):
     
+    nfe = models.ForeignKey('NFe', related_name='produtos', on_delete=models.CASCADE)
     item_pedido = models.IntegerField(" Nº do Item ")
     codigo_produto = models.CharField("Cd. Produto", max_length=60)
     ean = models.CharField("EAN", max_length=14, blank=True, null=True)
@@ -152,12 +153,12 @@ class Produto(models.Model):
     cfop = models.CharField("CFOP", max_length=4)
     unidade = models.CharField("Unidade", max_length=6)
     quantidade = models.DecimalField("Qtd", max_digits=15, decimal_places=4)
-    valor_unitario = models.DecimalField("Vr. Untário", max_digits=15)
+    valor_unitario = models.DecimalField("Vr. Untário", max_digits=15, decimal_places=2)
     valor_total_bruto = models.DecimalField("Vr. Total Bruto", max_digits=15, decimal_places=2)
 
     unidade_tributo = models.CharField("Und.Tributo", max_length=6)
     quantidade_tributo = models.DecimalField("Qtd. Tributo", max_digits=15, decimal_places=4)
-    valor_unitario_tributo = models.DecimalField("Vr. Unt Trib", max_length=15, decimal_places=10)
+    valor_unitario_tributo = models.DecimalField("Vr. Unt Trib", max_digits=15, decimal_places=10)
 
     valor_frete = models.DecimalField("Vr Frete", max_digits=15, decimal_places=2, default=0)
     valor_seguro = models.DecimalField("Vr Seguro", max_digits=15, decimal_places=2, default=0)
@@ -172,29 +173,29 @@ class Produto(models.Model):
     origem_mercadoria = models.CharField("Origem da Mercadoria", max_length=1)
     cst_operacao = models.CharField("CST Operação", max_length=3)
     icms_bc = models.DecimalField("ICMS BC", max_digits=15, decimal_places=2, default=0)
-    icms_percentual = models.CharField("% ICMS", max_digits=5, decimal_places=2, default=0)
+    icms_percentual = models.DecimalField("% ICMS", max_digits=5, decimal_places=2, default=0)
     icms_valor = models.DecimalField("Vr. ICMS", max_digits=15, decimal_places=2, default=0)
 
     icms_st_bc = models.DecimalField("BC CST (ST)", max_digits=15, decimal_places=2, default=0)
-    icms_st = models.DecimalField("ICMS ST", max_length=15, decimal_places=2, default=0)
+    icms_st = models.DecimalField("ICMS ST", max_digits=15, decimal_places=2, default=0)
     icms_st_red_bc = models.DecimalField("Red.BC ICMS ST", max_digits=5, decimal_places=2, default=0)
     icms_st_valor = models.DecimalField("Vr. ICMS ST", max_digits=15, decimal_places=2, default=0)
 
     icms_st_percentual = models.DecimalField("% ICMS ST", max_digits=5, decimal_places=2, default=0)
     icms_st_valor = models.DecimalField("Vr. ICMS ST", max_digits=15, decimal_places=2, default=0)
     pis_cst = models.CharField("PIS CST", max_length=2)
-    pis_bc = models.CharField("BC PIS", max_digits=15, decimal_places=2, default=0)
+    pis_bc = models.DecimalField("BC PIS", max_digits=15, decimal_places=2, default=0)
     
-    pis_percentual = models.CharField("%PIS", max_digits=5, decimal_places=2, default=0)
+    pis_percentual = models.DecimalField("%PIS", max_digits=5, decimal_places=2, default=0)
     pis_valor = models.DecimalField("Vr. PIS", max_digits=15, decimal_places=2, default=0)
-    cofins_cst = models.DecimalField("CONFINS CST", max_length=2)
+    cofins_cst = models.CharField("CONFINS CST", max_length=2)
     cofins_bc = models.DecimalField("CONFINS BC", max_digits=15, decimal_places=2, default=0)
 
     cofins_percentual = models.DecimalField("%CONFINS", max_digits=5, decimal_places=2, default=0)
     icms_uf_dest_bc = models.DecimalField("ICMSUFDest_vBCUFDest",max_digits=15, decimal_places=2, default=0)
     icms_uf_dest_p_fcp = models.DecimalField("ICMSUFDest_pFCPUFDest", max_digits=5, decimal_places=2, default=0)
-    icms_uf_dest_p_inter = models.DecimalField("ICMSUFDest_pICMSInter", max_length=5, decimal_places=2, default=0)
-    icms_uf_dest_p_inter_part = models.DecimalField("ICMSUFDest_pICMSInterPart", max_length=5, decimal_places=2, default=0)
+    icms_uf_dest_p_inter = models.DecimalField("ICMSUFDest_pICMSInter", max_digits=5, decimal_places=2, default=0)
+    icms_uf_dest_p_inter_part = models.DecimalField("ICMSUFDest_pICMSInterPart", max_digits=5, decimal_places=2, default=0)
     icms_uf_dest_v_fcp = models.DecimalField("ICMSUFDest_vFCPUFDest", max_digits=15, decimal_places=2, default=0)
 
     icms_uf_dest_v_icms = models.DecimalField("ICMSUFDest_vICMSUFDest", max_digits=15, decimal_places=2, default=0)
@@ -240,8 +241,8 @@ class NFe(models.Model):
     ]
 
     pedido = models.CharField("Pedido", max_length=20, blank=True, null=True)
-    numero = models.IntegerField("NF-e", max_length=20, blank=True, null=True)
-    serie = models.IntegerField("Sèrie", max_length=20, blank=True, null=True)
+    numero = models.IntegerField("NF-e",blank=True, null=True)
+    serie = models.IntegerField("Sèrie",blank=True, null=True)
     modelo = models.CharField("Modelo NF-e", max_length=2, choices=MODELO_CHOICES, default='55')
     tipo_emissão = models.CharField("Tipo Emissão", max_length=1, choices=TP_EMIS_CHOICES, default='1')
     tipo_nfe = models.CharField("Tipo NF-e", max_length=1, choices=TP_NF_CHOICES, default='1')
@@ -272,8 +273,8 @@ class NFe(models.Model):
     protocolo_evento = models.CharField("Protocolo Evento", max_length=20, blank=True, null=True)
     sequencia_evento = models.IntegerField("Seq. Evento", default=1)
 
-    emitente = models.ForeignKey('Emitente', on_delete=models.PROTECT)
-    cliente = models.ForeignKey('Cliente', on_delete=models.PROTECT)
+    # emitente = models.ForeignKey('Emitente', on_delete=models.PROTECT)
+    # cliente = models.ForeignKey('Cliente', on_delete=models.PROTECT)
 
     justificativa = models.TextField("Justificativa", blank=True, null=True)
 
@@ -292,7 +293,7 @@ class Transportadora_Volumes(models.Model):
     # Transportadora
     tipo_frete = models.CharField("Tipo de Frente", max_length=100, blank=True)
     nome_transportadora = models.CharField("Nome da Transportadora", max_length=255, blank=True)
-    cnpj_transportadora = models.CharField("CNPJ", max_length=10, decimal_places=2, blank=True)
+    cnpj_transportadora = models.CharField("CNPJ", max_length=10, blank=True)
     ie_transportadora = models.CharField("IE",  max_length=15, blank=True)
     logradouro = models.CharField("Logradouro", max_length=255, blank=True)
     municipio = models.CharField("Município", max_length=100, blank=True)
@@ -325,7 +326,8 @@ class Pagamento(models.Model):
     ]
 
     FORMA_PAGTO_CHOICES = [
-        ('01', '01 - Dinheiro')        ('02', '02 - Cheque'),
+        ('01', '01 - Dinheiro'),    
+         ('02', '02 - Cheque'),
         ('03', '03 - Cartão de Credito'),
         ('04', '04 - Cartão de Débito'),
         ('15', '15 - Boleto Bancário'),
@@ -342,7 +344,7 @@ class Pagamento(models.Model):
 
     tipo_integracao = models.CharField("Tipo Integração CC", max_length=1, blank=True, null=True)
     cnpj_credenciadora = models.CharField("CNPJ Credenciadora CC",max_length=14, blank=True, null=True)
-    bandeira_cc = models.CHarField("Bandeira CC", max_length=2, blank=True, null=True)
+    bandeira_cc = models.CharField("Bandeira CC", max_length=2, blank=True, null=True)
     autorizacao_transacao = models.CharField("Nº Autorização Transação",max_length=20, blank=True, null=True)
 
     class Meta:
@@ -375,7 +377,7 @@ class Duplicata(models.Model):
         return self.numero_duplicata
 
 class base_calculo(models.Model):
-    nfe = models.OneToOneField('NFe', related_name='Base de Cálculo', on_delete=models.CASCADE)
+    nfe = models.OneToOneField('NFe', related_name='base_calculo_totais', on_delete=models.CASCADE)
 
     base_calculo_icms = models.DecimalField("Base de Cálculo ICMS", max_digits=15, decimal_places=2, default=0)
     total_icms = models.DecimalField("Total do ICMS", max_digits=15, decimal_places=2, default=0)
@@ -454,3 +456,35 @@ class Info_nfe(models.Model):
 
     def __str__(self):
         return f"Status NF {self.nfe.id}"
+    
+
+# 1. Os Atores Principais (Cliente e Produto)
+# Estes modelos guardam os dados de quem compra e o que está sendo comprado.
+# Cliente: Além de nome e endereço, ele tem uma lógica inteligente no método save(). Antes de salvar no banco, ele limpa o CNPJ e o CEP, removendo pontos e traços automaticamente. Ele também usa choices para limitar as opções (Física/Jurídica).
+# Produto: É o modelo mais denso. Ele contém todos os campos exigidos pela SEFAZ para cálculos de impostos (ICMS, IPI, PIS, COFINS). Note que ele usa DecimalField em quase tudo que envolve dinheiro ou alíquotas, o que garante precisão matemática (evitando erros de arredondamento que ocorrem com números do tipo float).
+
+# 2. O Coração do Sistema (NFe)
+# Esta classe guarda o "cabeçalho" da nota.
+# Ela registra o número, série, chave de acesso e a natureza da operação.
+# Relacionamentos: Ela usa ForeignKey para se ligar a um Cliente e a um Emitente. Isso significa que uma nota pertence a um cliente, mas um cliente pode ter várias notas.
+# Status: Controla se a nota foi autorizada (Status 100), cancelada ou se está em contingência.
+
+# 3. Extensões da Nota (Relacionamentos OneToOneField)
+# Algumas informações são tão específicas que, para não "poluir" a tabela da NFe, você as separou em outras tabelas. O Django usa o OneToOneField (Um para Um) para garantir que cada NFe tenha exatamente um registro correspondente nestas tabelas:
+
+# Transportadora_Volumes: Dados do frete, placa do veículo e peso da mercadoria.
+# base_calculo: Onde ficam os totais finais (Soma de todos os produtos, total de impostos, valor total da nota).
+# Info_nfe e InformacoesAdicionais: Campos de texto para mensagens ao fisco ou informações complementares para o cliente.
+
+# 4. Financeiro (Pagamento, Cobranca e Duplicata)
+# Este bloco cuida de como a nota será paga.
+# Pagamento: Registra se foi em dinheiro, cartão ou boleto.
+# Cobranca e Duplicata: Funcionam juntos. A Cobranca é o resumo do valor líquido, e a Duplicata representa as parcelas (vencimento e valor de cada boleto).
+
+
+
+
+
+
+
+
