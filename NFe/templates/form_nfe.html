@@ -95,15 +95,163 @@
         padding: 2px;
     }
 
-    .btn-salvar {
-        background: #f0f0f0;
-        border: 1px solid #999;
-        padding: 10px 20px;
-        cursor: pointer;
+    .actions-bar {
+        display: flex;
+        gap: 10px;
+        padding: 15px;
+        background-color: #c5d4b5;
+        /* Cor de fundo verde musgo clara do seu sistema */
+        border-top: 1px solid #999;
         margin-top: 10px;
+        align-items: center;
+    }
+
+    .btn-action {
+        background-color: #f0f0f0;
+        border: 1px solid #999;
+        padding: 5px 10px;
+        color: #555;
+        font-size: 11px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 2px;
+    }
+
+    .btn-action:hover {
+        background-color: #e0e0e0;
+    }
+
+    .btn-action strong {
+        color: #000;
+    }
+
+    .spacer {
+        flex-grow: 1;
+        /* Empurra os botões seguintes para a direita */
+    }
+
+    .btn-action.disabled {
+        color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 12px 10px;
+        background-color: #c5d4b5;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    .filter-field {
+        display: flex;
+        flex-direction: column;
+        min-width: 140px;
+    }
+
+    .filter-field label {
+        font-size: 11px;
         font-weight: bold;
+        margin-bottom: 3px;
+        color: #000;
+    }
+
+    .form-control {
+        height: 24px;
+        padding: 3px 6px;
+        font-size: 12px;
+        border: 1px solid #7a8a99;
+        border-radius: 3px;
+        background: white;
+        box-sizing: border-box;
+    }
+
+    select.form-control {
+        padding-right: 20px;
+        /* espaço para seta */
+    }
+
+    .top-action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-gray {
+        background: #f0f0f0;
+        border: 1px solid #777;
+        padding: 6px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        min-width: 85px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-gray:hover {
+        background: #e0e0e0;
+    }
+
+    .btn-gray.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .header-divider {
+        border: 0;
+        height: 2px;
+        background: #000;
+        margin: 0 0 10px 0;
+    }
+
+    .main-content {
+        display: flex;
+        gap: 12px;
+        padding: 0 10px 10px;
+        background: #c5d4b5;
+        flex-grow: 1;
+    }
+
+    .table-container {
+        flex-grow: 1;
+        background: white;
+        border: 1px solid #777;
+        overflow: auto;
+        max-height: calc(100vh - 180px);
+    }
+
+    table.list-table tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .main-area {
+        display: flex;
+        gap: 10px;
+        min-height: calc(100vh - 140px);
     }
 </style>
+
 
 <ul class="tabs">
     <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
@@ -118,131 +266,201 @@
     <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
 </ul>
 
-<form method="post">
-    {% csrf_token %}
 
-    <div id="cliente" class="tab-content active">
-        <div class="form-group-box">
-            <table class="form-table">
-                <tr>
-                    <td class="label-cell" style="width: 15%;">Tipo Pessoa</td>
-                    <td class="label-cell" style="width: 45%;">Tipo de Contribuinte</td>
-                    <td class="label-cell" style="width: 45%;">CNPJ e CPF</td>
-                    <td class="label-cell" style="width: 45%;">Inscrição Estadual</td>
-                    <td class="label-cell" style="width: 45%;">Inscrição Municipal</td>
-                    <td class="label-cell" style="width: 20%;">Cliente</td>
-                    <td class="label-cell" style="width: 20%;">Informação Estrangeira</td>
-                    <td class="label-cell" style="width: 45%;">CEP</td>
-                    <td class="label-cell" style="width: 20%;">Logradouro</td>
-                    <td class="label-cell" style="width: 90%;">Nº</td>
-                    <td class="label-cell" style="width: 45%;">Complemento</td>
-                    <td class="label-cell" style="width: 20%;">Bairro</td>
-                    <td class="label-cell" style="width: 20%;">Cód.IBGE</td>
-                    <td class="label-cell" style="width: 20%;">Município</td>
-                    <td class="label-cell" style="width: 20%;">UF</td>
-                    <td class="label-cell" style="width: 20%;">Cód.País</td>
-                    <td class="label-cell" style="width: 45%;">País</td>
-                    <td class="label-cell" style="width: 20%;">Telefone</td>
-                    <td class="label-cell" style="width: 20%;">Inscr.SUFRAMA</td>
-                    <td class="label-cell" style="width: 45%;">Lote SUFRAMA</td>
-                    <td class="label-cell" style="width: 20%;">E-mail</td>
-                    <td class="label-cell" style="width: 45%;">E-mail Contador</td>
-                </tr>
-                <tr>
-                    <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
-                    <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
-                    <td class="input-cell">{{ cliente_form.cnpj }}</td>
-                    <td class="input-cell">{{ cliente_form.ie }}</td>
-                    <td class="input-cell">{{ cliente_form.inscricao_municipal }}</td>
-                    <td class="input-cell">{{ cliente_form.cliente }}</td>
-                    <td class="input-cell">{{ cliente_form.informacao_estrangeira }}</td>
-                    <td class="input-cell">{{ cliente_form.cep }}</td>
-                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
-                    <td class="input-cell">{{ cliente_form.numero }}</td>
-                    <td class="input-cell">{{ cliente_form.complemento }}</td>
-                    <td class="input-cell">{{ cliente_form.bairro }}</td>
-                    <td class="input-cell">{{ cliente_form.codigo_ibge }}</td>
-                    <td class="input-cell">{{ cliente_form.municipio }}</td>
-                    <td class="input-cell">{{ cliente_form.uf }}</td>
-                    <td class="input-cell">{{ cliente_form.codigo_pais }}</td>
-                    <td class="input-cell">{{ cliente_form.pais }}</td>
-                    <td class="input-cell">{{ cliente_form.telefone }}</td>
-                    <td class="input-cell">{{ cliente_form.inscricao_suframa }}</td>
-                    <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
-                    <td class="input-cell">{{ cliente_form.email }}</td>
-                    <td class="input-cell">{{ cliente_form.email_contador }}</td>
-                </tr>
-            </table>
-            <table class="form-table">
-                <tr>
-                    <td class="label-cell">Nome / Razão Social</td>
-                </tr>
-                <tr>
-                    <td class="input-cell">{{ cliente_form.nome }}</td>
-                </tr>
-            </table>
-            <table class="form-table">
-                <tr>
-                    <td class="label-cell" style="width: 15%;">CEP</td>
-                    <td class="label-cell" style="width: 45%;">Logradouro</td>
-                    <td class="label-cell" style="width: 10%;">N°</td>
-                    <td class="label-cell" style="width: 30%;">Bairro</td>
-                </tr>
-                <tr>
-                    <td class="input-cell">{{ cliente_form.cep }}</td>
-                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
-                    <td class="input-cell">{{ cliente_form.numero }}</td>
-                    <td class="input-cell">{{ cliente_form.bairro }}</td>
-                </tr>
-            </table>
+<div class="filter-header">
+    <div class="filter-group">
+        <div class="filter-field">
+            <label>EMPRESA</label>
+            <select name="empresa" class="form-control">
+                <option value=""></option>
+                <option value="cavemac">CAVEMAC</option>
+                <option value="peninsula" selected>Peninsula</option>
+                <option value="omega">Omega</option>
+                <option value="starte/SP">Starte/SP</option>
+                <option value="cavemac/SC">Cavemac/SC</option>
+                <option value="green">Green</option>
+                <option value="reach">Reach</option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label>STATUS</label>
+            <select name="status" class="form-control">
+                <option value=""></option>
+                <option value="100">Autorizado o uso da NF-e</option>
+                <option value="cancelamento registrado">Cancelamento registrado</option>
+                <option value="cancelamento nfe">Cancelando NFe</option>
+                <option value="carta de correçao">Carta de Correção registrada</option>
+                <option value="cancelada COB">COB cancelada</option>
+                <option value="fatura COB">COB faturada</option>
+                <option value="NFe não enviada">NFe não enviada</option>
+                <option value="uso denegado">Uso Denegado</option>
+                <option value="uso denegado fiscal">Uso Denegado: Irregularidade fiscal</option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label>PEDIDO</label>
+            <input type="text" name="pedido" placeholder="Nº do pedido" class="form-control">
+        </div>
+
+        <div class="filter-field">
+            <label>NF-e</label>
+            <input type="text" name="numero_nfe" placeholder="Número da NF-e" class="form-control">
         </div>
     </div>
 
-    <div id="produtos" class="tab-content">
-        {{ item_formset.management_form }}
-        <table class="grid-table">
+    <div class="top-action-buttons">
+        <button type="button" class="btn-gray">Voltar nº</button>
+        <button type="button" class="btn-gray">PESO/VOL</button>
+        <button type="button" class="btn-gray disabled">BOLETO</button>
+        <button type="submit" class="btn-gray">FILTRAR</button>
+        <button type="button" class="btn-gray" onclick="limparFiltros()">LIMPAR</button>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="table-container">
+        <table class="list-table">
             <thead>
                 <tr>
-                    <th style="width: 50px;">Item</th>
-                    <th style="width: 100px;">Cód. Prod.</th>
-                    <th>Descrição</th>
-                    <th style="width: 80px;">Qtd</th>
-                    <th style="width: 100px;">Vr. Unit</th>
-                    <th style="width: 100px;">Total Bruto</th>
+
                 </tr>
             </thead>
             <tbody>
-                {% for form in item_formset %}
-                <tr>
-                    {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
-                    <td>{{ form.item_pedido }}</td>
-                    <td>{{ form.codigo_produto }}</td>
-                    <td>{{ form.descricao }}</td>
-                    <td>{{ form.quantidade }}</td>
-                    <td>{{ form.valor_unitario }}</td>
-                    <td>{{ form.valor_total_bruto }}</td>
-                </tr>
-                {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div id="info" class="tab-content">
-        <div class="form-group-box">
-            <div class="label-cell">Informações complementares da NF</div>
-            <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
-        </div>
-        <div class="form-group-box">
-            <div class="label-cell">Informações adicionais ao Fisco</div>
-            <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
-        </div>
-    </div>
 
-    <button type="submit" class="btn-salvar">SALVAR NOTA FISCAL</button>
+
+    <hr class="header-divider">
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div id="cliente" class="tab-content active">
+            <div class="form-group-box">
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell" style="width: 10%;">Tipo Pessoa</td>
+                        <td class="label-cell" style="width: 25%;">Tipo de Contribuinte</td>
+                        <td class="label-cell" style="width: 15%;">CNPJ e CPF</td>
+                        <td class="label-cell" style="width: 10%;">Inscr. Estadual</td>
+                        <td class="label-cell" style="width: 10%;">Inscr. Municipal</td>
+                        <td class="label-cell" style="width: 15%;">Inscr. SUFRAMA</td>
+                        <td class="label-cell" style="width: 15%;">Lote SUFRAMA</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
+                        <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
+                        <td class="input-cell">{{ cliente_form.cnpj }}</td>
+                        <td class="input-cell">{{ cliente_form.ie }}</td>
+                        <td class="input-cell">{{ cliente_form.im }}</td>
+                        <td class="input-cell">{{ cliente_form.inscr_suframa }}</td>
+                        <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
+                    </tr>
+                </table>
+
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell" style="width: 70%;">Cliente</td>
+                        <td class="label-cell" style="width: 30%;">Informação Estrangeira</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cliente_form.nome }}</td>
+                        <td class="input-cell">{{ cliente_form.info_estrangeira }}</td>
+                    </tr>
+                </table>
+
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell" style="width: 12%;">CEP</td>
+                        <td class="label-cell" style="width: 48%;">Logradouro</td>
+                        <td class="label-cell" style="width: 8%;">Nº</td>
+                        <td class="label-cell" style="width: 32%;">Bairro</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cliente_form.cep }}</td>
+                        <td class="input-cell">{{ cliente_form.logradouro }}</td>
+                        <td class="input-cell">{{ cliente_form.numero }}</td>
+                        <td class="input-cell">{{ cliente_form.bairro }}</td>
+                    </tr>
+                </table>
+
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell" style="width: 20%;">Complemento</td>
+                        <td class="label-cell" style="width: 10%;">Cód. IBGE</td>
+                        <td class="label-cell" style="width: 20%;">Município</td>
+                        <td class="label-cell" style="width: 5%;">UF</td>
+                        <td class="label-cell" style="width: 25%;">E-mail</td>
+                        <td class="label-cell" style="width: 45%;">Telefone</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cliente_form.complemento }}</td>
+                        <td class="input-cell">{{ cliente_form.cod_ibge }}</td>
+                        <td class="input-cell">{{ cliente_form.municipio }}</td>
+                        <td class="input-cell">{{ cliente_form.uf }}</td>
+                        <td class="input-cell">{{ cliente_form.email }}</td>
+                        <td class="input-cell">{{ cliente_form.telefone }}</td>
+                        <td class="input-cell">{{ cliente_form.email }}</td>
+                    </tr>
+                </table>
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell" style="width: 6%;">Cód.País</td>
+                        <td class="label-cell" style="width: 4%;">País</td>
+                        <td class="label-cell" style="width: 12%;">E-mail Contador</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cliente_form.cod_pais }}</td>
+                        <td class="input-cell">{{ cliente_form.pais }}</td>
+                        <td class="input-cell">{{ cliente_form.email_contador }}</td>
+                    </tr>
+                </table>
+
+                <div class="side-buttons">
+                    <button class="btn-side">TRANSMITIR</button>
+                    <button class="btn-side">FATURAR COB</button>
+                    <button class="btn-side">DANFE</button>
+                    <button class="btn-side">Salvar</button>
+                    <button class="btn-side">Agrupar Orç</button>
+                    <button class="btn-side">Menu Caixa</button>
+                </div>
+            </div>
+        </div>
+</div>
+</table>
+
+
+<div id="info" class="tab-content">
+    <div class="form-group-box">
+        <div class="label-cell">Informações complementares da NF</div>
+        <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
+    </div>
+    <div class="form-group-box">
+        <div class="label-cell">Informações adicionais ao Fisco</div>
+        <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
+    </div>
+</div>
+
+<div class="actions-bar">
+    <button type="button" class="btn-action">CARTA DE CORREÇÃO</button>
+    <button type="button" class="btn-action">CANCELAR</button>
+    <button type="button" class="btn-action">CANCELAR COB</button>
+    <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
+
+    <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
+    <button type="button" class="btn-action">Relat. NF Emitidas</button>
+    <button type="button" class="btn-action">Frete/Prazo</button>
+    <button type="button" class="btn-action">PIN</button>
+    <button type="button" class="btn-action disabled">CSV (Correio)</button>
+</div>
 </form>
 
 <script>
-    // Lógica das Abas
+
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -252,7 +470,7 @@
         });
     });
 
-    // Lógica de Cálculo Automático (Qtd * Valor)
+
     document.addEventListener('input', function (e) {
         if (e.target.name.includes('quantidade') || e.target.name.includes('valor_unitario')) {
             let row = e.target.closest('tr');
