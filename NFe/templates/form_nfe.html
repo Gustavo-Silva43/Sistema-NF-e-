@@ -1,4 +1,4 @@
-{% extends "nfe/base.html" %} {% block content %}
+{% extends "base.html" %} {% block content %}
 <style>
     body {
         background: #d4e4d4;
@@ -250,8 +250,86 @@
         gap: 10px;
         min-height: calc(100vh - 140px);
     }
-</style>
 
+    .main-section {
+        display: flex;
+        gap: 0;
+        /* Remove espaço entre tabela e botões para parecer uma peça só */
+        padding: 10px;
+        background-color: #c5d4b5;
+    }
+
+    .table-container {
+        flex: 1;
+        border: 1px solid #777;
+        background: white;
+        height: 180px;
+        /* Altura menor para bater com a foto 1 */
+        overflow-y: auto;
+    }
+
+    .side-bar-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 110px;
+        border: 1px solid #777;
+        border-left: none;
+        /* Evita borda dupla com a tabela */
+        background: #e0e0e0;
+    }
+
+    .btn-side {
+        border: none;
+        border-bottom: 1px solid #999;
+        background: #f0f0f0;
+        padding: 5px;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .red-text {
+        color: red;
+        font-weight: bold;
+    }
+
+    .user-bar {
+        background: #c5d4b5;
+        padding: 5px 10px;
+        text-align: right;
+        /* Alinha o texto à direita conforme a foto 1 */
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Crucial para o visual de grade */
+        margin-bottom: -1px;
+        /* Remove o espaço entre as tabelas empilhadas */
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        /* O azul claro da Foto 1 */
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+        font-weight: normal;
+    }
+
+    .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    }
+
+    .input-cell input,
+    .input-cell select {
+        border: none;
+        /* Remove a borda interna do input */
+        height: 22px;
+    }
+</style>
 
 <ul class="tabs">
     <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
@@ -319,12 +397,19 @@
     </div>
 </div>
 
-<div class="main-content">
+<hr class="header-divider">
+
+<div class="main-section">
     <div class="table-container">
-        <table class="list-table">
+        <table class="grid-table">
             <thead>
                 <tr>
-
+                    <th>Pedido</th>
+                    <th>NFe</th>
+                    <th>Série</th>
+                    <th>Status</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
                 </tr>
             </thead>
             <tbody>
@@ -332,131 +417,146 @@
         </table>
     </div>
 
+    <div class="side-bar-buttons">
+        <button class="btn-side">TRANSMITIR</button>
+        <button class="btn-side">FATURAR COB</button>
+        <button class="btn-side">DANFE</button>
+        <button class="btn-side red-text">Salvar</button>
+        <button class="btn-side">Agrupar Orç</button>
+        <button class="btn-side">Menu Caixa</button>
+    </div>
+</div>
+
+<div class="user-bar">
+    <div class="linha-branca-user"></div>
+    <div style="font-weight: bold; white-space: nowrap;">USUÁRIO: <span style="color: #0080ff;">RENAN</span></div>
+</div>
 
 
-    <hr class="header-divider">
 
-    <form method="post">
-        {% csrf_token %}
+<hr class="header-divider">
 
-        <div id="cliente" class="tab-content active">
-            <div class="form-group-box">
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell" style="width: 10%;">Tipo Pessoa</td>
-                        <td class="label-cell" style="width: 25%;">Tipo de Contribuinte</td>
-                        <td class="label-cell" style="width: 15%;">CNPJ e CPF</td>
-                        <td class="label-cell" style="width: 10%;">Inscr. Estadual</td>
-                        <td class="label-cell" style="width: 10%;">Inscr. Municipal</td>
-                        <td class="label-cell" style="width: 15%;">Inscr. SUFRAMA</td>
-                        <td class="label-cell" style="width: 15%;">Lote SUFRAMA</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
-                        <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
-                        <td class="input-cell">{{ cliente_form.cnpj }}</td>
-                        <td class="input-cell">{{ cliente_form.ie }}</td>
-                        <td class="input-cell">{{ cliente_form.im }}</td>
-                        <td class="input-cell">{{ cliente_form.inscr_suframa }}</td>
-                        <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
-                    </tr>
-                </table>
+<form method="post">
+    {% csrf_token %}
 
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell" style="width: 70%;">Cliente</td>
-                        <td class="label-cell" style="width: 30%;">Informação Estrangeira</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ cliente_form.nome }}</td>
-                        <td class="input-cell">{{ cliente_form.info_estrangeira }}</td>
-                    </tr>
-                </table>
+    <div id="cliente" class="tab-content active">
+        <div class="form-group-box">
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 10%;">Tipo Pessoa</td>
+                    <td class="label-cell" style="width: 25%;">Tipo de Contribuinte</td>
+                    <td class="label-cell" style="width: 15%;">CNPJ e CPF</td>
+                    <td class="label-cell" style="width: 10%;">Inscr. Estadual</td>
+                    <td class="label-cell" style="width: 10%;">Inscr. Municipal</td>
+                    <td class="label-cell" style="width: 15%;">Inscr. SUFRAMA</td>
+                    <td class="label-cell" style="width: 15%;">Lote SUFRAMA</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
+                    <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
+                    <td class="input-cell">{{ cliente_form.cnpj }}</td>
+                    <td class="input-cell">{{ cliente_form.ie }}</td>
+                    <td class="input-cell">{{ cliente_form.im }}</td>
+                    <td class="input-cell">{{ cliente_form.inscr_suframa }}</td>
+                    <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
+                </tr>
+            </table>
 
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell" style="width: 12%;">CEP</td>
-                        <td class="label-cell" style="width: 48%;">Logradouro</td>
-                        <td class="label-cell" style="width: 8%;">Nº</td>
-                        <td class="label-cell" style="width: 32%;">Bairro</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ cliente_form.cep }}</td>
-                        <td class="input-cell">{{ cliente_form.logradouro }}</td>
-                        <td class="input-cell">{{ cliente_form.numero }}</td>
-                        <td class="input-cell">{{ cliente_form.bairro }}</td>
-                    </tr>
-                </table>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 70%;">Cliente</td>
+                    <td class="label-cell" style="width: 30%;">Informação Estrangeira</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.nome }}</td>
+                    <td class="input-cell">{{ cliente_form.info_estrangeira }}</td>
+                </tr>
+            </table>
 
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell" style="width: 20%;">Complemento</td>
-                        <td class="label-cell" style="width: 10%;">Cód. IBGE</td>
-                        <td class="label-cell" style="width: 20%;">Município</td>
-                        <td class="label-cell" style="width: 5%;">UF</td>
-                        <td class="label-cell" style="width: 25%;">E-mail</td>
-                        <td class="label-cell" style="width: 45%;">Telefone</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ cliente_form.complemento }}</td>
-                        <td class="input-cell">{{ cliente_form.cod_ibge }}</td>
-                        <td class="input-cell">{{ cliente_form.municipio }}</td>
-                        <td class="input-cell">{{ cliente_form.uf }}</td>
-                        <td class="input-cell">{{ cliente_form.email }}</td>
-                        <td class="input-cell">{{ cliente_form.telefone }}</td>
-                        <td class="input-cell">{{ cliente_form.email }}</td>
-                    </tr>
-                </table>
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell" style="width: 6%;">Cód.País</td>
-                        <td class="label-cell" style="width: 4%;">País</td>
-                        <td class="label-cell" style="width: 12%;">E-mail Contador</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ cliente_form.cod_pais }}</td>
-                        <td class="input-cell">{{ cliente_form.pais }}</td>
-                        <td class="input-cell">{{ cliente_form.email_contador }}</td>
-                    </tr>
-                </table>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 12%;">CEP</td>
+                    <td class="label-cell" style="width: 48%;">Logradouro</td>
+                    <td class="label-cell" style="width: 8%;">Nº</td>
+                    <td class="label-cell" style="width: 32%;">Bairro</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.cep }}</td>
+                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
+                    <td class="input-cell">{{ cliente_form.numero }}</td>
+                    <td class="input-cell">{{ cliente_form.bairro }}</td>
+                </tr>
+            </table>
 
-                <div class="side-buttons">
-                    <button class="btn-side">TRANSMITIR</button>
-                    <button class="btn-side">FATURAR COB</button>
-                    <button class="btn-side">DANFE</button>
-                    <button class="btn-side">Salvar</button>
-                    <button class="btn-side">Agrupar Orç</button>
-                    <button class="btn-side">Menu Caixa</button>
-                </div>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 20%;">Complemento</td>
+                    <td class="label-cell" style="width: 10%;">Cód. IBGE</td>
+                    <td class="label-cell" style="width: 20%;">Município</td>
+                    <td class="label-cell" style="width: 5%;">UF</td>
+                    <td class="label-cell" style="width: 25%;">E-mail</td>
+                    <td class="label-cell" style="width: 45%;">Telefone</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.complemento }}</td>
+                    <td class="input-cell">{{ cliente_form.cod_ibge }}</td>
+                    <td class="input-cell">{{ cliente_form.municipio }}</td>
+                    <td class="input-cell">{{ cliente_form.uf }}</td>
+                    <td class="input-cell">{{ cliente_form.email }}</td>
+                    <td class="input-cell">{{ cliente_form.telefone }}</td>
+                    <td class="input-cell">{{ cliente_form.email }}</td>
+                </tr>
+            </table>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 6%;">Cód.País</td>
+                    <td class="label-cell" style="width: 4%;">País</td>
+                    <td class="label-cell" style="width: 12%;">E-mail Contador</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.cod_pais }}</td>
+                    <td class="input-cell">{{ cliente_form.pais }}</td>
+                    <td class="input-cell">{{ cliente_form.email_contador }}</td>
+                </tr>
+            </table>
+
+            <div class="side-buttons">
+                <button class="btn-side">TRANSMITIR</button>
+                <button class="btn-side">FATURAR COB</button>
+                <button class="btn-side">DANFE</button>
+                <button class="btn-side">Salvar</button>
+                <button class="btn-side">Agrupar Orç</button>
+                <button class="btn-side">Menu Caixa</button>
             </div>
         </div>
-</div>
-</table>
-
-
-<div id="info" class="tab-content">
-    <div class="form-group-box">
-        <div class="label-cell">Informações complementares da NF</div>
-        <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
     </div>
-    <div class="form-group-box">
-        <div class="label-cell">Informações adicionais ao Fisco</div>
-        <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
     </div>
-</div>
+    </table>
 
-<div class="actions-bar">
-    <button type="button" class="btn-action">CARTA DE CORREÇÃO</button>
-    <button type="button" class="btn-action">CANCELAR</button>
-    <button type="button" class="btn-action">CANCELAR COB</button>
-    <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
 
-    <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
-    <button type="button" class="btn-action">Relat. NF Emitidas</button>
-    <button type="button" class="btn-action">Frete/Prazo</button>
-    <button type="button" class="btn-action">PIN</button>
-    <button type="button" class="btn-action disabled">CSV (Correio)</button>
-</div>
+    <div id="info" class="tab-content">
+        <div class="form-group-box">
+            <div class="label-cell">Informações complementares da NF</div>
+            <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
+        </div>
+        <div class="form-group-box">
+            <div class="label-cell">Informações adicionais ao Fisco</div>
+            <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <button type="button" class="btn-action">CARTA DE CORREÇÃO</button>
+        <button type="button" class="btn-action">CANCELAR</button>
+        <button type="button" class="btn-action">CANCELAR COB</button>
+        <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
+
+        <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
+        <button type="button" class="btn-action">Relat. NF Emitidas</button>
+        <button type="button" class="btn-action">Frete/Prazo</button>
+        <button type="button" class="btn-action">PIN</button>
+        <button type="button" class="btn-action disabled">CSV (Correio)</button>
+    </div>
 </form>
 
 <script>
