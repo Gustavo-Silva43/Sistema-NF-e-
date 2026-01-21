@@ -274,7 +274,6 @@
         width: 110px;
         border: 1px solid #777;
         border-left: none;
-        /* Evita borda dupla com a tabela */
         background: #e0e0e0;
     }
 
@@ -331,7 +330,7 @@
     }
 </style>
 
-<ul class="tabs">
+<!-- <ul class="tabs">
     <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
     <li class="tab-link active" data-tab="cliente">Cliente</li>
     <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
@@ -342,7 +341,7 @@
     <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
     <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
     <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
-</ul>
+</ul> -->
 
 
 <div class="filter-header">
@@ -392,7 +391,6 @@
         <button type="button" class="btn-gray">Voltar nº</button>
         <button type="button" class="btn-gray">PESO/VOL</button>
         <button type="button" class="btn-gray disabled">BOLETO</button>
-        <button type="submit" class="btn-gray">FILTRAR</button>
         <button type="button" class="btn-gray" onclick="limparFiltros()">LIMPAR</button>
     </div>
 </div>
@@ -429,10 +427,22 @@
 
 <div class="user-bar">
     <div class="linha-branca-user"></div>
-    <div style="font-weight: bold; white-space: nowrap;">USUÁRIO: <span style="color: #0080ff;">RENAN</span></div>
+    <div style="font-weight: bold; white-space: nowrap;">USUÁRIO: <span style="color: #0080ff;"></span></div>
 </div>
 
-
+<ul class="tabs">
+    <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
+    <li class="tab-link active" data-tab="cliente">Cliente</li>
+    <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
+    <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
+    <li class="tab-link active" data-tab="produto">Produto</li>
+    <li class="tab-link" data-tab="Pagamento">Pagamento</li>
+    <li class="tab-link active" data-tab="Cobranca">Cobranca</li>
+    <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
+    <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
+    <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
+</ul>
 
 <hr class="header-divider">
 
@@ -520,14 +530,14 @@
                 </tr>
             </table>
 
-            <div class="side-buttons">
+            <!-- <div class="side-buttons">
                 <button class="btn-side">TRANSMITIR</button>
                 <button class="btn-side">FATURAR COB</button>
                 <button class="btn-side">DANFE</button>
                 <button class="btn-side">Salvar</button>
                 <button class="btn-side">Agrupar Orç</button>
                 <button class="btn-side">Menu Caixa</button>
-            </div>
+            </div> -->
         </div>
     </div>
     </div>
