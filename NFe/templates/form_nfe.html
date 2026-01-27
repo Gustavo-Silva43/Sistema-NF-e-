@@ -254,7 +254,6 @@
     .main-section {
         display: flex;
         gap: 0;
-        /* Remove espaço entre tabela e botões para parecer uma peça só */
         padding: 10px;
         background-color: #c5d4b5;
     }
@@ -264,7 +263,6 @@
         border: 1px solid #777;
         background: white;
         height: 180px;
-        /* Altura menor para bater com a foto 1 */
         overflow-y: auto;
     }
 
@@ -325,7 +323,6 @@
     .input-cell input,
     .input-cell select {
         border: none;
-        /* Remove a borda interna do input */
         height: 22px;
     }
 </style>
@@ -448,6 +445,111 @@
 
 <form method="post">
     {% csrf_token %}
+
+    <div id="NFe" class="tab-content active">
+        <div class="form-group-box">
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Pedido</td>
+                    <td class="label-cell">NF-e</td>
+                    <td class="label-cell">Série</td>
+                    <td class="label-cell">Modelo NF-e</td>
+                    <td class="label-cell">Tipo Emissão</td>
+                    <td class="label-cell">Tipo NF-e</td>
+                    <td class="label-cell"> Finalidade NF-e</td>
+                    <td class="label-cell">Natureza Operação</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ nfe_form.pedido}}</td>
+                    <td class="input-cell">{{ nfe_form.numero}}</td>
+                    <td class="input-cell">{{ nfe_form.serie}}</td>
+                    <td class="input-cell">{{ nfe_form.modelo}}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_emissao}}</td>
+                    <td class="input-cell">{{nfe_form.tipo_nfe}}</td>
+                    <td class="input-cell">{{nfe_form.finalidade}}</td>
+                    <td class="input-cell">{{ nfe_form.naturza_operacao}}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="labe-cell"> Presença Comprador?</td>
+                    <td class="label-cell">Operação com Consumidor?</td>
+                    <td class="label-cell">Local Destino da Operação</td>
+                    <td class="input-cell">Chave de Acesso</td>
+                    <td class="input-cell">cDV</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{nfe_form.presenca_comprador}}</td>
+                    <td class="input-cell">{{ nfe_form.operacao_consumidor}}</td>
+                    <td class="input-cell">{{ nfe_form.local_destino }}</td>
+                    <td class="input-cell">{{ nfe_form.chave_acesso}}</td>
+                    <td class="input-cell">{{ nfe_form.cdv }}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Recibo</td>
+                    <td class="label-cell">Protocolo</td>
+                    <td class="label-cell">Dígito Validador</td>
+                    <td class="label-cell">Data/Hora Emissão</td>
+                    <td class="label-cell">Data/Hora Recebimento</td>
+                    <td class="label-cell">Status SEFAZ</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ nfe_form.recibo}}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo}}</td>
+                    <td class="input-cell">{{ nfe_form.digito_validador}}</td>
+                    <td class="input-cell">{{ nfe_form.data_emissao}}</td>
+                    <td class="input-cell">{{ nfe_form.data_recebimento}}</td>
+                    <td class="input-cell">{{ nfe_form.status_sefaz}}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Código Retorno</td>
+                    <td class="label-cell">Tipo Evento</td>
+                    <td class="label-cell">Protocolo Evento</td>
+                    <td class="label-cell">Seq. Evento</td>
+                    <td class="label-cell">Referenciar Nf-e?</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{nfe_form.codigo_retorno}}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_evento }}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo_evento}}</td>
+                    <td class="input-cell"> {{ nfe_form.sequencia_evento}}</td>
+                    <td class="input-cell">{{ nfe_form.referenciar_nfe}}</td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 10px; display: flex; align-items: center; gap: 15px">
+                <label><input type="checkbox" name="transmitir"> Transmitir </label>
+                <label><input type="checkbox" name="cce"> CCE</label>
+                <label><input type="checkbox" name="cancelar"> Cancelar</label>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div class="label-cell">Justificativa</div>
+                <div class="input-cell">
+                    <textarea name="justificativa" rows="3"
+                        style="width:100%; resize:vertical;"> {{nfe.justificativa|default:""}}</textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 
     <div id="cliente" class="tab-content active">
         <div class="form-group-box">
