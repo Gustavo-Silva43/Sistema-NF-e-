@@ -59,8 +59,23 @@ def emitir_nfe(request):
         nfe_form = NFeForm()
         item_formset = ProdutoFormSet()
 
-    return render(request, 'nfe/form_nfe.html', {
+    return render(request, 'form_nfe.html', {
         'cliente_form': cliente_form,
         'nfe_form': nfe_form,
         'item_formset': item_formset,
     })
+
+def iniciar(request):
+    nfes = NFe.objects.all()
+    nfe_selecionada = None
+
+    nfe_id = request.GET.get('nfe_id') or request.POST.get('nfe_id')
+    if nfe_id:
+        nfe_selecionada = NFe.objects.filter(id=nfe_id).first()
+
+    context = { 
+        'nfes': nfes,
+        'nfe_selecionada': nfe_selecionada,
+        'nfe_form': NFeForm(instance=nfe_selecionada) if nfe_selecionada else None,
+    }
+    return render(request, 'nfe/form_nfe.html', context)
