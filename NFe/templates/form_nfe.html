@@ -326,6 +326,52 @@
         border: none;
         height: 22px;
     }
+
+    /* Estilos específicos para aba End.Entrega */
+    #End_Entrega .form-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1px;
+    }
+
+    #End_Entrega .label-cell {
+        background: #b0cce0;
+        /* azul claro da imagem */
+        color: #003366;
+        font-weight: bold;
+        text-align: center;
+        padding: 4px 6px;
+        border: 1px solid #80a0c0;
+        font-size: 11px;
+    }
+
+    #End_Entrega .input-cell {
+        background: white;
+        padding: 2px 4px;
+        border: 1px solid #80a0c0;
+        height: 22px;
+        vertical-align: middle;
+    }
+
+    #End_Entrega .input-cell input,
+    #End_Entrega .input-cell select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 2px 4px;
+        font-size: 11px;
+        background: white;
+        color: #000;
+        box-sizing: border-box;
+        cursor: text;
+    }
+
+    #End_Entrega .input-cell input:focus,
+    #End_Entrega .input-cell select:focus {
+        outline: 2px solid #0066cc;
+        /* destaque ao clicar */
+        background: #f0f8ff;
+    }
 </style>
 
 <!-- <ul class="tabs">
@@ -543,15 +589,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
     <div id="cliente" class="tab-content active">
         <div class="form-group-box">
             <table class="form-table">
@@ -646,6 +683,51 @@
     </div>
     </table>
 
+    <div id="End_Entrega" class="tab-content">
+        <!-- <div class="form-group-box"> -->
+
+        <!-- <table class="form-table">
+                <tr>
+                    <td class="label-cell" colspan="4">Cliente</td>
+                </tr>
+                <tr>
+                    <td class="input-cell" colspan="4">{{ cliente_form }}</td>
+                </tr>
+            </table> -->
+
+        <table class="form-table">
+            <tr>
+                <td class="label-cell">Cliente</td>
+                <td class="label-cell" style="width: 15%;">CEP</td>
+                <td class="label-cell" style="width: 35%;">Logradouro</td>
+                <td class="label-cell" style="width: 10%;">Nº</td>
+                <td class="label-cell" style="width: 20%;">Complemento</td>
+                <td class="label-cell" style="width: 20%;">Bairro</td>
+            </tr>
+            <tr>
+                <td class="input-cell" colspan="4">{{ cliente_form }}</td>
+                <td class="input-cell">{{ endereco_form.cep }}</td>
+                <td class="input-cell">{{ endereco_form.logradouro }}</td>
+                <td class="input-cell">{{ endereco_form.numero }}</td>
+                <td class="input-cell">{{ endereco_form.complemento }}</td>
+                <td class="input-cell">{{ endereco_form.bairro }}</td>
+            </tr>
+        </table>
+
+        <table class="form-table">
+            <tr>
+                <td class="label-cell" style="width: 20%;">Cód. IBGE</td>
+                <td class="label-cell" style="width: 50%;">Município</td>
+                <td class="label-cell" style="width: 30%;">UF</td>
+            </tr>
+            <tr>
+                <td class="input-cell">{{ endereco_form.cod_ibge }}</td>
+                <td class="input-cell">{{ endereco_form.municipio }}</td>
+                <td class="input-cell">{{ endereco_form.uf }}</td>
+            </tr>
+        </table>
+    </div>
+    </div>
 
     <div id="info" class="tab-content">
         <div class="form-group-box">
