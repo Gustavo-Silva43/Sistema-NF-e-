@@ -254,7 +254,6 @@
     .main-section {
         display: flex;
         gap: 0;
-        /* Remove espaço entre tabela e botões para parecer uma peça só */
         padding: 10px;
         background-color: #c5d4b5;
     }
@@ -327,34 +326,35 @@
         height: 22px;
     }
 
-    /* Estilos específicos para aba End.Entrega */
-    #End_Entrega .form-table {
+    /* Estilos para tabela de Endereço de Entrega */
+    .endereco-entrega {
         width: 100%;
         border-collapse: collapse;
+        font-size: 11px;
         margin-bottom: 1px;
     }
 
-    #End_Entrega .label-cell {
+    .endereco-entrega .label-cell {
         background: #b0cce0;
-        /* azul claro da imagem */
+        /* azul claro da sua imagem */
         color: #003366;
         font-weight: bold;
-        text-align: center;
         padding: 4px 6px;
         border: 1px solid #80a0c0;
-        font-size: 11px;
-    }
-
-    #End_Entrega .input-cell {
-        background: white;
-        padding: 2px 4px;
-        border: 1px solid #80a0c0;
-        height: 22px;
+        text-align: left;
         vertical-align: middle;
     }
 
-    #End_Entrega .input-cell input,
-    #End_Entrega .input-cell select {
+    .endereco-entrega .input-cell {
+        background: white;
+        padding: 2px 4px;
+        border: 1px solid #80a0c0;
+        vertical-align: middle;
+        height: 24px;
+    }
+
+    .endereco-entrega .input-cell input,
+    .endereco-entrega .input-cell select {
         width: 100%;
         height: 100%;
         border: none;
@@ -366,10 +366,9 @@
         cursor: text;
     }
 
-    #End_Entrega .input-cell input:focus,
-    #End_Entrega .input-cell select:focus {
+    .endereco-entrega .input-cell input:focus,
+    .endereco-entrega .input-cell select:focus {
         outline: 2px solid #0066cc;
-        /* destaque ao clicar */
         background: #f0f8ff;
     }
 </style>
@@ -681,52 +680,48 @@
         </div>
     </div>
     </div>
-    </table>
-
     <div id="End_Entrega" class="tab-content">
-        <!-- <div class="form-group-box"> -->
-
-        <!-- <table class="form-table">
+        <div class="form-group-box">
+            <table class="form-table endereco-entrega">
+                <!-- Linha 1: Cliente -->
                 <tr>
-                    <td class="label-cell" colspan="4">Cliente</td>
+                    <td class="label-cell" colspan="7">Cliente</td>
                 </tr>
                 <tr>
-                    <td class="input-cell" colspan="4">{{ cliente_form }}</td>
+                    <td class="input-cell" colspan="7">
+                        {{ end_entrega_form.cliente|default:"" }}
+                    </td>
                 </tr>
-            </table> -->
 
-        <table class="form-table">
-            <tr>
-                <td class="label-cell">Cliente</td>
-                <td class="label-cell" style="width: 15%;">CEP</td>
-                <td class="label-cell" style="width: 35%;">Logradouro</td>
-                <td class="label-cell" style="width: 10%;">Nº</td>
-                <td class="label-cell" style="width: 20%;">Complemento</td>
-                <td class="label-cell" style="width: 20%;">Bairro</td>
-            </tr>
-            <tr>
-                <td class="input-cell" colspan="4">{{ cliente_form }}</td>
-                <td class="input-cell">{{ endereco_form.cep }}</td>
-                <td class="input-cell">{{ endereco_form.logradouro }}</td>
-                <td class="input-cell">{{ endereco_form.numero }}</td>
-                <td class="input-cell">{{ endereco_form.complemento }}</td>
-                <td class="input-cell">{{ endereco_form.bairro }}</td>
-            </tr>
-        </table>
+                <!-- Linha 2: CEP | Logradouro | Nº | Complemento | Bairro -->
+                <tr>
+                    <td class="label-cell" style="width: 12%;">CEP</td>
+                    <td class="label-cell" style="width: 30%;">Logradouro</td>
+                    <td class="label-cell" style="width: 8%;">N°</td>
+                    <td class="label-cell" style="width: 20%;">Complemento</td>
+                    <td class="label-cell" style="width: 30%;">Bairro</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ end_entrega_form.cep }}</td>
+                    <td class="input-cell">{{ end_entrega_form.logradouro }}</td>
+                    <td class="input-cell">{{ end_entrega_form.numero }}</td>
+                    <td class="input-cell">{{ end_entrega_form.complemento }}</td>
+                    <td class="input-cell">{{ end_entrega_form.bairro }}</td>
+                </tr>
 
-        <table class="form-table">
-            <tr>
-                <td class="label-cell" style="width: 20%;">Cód. IBGE</td>
-                <td class="label-cell" style="width: 50%;">Município</td>
-                <td class="label-cell" style="width: 30%;">UF</td>
-            </tr>
-            <tr>
-                <td class="input-cell">{{ endereco_form.cod_ibge }}</td>
-                <td class="input-cell">{{ endereco_form.municipio }}</td>
-                <td class="input-cell">{{ endereco_form.uf }}</td>
-            </tr>
-        </table>
-    </div>
+                <!-- Linha 3: Cód. IBGE | Município | UF -->
+                <tr>
+                    <td class="label-cell">Cód. IBGE</td>
+                    <td class="label-cell">Município</td>
+                    <td class="label-cell">UF</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ end_entrega_form.IBGE }}</td>
+                    <td class="input-cell">{{ end_entrega_form.municipio }}</td>
+                    <td class="input-cell">{{ end_entrega_form.uf }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div id="info" class="tab-content">
