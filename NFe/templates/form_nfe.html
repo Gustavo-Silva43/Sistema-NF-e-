@@ -724,90 +724,97 @@
         </div>
     </div>
 
-    <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
-  <tbody>
+    <div id="base_calculo" class ="tab-content">
+        <div class="form-group-box">
+            <table class="form-table">
+            <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
+        <tbody>
 
-    <!-- Valores principais da nota -->
-    <tr>
-      <td><strong>Base Cálculo ICMS</strong></td>
-      <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
-      <td><strong>Valor Total IPI</strong></td>
-      <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <!-- Valores principais da nota -->
+                <tr>
+                <td><strong>Base Cálculo ICMS</strong></td>
+                <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor Total IPI</strong></td>
+                <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>Valor Total Produtos</strong></td>
-      <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
-      <td><strong>Valor do Frete</strong></td>
-      <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>Valor Total Produtos</strong></td>
+                <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor do Frete</strong></td>
+                <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>Valor do Seguro</strong></td>
-      <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
-      <td><strong>Outras Despesas</strong></td>
-      <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>Valor do Seguro</strong></td>
+                <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Outras Despesas</strong></td>
+                <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>Desconto</strong></td>
-      <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
-      <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
-      <td style="color: #d32f2f; font-weight: bold;" class="valor">
-        {{ nfe.vNF|floatformat:2|default:"0,00" }}
-      </td>
-    </tr>
+                <tr>
+                <td><strong>Desconto</strong></td>
+                <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
+                <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
+                <td style="color: #d32f2f; font-weight: bold;" class="valor">
+                    {{ nfe.vNF|floatformat:2|default:"0,00" }}
+                </td>
+                </tr>
 
-    <tr class="cabecalho-resumo">
-      <td colspan="4" style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
-        Resumo de Tributos
-      </td>
-    </tr>
+                <tr class="cabecalho-resumo">
+                <td colspan="4" style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
+                    Resumo de Tributos
+                </td>
+                </tr>
 
-    <tr>
-      <td><strong>Valor Total ICMS</strong></td>
-      <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
-      <td><strong>Valor Total PIS</strong></td>
-      <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>Valor Total ICMS</strong></td>
+                <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor Total PIS</strong></td>
+                <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>Valor Total COFINS</strong></td>
-      <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
-      <td><strong>ICMS ST</strong></td>
-      <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>Valor Total COFINS</strong></td>
+                <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
+                <td><strong>ICMS ST</strong></td>
+                <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>Base Cálculo ICMS ST</strong></td>
-      <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
-      <td><strong>ICMS Interestadual Destino</strong></td>
-      <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>Base Cálculo ICMS ST</strong></td>
+                <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
+                <td><strong>ICMS Interestadual Destino</strong></td>
+                <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-    <tr>
-      <td><strong>ICMS Interestadual Remetente</strong></td>
-      <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
-      <td><strong>FCP UF Destino</strong></td>
-      <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
-    </tr>
+                <tr>
+                <td><strong>ICMS Interestadual Remetente</strong></td>
+                <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
+                <td><strong>FCP UF Destino</strong></td>
+                <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                </tr>
 
-  </tbody>
-</table>
+            </tbody>
+            </table>
+            </table>
+        </div>
+        </div>
+    
 
-<style>
-  .tabela-totais td {
-    padding: 8px;
-    border: 1px solid #ccc;
-  }
-  .tabela-totais .valor {
-    text-align: right;
-    min-width: 120px;
-  }
-  .cabecalho-resumo td {
-    background: #fff3e0;
-  }
-</style>         
+    <style>
+    .tabela-totais td {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+    .tabela-totais .valor {
+        text-align: right;
+        min-width: 120px;
+    }
+    .cabecalho-resumo td {
+        background: #fff3e0;
+    }
+    </style>         
     <div id="info" class="tab-content">
         <div class="form-group-box">
             <div class="label-cell">Informações complementares da NF</div>
