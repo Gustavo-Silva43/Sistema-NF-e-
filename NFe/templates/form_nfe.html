@@ -371,6 +371,19 @@
         outline: 2px solid #0066cc;
         background: #f0f8ff;
     } 
+    
+
+    .tabela-totais td {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+    .tabela-totais .valor {
+        text-align: right;
+        min-width: 120px;
+    }
+    .cabecalho-resumo td {
+        background: #fff3e0;
+    }
 </style>
 
 <!-- <ul class="tabs">
@@ -801,20 +814,54 @@
         </div>
         </div>
     
+    <div class="tab-pane fade" id="produto" role="tabpanel">
 
-    <style>
-    .tabela-totais td {
-        padding: 8px;
-        border: 1px solid #ccc;
-    }
-    .tabela-totais .valor {
-        text-align: right;
-        min-width: 120px;
-    }
-    .cabecalho-resumo td {
-        background: #fff3e0;
-    }
-    </style>         
+        <h4 class="mt-3"> Itens da NF-e</h4>
+
+        <div class="table-responsive" style="max-height 600px; overflow-x: auto;">
+            <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space; nowrap;">
+                <thead>
+
+                    <tr class="bg-light">
+                        <th rowspan = "2" class="text-center align-middle">Nº do Item</th>
+                        <th rowspan="2" class="text-center align-middle>">Cód. Produto</th>
+                        <th rowspan="2" class="text-center align-middle"> EAN</th>
+                        <th rowspan="2" class="align-middle">Descrição do Produto</th>
+                        <th rowspan="2" class="text-center align-middle">NCM</th>
+                        <th rowspan="2" class="text-center align-middle">NVE</th>
+                        <th rowspan="2" class="text-center align-middle">TIPI</th>
+                        <th rowspan="2" class="text-center align-middle">CFOP</th>
+                        <th rowspan="2" class="text-center align-middle">Unidade</th>
+                        <th rowspan="2" class="text-center align-middle">Qtd</th>
+                        <th rowspan="2" class="text-end align-middle">Vr Unitário</th>
+                        <th rowspan="2" class="text-end align-middle">Vr Total Bruto</th>
+                        <th rowspan="2" class="text-center align-middle">Und. Tributo</th>
+                        <th rowspan="2" class="text-center align-middle">Qtd Tributo</th>
+                        <th rowspan="2" class="text-center align-middle">Vr Unit.Tributo</th>
+                        <th rowspan="2" class="text-end align-middle">Vr Frete</th>
+                        <th rowspan="2" class="text-end align-middle">Vr Seguro</th>
+                        <th rowspan="2" class="text-center align-middle">Vr Desconto</th>
+                        <th rowspan="2" class="text-end align-middle">Vr Outros</th>
+                        <th rowspan="2" class="text-center align-middle">Nº do Pedido de Compra</th>
+                        <th rowspan="2" class="text-center align-middle">FCI</th>
+                        <th rowspan="2" class="text-end align-middle">Vr. Tributos</th>
+                        <th rowspan="2" class="text-center align-middle">Origem da Mercadoria</th>
+
+                        <th colspan="6" class="text-center bg-info text-white">ICMS</th>
+                        <th
+
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+
+    </div>
+
+
+
     <div id="info" class="tab-content">
         <div class="form-group-box">
             <div class="label-cell">Informações complementares da NF</div>
