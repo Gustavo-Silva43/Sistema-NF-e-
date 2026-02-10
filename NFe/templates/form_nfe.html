@@ -818,8 +818,8 @@
 
         <h4 class="mt-3"> Itens da NF-e</h4>
 
-        <div class="table-responsive" style="max-height 600px; overflow-x: auto;">
-            <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space; nowrap;">
+        <div class="table-responsive" style="max-height:600px; overflow-x: auto;">
+            <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
                 <thead>
 
                     <tr class="bg-light">
@@ -864,18 +864,36 @@
                         <th rowspan="2" class="text-center bg-light">COFINS BC </th>
                         <th rowspan="2" class="text-end align-middle"> % COFINS</th>
                         <th rowspan="2" class="text-end align-middle">Vr. COFINS</th>
-                        <th rowspan="2" class="text-center align-middle">ICMSSUFDest_vBcuFDest</th>
-
-                        <th colspan="6" class="text-center bg-info text-white">ICMS</th>
-
+                        <th rowspan="2" class="text-center align-middle">ICMSSUFDest_vBCUFDest</th>
+                        <th rowspan="2" class="text-center bg-light">ICMSSUFDest_pFCPUFDest</th>
+                        <th rowspan="2" class="text-end align-middle">ICMSSUFDest_pICMSUFDest</th>
+                        <th rowspan="2" class="text-end align-middle">ICMSSUFDest_pICMSInter</th>
+                        <th rowspan="2" class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
+                        <th rowspan="2" class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
+                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
+                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest1</th>
+                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
+                        <th rowspan="2" class="text-center align-middle">Nº DI</th>
+                        <th rowspan="2" class="text-center align-middle">Data DI</th>
+                        <th rowspan="2" class="text-center align-middle">Local Desemb.</th>
+                        <th rowspan="2" class="text-center align-middle">UF Desemb.</th>
+                        <th rowspan="2" class="text-center align-middle">Data Desemb.</th>
                     </tr>
                 </thead>
             </table>
         </div>
-
-
-
     </div>
+
+    <tbody>
+        {% for item in nfe.itens.all %}
+            <tr>
+                <td class="text-center">{{ item.id }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>{{ item.valor_unitario }}</td>
+                <td>{{ item.valor_total_bruto }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
 
 
 
