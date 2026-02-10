@@ -888,9 +888,42 @@
         {% for item in nfe.itens.all %}
             <tr>
                 <td class="text-center">{{ item.id }}</td>
-                <td>{{ item.quantidade }}</td>
-                <td>{{ item.valor_unitario }}</td>
-                <td>{{ item.valor_total_bruto }}</td>
+                <td>{{ item.produto }}</td>
+                <td>{{ item.ean }}</td>
+                <td>{{ item.descricao }}</td>
+                <td>{{ item.produto }}</td>
+                <td>{{ item.ean }}</td>
+                <td>{{ item.descricao }}</td>
+                <td>{{ item.produto }}</td>
+                <td>{{ item.ean }}</td>
+                <td>{{ item.descricao}}</td>
+                <td>{{ item.NCM}}</td>
+                <td>{{ item.NVE}}</td>
+                <td>{{ item.TIPI}}</td>
+                <td>{{ item.CFOP}}</td>
+                <td>{{ item.unidade}}</td>
+                <td>{{ item.Qtd}}</td>
+                <td>{{ item.valor_unitario}}</td>
+                <td>{{ item.valor_total_bruto}}</td>
+                <td>{{ item.und_tributo}}</td>
+                <td>{{ item.qtd_tributo}}</td>
+                <td>{{ item.valor_unit_tributo}}</td>
+                <td>{{ item.valor_frete}}</td>
+                <td>{{ item.valor_seguro}}</td>
+                <td>{{ item.valor_desconto}}</td>
+                <td>{{item.valor_Outros}}</td>
+                <td>{{ item.numero_pedido_compra}}</td>
+                <td>{{item.fci}}</td>
+                <td>{{item.valor_tributos}}</td>
+                <td>{{item.origem_mercadoria}}</td>
+                <td>{{ item.cst_operacao}}</td>
+                <td>{{ item.icms_bc}}</td>
+                <td>{{item.icms_porcen}}</td>
+                <td>{{ item.valor_icms}}</td>
+                <td>{{ item.cst_bc }}</td>
+                
+            </tr>
+            
             </tr>
         {% endfor %}
     </tbody>
