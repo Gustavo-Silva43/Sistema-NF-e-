@@ -384,6 +384,203 @@
     .cabecalho-resumo td {
         background: #fff3e0;
     }
+
+        /* Container com scroll horizontal */
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 600px;           /* ajuste conforme necessário */
+        border: 1px solid #777;
+        background: white;
+    }
+
+    /* Tabela principal dos itens */
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;         /* evita quebra de linha nos cabeçalhos */
+    }
+
+    /* Cabeçalho principal (primeira linha de títulos agrupados) */
+    .tabela-itens thead tr:first-child th {
+        background: #333333;         /* cinza bem escuro como nas fotos */
+        color: white;
+        font-weight: bold;
+        padding: 4px 6px;
+        border: 1px solid #444;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Subcabeçalhos (segunda linha) */
+    .tabela-itens thead tr:nth-child(2) th {
+        background: #444444;         /* um pouco mais claro que o principal */
+        color: white;
+        padding: 3px 5px;
+        border: 1px solid #555;
+        font-weight: normal;
+        text-align: center;
+    }
+
+    /* Células normais (corpo da tabela) */
+    .tabela-itens td {
+        border: 1px solid #cccccc;
+        padding: 3px 5px;
+        vertical-align: middle;
+    }
+
+    /* Alinhamentos específicos */
+    .tabela-itens td.text-left   { text-align: left;   }
+    .tabela-itens td.text-center { text-align: center; }
+    .tabela-itens td.text-right  { text-align: right;  }
+
+    /* Linhas pares com fundo leve */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover na linha */
+    .tabela-itens tbody tr:hover {
+        background-color: #e6f3ff;
+    }
+
+    /* Colunas de valores monetários (alinhamento à direita + espaço) */
+    .tabela-itens td.valor-mon {
+        text-align: right;
+        padding-right: 8px;
+        min-width: 90px;
+    }
+
+    /* Cabeçalhos de grupos com cores diferentes (opcional, mas ajuda muito) */
+    .tabela-itens th.grupo-comercial {
+        background: #2c5aa0 !important;   /* azul escuro */
+    }
+    .tabela-itens th.grupo-icms {
+        background: #1e6e3b !important;   /* verde escuro */
+    }
+    .tabela-itens th.grupo-st-fcp {
+        background: #8b5a2b !important;   /* marrom */
+    }
+    .tabela-itens th.grupo-pis-cofins {
+        background: #6a1b9a !important;   /* roxo */
+    }
+    .tabela-itens th.grupo-outros {
+        background: #555555 !important;
+    }
+
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 550px;
+        border: 1px solid #555;
+        background: white;
+        margin-top: 10px;
+    }
+
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .tabela-itens thead th {
+        background: #333333;
+        color: white;
+        padding: 5px 8px;
+        border: 1px solid #444;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        cursor: pointer;
+        position: relative;
+    }
+
+    /* Seta de ordenação (igual na foto) */
+    .tabela-itens thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 5px;
+    }
+
+    /* Células do corpo */
+    .tabela-itens tbody td {
+        border: 1px solid #cccccc;
+        padding: 4px 6px;
+        vertical-align: middle;
+        height: 26px;
+    }
+
+    /* Linhas vazias (sem dados) */
+    .tabela-itens .linha-vazia td {
+        background: white;
+        border: 1px solid #ddd;
+    }
+
+    /* Alinhamentos */
+    .tabela-itens td.text-center { text-align: center; }
+    .tabela-itens td.text-right  { text-align: right; padding-right: 8px; }
+
+    /* Linhas alternadas (opcional) */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Tabela estilo Itens do Pedido de Compra (borda verde, header verde-azulado) */
+    .tabela-pedido-compra-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 400px;
+        border: 2px solid #7cb342;
+        background: white;
+        margin-top: 10px;
+    }
+
+    .tabela-pedido-compra {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;
+    }
+
+    .tabela-pedido-compra thead th {
+        background: #6ab7c6;
+        color: #003366;
+        padding: 6px 8px;
+        border: 1px solid #5a9fb0;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .tabela-pedido-compra thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 3px;
+    }
+
+    .tabela-pedido-compra tbody td {
+        border: 1px solid #ddd;
+        padding: 4px 6px;
+        vertical-align: middle;
+    }
+
+    .tabela-pedido-compra tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .tabela-pedido-compra tbody tr:hover {
+        background-color: #e8f5e9;
+    }
 </style>
 
 <!-- <ul class="tabs">
@@ -505,7 +702,7 @@
 <form method="post">
     {% csrf_token %}
 
-    <div id="NFe" class="tab-content active">
+    <div id="NFe" class="tab-content">
         <div class="form-group-box">
             <table class="form-table">
                 <tr>
@@ -601,7 +798,7 @@
     </div>
 
 
-    <div id="cliente" class="tab-content active">
+    <div id="cliente" class="tab-content ">
         <div class="form-group-box">
             <table class="form-table">
                 <tr>
@@ -814,119 +1011,189 @@
         </div>
         </div>
     
-    <div class="tab-pane fade" id="produto" role="tabpanel">
+   <div class="tab-content" id="produto">
 
-        <h4 class="mt-3"> Itens da NF-e</h4>
-
-        <div class="table-responsive" style="max-height:600px; overflow-x: auto;">
-            <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
-                <thead>
-
-                    <tr class="bg-light">
-                        <th rowspan = "2" class="text-center align-middle">Nº do Item</th>
-                        <th rowspan="2" class="text-center align-middle>">Cód. Produto</th>
-                        <th rowspan="2" class="text-center align-middle"> EAN</th>
-                        <th rowspan="2" class="align-middle">Descrição do Produto</th>
-                        <th rowspan="2" class="text-center align-middle">NCM</th>
-                        <th rowspan="2" class="text-center align-middle">NVE</th>
-                        <th rowspan="2" class="text-center align-middle">TIPI</th>
-                        <th rowspan="2" class="text-center align-middle">CFOP</th>
-                        <th rowspan="2" class="text-center align-middle">Unidade</th>
-                        <th rowspan="2" class="text-center align-middle">Qtd</th>
-                        <th rowspan="2" class="text-end align-middle">Vr Unitário</th>
-                        <th rowspan="2" class="text-end align-middle">Vr Total Bruto</th>
-                        <th rowspan="2" class="text-center align-middle">Und. Tributo</th>
-                        <th rowspan="2" class="text-center align-middle">Qtd Tributo</th>
-                        <th rowspan="2" class="text-center align-middle">Vr Unit.Tributo</th>
-                        <th rowspan="2" class="text-end align-middle">Vr Frete</th>
-                        <th rowspan="2" class="text-end align-middle">Vr Seguro</th>
-                        <th rowspan="2" class="text-center align-middle">Vr Desconto</th>
-                        <th rowspan="2" class="text-end align-middle">Vr Outros</th>
-                        <th rowspan="2" class="text-center align-middle">Nº do Pedido de Compra</th>
-                        <th rowspan="2" class="text-center align-middle">FCI</th>
-                        <th rowspan="2" class="text-end align-middle">Vr. Tributos</th>
-                        <th rowspan="2" class="text-center align-middle">Origem da Mercadoria</th>
-                        <th rowspan="2" class="text-center align-middle">CST Operação</th>
-                        <th rowspan="2" class="text-center bg-light">ICMS BC</th>
-                        <th rowspan="2" class="text-center bg-light">% ICMS</th>
-                        <th rowspan="2" class="text-center bg-light">Vr. ICMS</th>
-                        <th rowspan="2" class="text-center bg-light"> BC CST </th>
-                        <th rowspan="2" class="text-center end"> ICMS ST</th>
-                        <th rowspan="2" class="text-center"> Red. BC ICMS ST </th>
-                        <th rowspan="2" class="text-end align-middle">Vr. ICMS ST </th>
-                        <th rowspan="2" class="text-center bg-light"> % ICMS ST</th>
-                        <th rowspan="2" class="text-end align-middle">Vr. ICMS ST </th>
-                        <th rowspan="2" class="text-end align-middle"> PIS CST </th>
-                        <th rowspan="2" class="text-center bg-light">BC PIS</th>
-                        <th rowspan="2" class="text-end align-middle"> % PIS</th>
-                        <th rowspan="2" class="text-end align-middle">Vr. PIS</th>
-                        <th rowspan="2" class="text-end align-middle"> COFINS CST </th>
-                        <th rowspan="2" class="text-center bg-light">COFINS BC </th>
-                        <th rowspan="2" class="text-end align-middle"> % COFINS</th>
-                        <th rowspan="2" class="text-end align-middle">Vr. COFINS</th>
-                        <th rowspan="2" class="text-center align-middle">ICMSSUFDest_vBCUFDest</th>
-                        <th rowspan="2" class="text-center bg-light">ICMSSUFDest_pFCPUFDest</th>
-                        <th rowspan="2" class="text-end align-middle">ICMSSUFDest_pICMSUFDest</th>
-                        <th rowspan="2" class="text-end align-middle">ICMSSUFDest_pICMSInter</th>
-                        <th rowspan="2" class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
-                        <th rowspan="2" class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
-                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
-                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest1</th>
-                        <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
-                        <th rowspan="2" class="text-center align-middle">Nº DI</th>
-                        <th rowspan="2" class="text-center align-middle">Data DI</th>
-                        <th rowspan="2" class="text-center align-middle">Local Desemb.</th>
-                        <th rowspan="2" class="text-center align-middle">UF Desemb.</th>
-                        <th rowspan="2" class="text-center align-middle">Data Desemb.</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
+    <!-- Tabela Itens do Pedido de Compra - estilo da imagem -->
+    <div class="tabela-pedido-compra-container">
+        <table class="tabela-pedido-compra">
+            <thead>
+                <tr>
+                    <th>Nº do Item do Pedido de Compra</th>
+                    <th>FCI</th>
+                    <th>Vr. Tributos</th>
+                    <th>Origem da Mercadoria</th>
+                    <th>CST Operação</th>
+                    <th>ICMS BC</th>
+                    <th>% ICMS</th>
+                    <th>Vr. ICMS</th>
+                    <th>BC CST</th>
+                    <th>ICMS ST</th>
+                    <th>Red</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if nfe and nfe.produtos.exists %}
+                    {% for item in nfe.produtos.all %}
+                        <tr>
+                            <td>{{ item.item_pedido_compra|default:"-" }}</td>
+                            <td>{{ item.fci|default:"-" }}</td>
+                            <td class="text-right">{{ item.valor_tributos_estimado|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.origem_mercadoria|default:"-" }}</td>
+                            <td>{{ item.cst_operacao|default:"-" }}</td>
+                            <td class="text-right">{{ item.icms_bc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_percentual|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_valor|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_st_bc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_st_valor|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_st_red_bc|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {% for i in "123456789012" %}
+                        <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 
-    <tbody>
-        {% for item in nfe.itens.all %}
-            <tr>
-                <td class="text-center">{{ item.id }}</td>
-                <td>{{ item.produto }}</td>
-                <td>{{ item.ean }}</td>
-                <td>{{ item.descricao }}</td>
-                <td>{{ item.produto }}</td>
-                <td>{{ item.ean }}</td>
-                <td>{{ item.descricao }}</td>
-                <td>{{ item.produto }}</td>
-                <td>{{ item.ean }}</td>
-                <td>{{ item.descricao}}</td>
-                <td>{{ item.NCM}}</td>
-                <td>{{ item.NVE}}</td>
-                <td>{{ item.TIPI}}</td>
-                <td>{{ item.CFOP}}</td>
-                <td>{{ item.unidade}}</td>
-                <td>{{ item.Qtd}}</td>
-                <td>{{ item.valor_unitario}}</td>
-                <td>{{ item.valor_total_bruto}}</td>
-                <td>{{ item.und_tributo}}</td>
-                <td>{{ item.qtd_tributo}}</td>
-                <td>{{ item.valor_unit_tributo}}</td>
-                <td>{{ item.valor_frete}}</td>
-                <td>{{ item.valor_seguro}}</td>
-                <td>{{ item.valor_desconto}}</td>
-                <td>{{item.valor_Outros}}</td>
-                <td>{{ item.numero_pedido_compra}}</td>
-                <td>{{item.fci}}</td>
-                <td>{{item.valor_tributos}}</td>
-                <td>{{item.origem_mercadoria}}</td>
-                <td>{{ item.cst_operacao}}</td>
-                <td>{{ item.icms_bc}}</td>
-                <td>{{item.icms_porcen}}</td>
-                <td>{{ item.valor_icms}}</td>
-                <td>{{ item.cst_bc }}</td>
-                
-            </tr>
-            
-            </tr>
-        {% endfor %}
-    </tbody>
+    <div class="tabela-produtos-container">
+        <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
+            <thead>
+                <tr class="bg-light">
+                    <th rowspan="2" class="text-center align-middle">Nº do Item</th>
+                    <th rowspan="2" class="text-center align-middle">Cód. Produto</th>
+                    <th rowspan="2" class="text-center align-middle">EAN</th>
+                    <th rowspan="2" class="align-middle">Descrição do Produto</th>
+                    <th rowspan="2" class="text-center align-middle">NCM</th>
+                    <th rowspan="2" class="text-center align-middle">NVE</th>
+                    <th rowspan="2" class="text-center align-middle">TIPI</th>
+                    <th rowspan="2" class="text-center align-middle">CFOP</th>
+                    <th rowspan="2" class="text-center align-middle">Unidade</th>
+                    <th rowspan="2" class="text-center align-middle">Qtd</th>
+                    <th rowspan="2" class="text-end align-middle">Vr Unitário</th>
+                    <th rowspan="2" class="text-end align-middle">Vr Total Bruto</th>
+                    <th rowspan="2" class="text-center align-middle">Und. Tributo</th>
+                    <th rowspan="2" class="text-center align-middle">Qtd Tributo</th>
+                    <th rowspan="2" class="text-center align-middle">Vr Unit.Tributo</th>
+                    <th rowspan="2" class="text-end align-middle">Vr Frete</th>
+                    <th rowspan="2" class="text-end align-middle">Vr Seguro</th>
+                    <th rowspan="2" class="text-center align-middle">Vr Desconto</th>
+                    <th rowspan="2" class="text-end align-middle">Vr Outros</th>
+                    <th rowspan="2" class="text-center align-middle">Nº do Pedido de Compra</th>
+                    <th rowspan="2" class="text-center align-middle">FCI</th>
+                    <th rowspan="2" class="text-end align-middle">Vr. Tributos</th>
+                    <th rowspan="2" class="text-center align-middle">Origem da Mercadoria</th>
+                    <th rowspan="2" class="text-center align-middle">CST Operação</th>
+                    <th rowspan="2" class="text-center bg-light">ICMS BC</th>
+                    <th rowspan="2" class="text-center bg-light">% ICMS</th>
+                    <th rowspan="2" class="text-center bg-light">Vr. ICMS</th>
+                    <th rowspan="2" class="text-center bg-light">BC CST</th>
+                    <th rowspan="2" class="text-center">ICMS ST</th>
+                    <th rowspan="2" class="text-center">Red. BC ICMS ST</th>
+                    <th rowspan="2" class="text-end align-middle">Vr. ICMS ST</th>
+                    <th rowspan="2" class="text-center bg-light">% ICMS ST</th>
+                    <th rowspan="2" class="text-end align-middle">Vr. ICMS ST</th>
+                    <th rowspan="2" class="text-end align-middle">PIS CST</th>
+                    <th rowspan="2" class="text-center bg-light">BC PIS</th>
+                    <th rowspan="2" class="text-end align-middle">% PIS</th>
+                    <th rowspan="2" class="text-end align-middle">Vr. PIS</th>
+                    <th rowspan="2" class="text-end align-middle">COFINS CST</th>
+                    <th rowspan="2" class="text-center bg-light">COFINS BC</th>
+                    <th rowspan="2" class="text-end align-middle">% COFINS</th>
+                    <th rowspan="2" class="text-end align-middle">Vr. COFINS</th>
+                    <th rowspan="2" class="text-center align-middle">ICMSUFDest_vBCUFDest</th>
+                    <th rowspan="2" class="text-center bg-light">ICMSUFDest_pFCPUFDest</th>
+                    <th rowspan="2" class="text-end align-middle">ICMSUFDest_pICMSUFDest</th>
+                    <th rowspan="2" class="text-end align-middle">ICMSUFDest_pICMSInter</th>
+                    <th rowspan="2" class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
+                    <th rowspan="2" class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
+                    <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
+                    <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
+                    <th rowspan="2" class="text-center align-middle">Nº DI</th>
+                    <th rowspan="2" class="text-center align-middle">Data DI</th>
+                    <th rowspan="2" class="text-center align-middle">Local Desemb.</th>
+                    <th rowspan="2" class="text-center align-middle">UF Desemb.</th>
+                    <th rowspan="2" class="text-center align-middle">Data Desemb.</th>
+                </tr>      
+            </thead>
+
+            <tbody>
+                {% if nfe.itens.exists %}
+                    {% for item in nfe.itens.all %}
+                        <tr>
+                            <td class="text-center">{{ forloop.counter }}</td> <!-- ou item.numero_item se existir -->
+                            <td>{{ item.produto.codigo|default:"-" }}</td>
+                            <td>{{ item.ean|default:"-" }}</td>
+                            <td>{{ item.descricao|default:"-" }}</td>
+                            <td>{{ item.ncm|default:"-" }}</td>
+                            <td>{{ item.nve|default:"-" }}</td>
+                            <td>{{ item.tipi|default:"-" }}</td>
+                            <td>{{ item.cfop|default:"-" }}</td>
+                            <td>{{ item.unidade|default:"-" }}</td>
+                            <td class="text-right">{{ item.quantidade|floatformat:4|default:"0,0000" }}</td>
+                            <td class="text-right">{{ item.valor_unitario|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_total_bruto|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.unidade_tributavel|default:"-" }}</td>
+                            <td class="text-right">{{ item.quantidade_tributavel|floatformat:4|default:"0,0000" }}</td>
+                            <td class="text-right">{{ item.valor_unitario_tributavel|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_frete|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_seguro|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_desconto|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_outros|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.numero_pedido_compra|default:"-" }}</td>
+                            <td>{{ item.fci|default:"-" }}</td>
+                            <td class="text-right">{{ item.valor_tributos|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.origem_mercadoria|default:"-" }}</td>
+                            <td>{{ item.cst_operacao|default:"-" }}</td>
+                            <td class="text-right">{{ item.icms_bc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_porcen|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_icms|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.bc_cst|default:"-" }}</td>
+                            <td>{{ item.icms_st|default:"-" }}</td>
+                            <td class="text-right">{{ item.red_bc_icms_st|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_icms_st|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_porcen_st|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_icms_st|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.pis_cst|default:"-" }}</td>
+                            <td class="text-right">{{ item.bc_pis|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.pis_porcen|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_pis|floatformat:2|default:"0,00" }}</td>
+                            <td>{{ item.confins_cst|default:"-" }}</td>
+                            <td class="text-right">{{ item.confins_bc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.confins_porcen|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.valor_confins|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_vbcufdest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_pfcpufdest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_picmsufdest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_picmsinter|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_picmsinterpart|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_vfcpufdest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_vicmsufdest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icmsufdest_vicmsufremet|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-center">{{ item.numero_di|default:"-" }}</td>
+                            <td class="text-center">{{ item.data_di|default:"-" }}</td>
+                            <td class="text-center">{{ item.local_desemb|default:"-" }}</td>
+                            <td class="text-center">{{ item.uf_desemb|default:"-" }}</td>
+                            <td class="text-center">{{ item.data_desemb|default:"-" }}</td>
+                        </tr>
+                    {% empty %}
+                        <!-- Caso não tenha itens, mostra linhas vazias -->
+                        {% for i in "123456789" %}
+                            <tr>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 
