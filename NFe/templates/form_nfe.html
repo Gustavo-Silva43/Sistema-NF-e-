@@ -1,137 +1,1194 @@
-  <div class="tabela-produtos-container">
-        <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
-            <thead>
-                <tr class="bg-light">
-                    <th rowspan="2" class="text-center align-middle">Nº do Item</th>
-                    <th rowspan="2" class="text-center align-middle">Cód. Produto</th>
-                    <th rowspan="2" class="text-center align-middle">EAN</th>
-                    <th rowspan="2" class="align-middle">Descrição do Produto</th>
-                    <th rowspan="2" class="text-center align-middle">NCM</th>
-                    <th rowspan="2" class="text-center align-middle">NVE</th>
-                    <th rowspan="2" class="text-center align-middle">TIPI</th>
-                    <th rowspan="2" class="text-center align-middle">CFOP</th>
-                    <th rowspan="2" class="text-center align-middle">Unidade</th>
-                    <th rowspan="2" class="text-center align-middle">Qtd</th>
-                    <th rowspan="2" class="text-end align-middle">Vr Unitário</th>
-                    <th rowspan="2" class="text-end align-middle">Vr Total Bruto</th>
-                    <th rowspan="2" class="text-center align-middle">Und. Tributo</th>
-                    <th rowspan="2" class="text-center align-middle">Qtd Tributo</th>
-                    <th rowspan="2" class="text-center align-middle">Vr Unit.Tributo</th>
-                    <th rowspan="2" class="text-end align-middle">Vr Frete</th>
-                    <th rowspan="2" class="text-end align-middle">Vr Seguro</th>
-                    <th rowspan="2" class="text-center align-middle">Vr Desconto</th>
-                    <th rowspan="2" class="text-end align-middle">Vr Outros</th>
-                    <th rowspan="2" class="text-center align-middle">Nº do Pedido de Compra</th>
-                    <th rowspan="2" class="text-center align-middle">FCI</th>
-                    <th rowspan="2" class="text-end align-middle">Vr. Tributos</th>
-                    <th rowspan="2" class="text-center align-middle">Origem da Mercadoria</th>
-                    <th rowspan="2" class="text-center align-middle">CST Operação</th>
-                    <th rowspan="2" class="text-center bg-light">ICMS BC</th>
-                    <th rowspan="2" class="text-center bg-light">% ICMS</th>
-                    <th rowspan="2" class="text-center bg-light">Vr. ICMS</th>
-                    <th rowspan="2" class="text-center bg-light">BC CST</th>
-                    <th rowspan="2" class="text-center">ICMS ST</th>
-                    <th rowspan="2" class="text-center">Red. BC ICMS ST</th>
-                    <th rowspan="2" class="text-end align-middle">Vr. ICMS ST</th>
-                    <th rowspan="2" class="text-center bg-light">% ICMS ST</th>
-                    <th rowspan="2" class="text-end align-middle">Vr. ICMS ST</th>
-                    <th rowspan="2" class="text-end align-middle">PIS CST</th>
-                    <th rowspan="2" class="text-center bg-light">BC PIS</th>
-                    <th rowspan="2" class="text-end align-middle">% PIS</th>
-                    <th rowspan="2" class="text-end align-middle">Vr. PIS</th>
-                    <th rowspan="2" class="text-end align-middle">COFINS CST</th>
-                    <th rowspan="2" class="text-center bg-light">COFINS BC</th>
-                    <th rowspan="2" class="text-end align-middle">% COFINS</th>
-                    <th rowspan="2" class="text-end align-middle">Vr. COFINS</th>
-                    <th rowspan="2" class="text-center align-middle">ICMSUFDest_vBCUFDest</th>
-                    <th rowspan="2" class="text-center bg-light">ICMSUFDest_pFCPUFDest</th>
-                    <th rowspan="2" class="text-end align-middle">ICMSUFDest_pICMSUFDest</th>
-                    <th rowspan="2" class="text-end align-middle">ICMSUFDest_pICMSInter</th>
-                    <th rowspan="2" class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
-                    <th rowspan="2" class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
-                    <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
-                    <th rowspan="2" class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
-                    <th rowspan="2" class="text-center align-middle">Nº DI</th>
-                    <th rowspan="2" class="text-center align-middle">Data DI</th>
-                    <th rowspan="2" class="text-center align-middle">Local Desemb.</th>
-                    <th rowspan="2" class="text-center align-middle">UF Desemb.</th>
-                    <th rowspan="2" class="text-center align-middle">Data Desemb.</th>
-                </tr>      
-            </thead>
+{% extends "base.html" %} {% block content %}
+<style>
+    body {
+        background: #d4e4d4;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 11px;
+    }
 
+    .tabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background: #e0e0e0;
+        border-bottom: 1px solid #999;
+    }
+
+    .tabs li {
+        padding: 5px 12px;
+        background: #f0f0f0;
+        border: 1px solid #999;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+    }
+
+    .tabs li.active {
+        background: white;
+        font-weight: bold;
+        border-top: 3px solid #666;
+    }
+
+    .tab-content {
+        display: none;
+        background: #d4e4d4;
+        padding: 10px;
+        border: 1px solid #999;
+        border-top: none;
+        min-height: 400px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-group-box {
+        border: 1px solid #80a0c0;
+        margin-bottom: 8px;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+    }
+
+    .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        border: none;
+        padding: 4px;
+        font-size: 11px;
+        outline: none;
+        background: transparent;
+    }
+
+    .grid-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .grid-table thead th {
+        background: #333;
+        color: white;
+        padding: 4px;
+        border: 1px solid #555;
+        text-align: left;
+    }
+
+    .grid-table td {
+        border: 1px solid #ccc;
+        padding: 2px;
+    }
+
+    .actions-bar {
+        display: flex;
+        gap: 10px;
+        padding: 15px;
+        background-color: #c5d4b5;
+        /* Cor de fundo verde musgo clara do seu sistema */
+        border-top: 1px solid #999;
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    .btn-action {
+        background-color: #f0f0f0;
+        border: 1px solid #999;
+        padding: 5px 10px;
+        color: #555;
+        font-size: 11px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 2px;
+    }
+
+    .btn-action:hover {
+        background-color: #e0e0e0;
+    }
+
+    .btn-action strong {
+        color: #000;
+    }
+
+    .spacer {
+        flex-grow: 1;
+        /* Empurra os botões seguintes para a direita */
+    }
+
+    .btn-action.disabled {
+        color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 12px 10px;
+        background-color: #c5d4b5;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    .filter-field {
+        display: flex;
+        flex-direction: column;
+        min-width: 140px;
+    }
+
+    .filter-field label {
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 3px;
+        color: #000;
+    }
+
+    .form-control {
+        height: 24px;
+        padding: 3px 6px;
+        font-size: 12px;
+        border: 1px solid #7a8a99;
+        border-radius: 3px;
+        background: white;
+        box-sizing: border-box;
+    }
+
+    select.form-control {
+        padding-right: 20px;
+        /* espaço para seta */
+    }
+
+    .top-action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-gray {
+        background: #f0f0f0;
+        border: 1px solid #777;
+        padding: 6px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        min-width: 85px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-gray:hover {
+        background: #e0e0e0;
+    }
+
+    .btn-gray.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .header-divider {
+        border: 0;
+        height: 2px;
+        background: #000;
+        margin: 0 0 10px 0;
+    }
+
+    .main-content {
+        display: flex;
+        gap: 12px;
+        padding: 0 10px 10px;
+        background: #c5d4b5;
+        flex-grow: 1;
+    }
+
+    .table-container {
+        flex-grow: 1;
+        background: white;
+        border: 1px solid #777;
+        overflow: auto;
+        max-height: calc(100vh - 180px);
+    }
+
+    table.list-table tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .main-area {
+        display: flex;
+        gap: 10px;
+        min-height: calc(100vh - 140px);
+    }
+
+    .main-section {
+        display: flex;
+        gap: 0;
+        padding: 10px;
+        background-color: #c5d4b5;
+    }
+
+    .table-container {
+        flex: 1;
+        border: 1px solid #777;
+        background: white;
+        height: 180px;
+        overflow-y: auto;
+    }
+
+    .side-bar-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 110px;
+        border: 1px solid #777;
+        border-left: none;
+        background: #e0e0e0;
+    }
+
+    .btn-side {
+        border: none;
+        border-bottom: 1px solid #999;
+        background: #f0f0f0;
+        padding: 5px;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .red-text {
+        color: red;
+        font-weight: bold;
+    }
+
+    .user-bar {
+        background: #c5d4b5;
+        padding: 5px 10px;
+        text-align: right;
+        /* Alinha o texto à direita conforme a foto 1 */
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Crucial para o visual de grade */
+        margin-bottom: -1px;
+        /* Remove o espaço entre as tabelas empilhadas */
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        /* O azul claro da Foto 1 */
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+        font-weight: normal;
+    }
+
+     .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    } 
+
+    .input-cell input,
+    .input-cell select {
+        border: none;
+        height: 22px;
+    } 
+
+    Estilos para tabela de Endereço de Entrega */
+    .endereco-entrega {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        margin-bottom: 1px;
+    }
+
+    .endereco-entrega .label-cell {
+        background: #b0cce0;
+         /* azul claro da sua imagem  */
+         color: #003366;
+        font-weight: bold;
+        padding: 4px 6px;
+        border: 1px solid #80a0c0;
+        text-align: left;
+        vertical-align: middle;
+    } 
+
+    .endereco-entrega .input-cell {
+        background: white;
+        padding: 2px 4px;
+        border: 1px solid #80a0c0;
+        vertical-align: middle;
+        height: 24px;
+    } 
+
+    .endereco-entrega .input-cell input,
+    .endereco-entrega .input-cell select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 2px 4px;
+        font-size: 11px;
+        background: white;
+        color: #000;
+        box-sizing: border-box;
+        cursor: text;
+    }
+
+     .endereco-entrega .input-cell input:focus,
+    .endereco-entrega .input-cell select:focus {
+        outline: 2px solid #0066cc;
+        background: #f0f8ff;
+    } 
+    
+
+    .tabela-totais td {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+    .tabela-totais .valor {
+        text-align: right;
+        min-width: 120px;
+    }
+    .cabecalho-resumo td {
+        background: #fff3e0;
+    }
+
+        /* Container com scroll horizontal */
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 600px;           /* ajuste conforme necessário */
+        border: 1px solid #777;
+        background: white;
+    }
+
+    /* Tabela principal dos itens */
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;         /* evita quebra de linha nos cabeçalhos */
+    }
+
+    /* Cabeçalho principal (primeira linha de títulos agrupados) */
+    .tabela-itens thead tr:first-child th {
+        background: #333333;         /* cinza bem escuro como nas fotos */
+        color: white;
+        font-weight: bold;
+        padding: 4px 6px;
+        border: 1px solid #444;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Subcabeçalhos (segunda linha) */
+    .tabela-itens thead tr:nth-child(2) th {
+        background: #444444;         /* um pouco mais claro que o principal */
+        color: white;
+        padding: 3px 5px;
+        border: 1px solid #555;
+        font-weight: normal;
+        text-align: center;
+    }
+
+    /* Células normais (corpo da tabela) */
+    .tabela-itens td {
+        border: 1px solid #cccccc;
+        padding: 3px 5px;
+        vertical-align: middle;
+    }
+
+    /* Alinhamentos específicos */
+    .tabela-itens td.text-left   { text-align: left;   }
+    .tabela-itens td.text-center { text-align: center; }
+    .tabela-itens td.text-right  { text-align: right;  }
+
+    /* Linhas pares com fundo leve */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover na linha */
+    .tabela-itens tbody tr:hover {
+        background-color: #e6f3ff;
+    }
+
+    /* Colunas de valores monetários (alinhamento à direita + espaço) */
+    .tabela-itens td.valor-mon {
+        text-align: right;
+        padding-right: 8px;
+        min-width: 90px;
+    }
+
+    /* Cabeçalhos de grupos com cores diferentes (opcional, mas ajuda muito) */
+    .tabela-itens th.grupo-comercial {
+        background: #2c5aa0 !important;   /* azul escuro */
+    }
+    .tabela-itens th.grupo-icms {
+        background: #1e6e3b !important;   /* verde escuro */
+    }
+    .tabela-itens th.grupo-st-fcp {
+        background: #8b5a2b !important;   /* marrom */
+    }
+    .tabela-itens th.grupo-pis-cofins {
+        background: #6a1b9a !important;   /* roxo */
+    }
+    .tabela-itens th.grupo-outros {
+        background: #555555 !important;
+    }
+
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 550px;
+        border: 1px solid #7cb342;      /* borda verde como no sistema */
+        background: #c5d4b5;            /* fundo verde-claro ao redor da grade */
+        margin-top: 10px;
+    }
+
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 11px;
+        white-space: nowrap;
+        background: #ffffff;
+    }
+
+    .tabela-itens thead th {
+        background: #d6dde8;           /* cinza-azulado claro, igual às imagens */
+        color: #000;
+        padding: 4px 6px;
+        border: 1px solid #9ea9ba;
+        font-weight: normal;
+        text-align: left;
+        vertical-align: middle;
+        cursor: default;
+        position: relative;
+    }
+
+    /* pequena setinha como nas imagens */
+    .tabela-itens thead th::after {
+        content: " ▾";
+        font-size: 9px;
+        opacity: 0.7;
+        margin-left: 3px;
+    }
+
+    /* Células do corpo */
+    .tabela-itens tbody td {
+        border: 1px solid #cccccc;
+        padding: 4px 6px;
+        vertical-align: middle;
+        height: 26px;
+    }
+
+    /* Linhas vazias (sem dados) */
+    .tabela-itens .linha-vazia td {
+        background: white;
+        border: 1px solid #ddd;
+    }
+
+    /* Alinhamentos */
+    .tabela-itens td.text-center { text-align: center; }
+    .tabela-itens td.text-right  { text-align: right; padding-right: 8px; }
+
+    /* Linhas alternadas (opcional) */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Tabela estilo Itens do Pedido de Compra (borda verde, header verde-azulado) */
+    .tabela-pedido-compra-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 400px;
+        border: 2px solid #7cb342;
+        background: white;
+        margin-top: 10px;
+    }
+
+    .tabela-pedido-compra {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;
+    }
+
+    .tabela-pedido-compra thead th {
+        background: #6ab7c6;
+        color: #003366;
+        padding: 6px 8px;
+        border: 1px solid #5a9fb0;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .tabela-pedido-compra thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 3px;
+    }
+
+    .tabela-pedido-compra tbody td {
+        border: 1px solid #ddd;
+        padding: 4px 6px;
+        vertical-align: middle;
+    }
+
+    .tabela-pedido-compra tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .tabela-pedido-compra tbody tr:hover {
+        background-color: #e8f5e9;
+    }
+</style>
+
+<!-- <ul class="tabs">
+    <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
+    <li class="tab-link active" data-tab="cliente">Cliente</li>
+    <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
+    <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
+    <li class="tab-link" data-tab="Pagamento">Pagamento</li>
+    <li class="tab-link active" data-tab="Cobranca">Cobranca</li>
+    <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
+    <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
+    <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
+</ul> -->
+
+
+<div class="filter-header">
+    <div class="filter-group">
+        <div class="filter-field">
+            <label>EMPRESA</label>
+            <select name="empresa" class="form-control">
+                <option value=""></option>
+                <option value="cavemac">CAVEMAC</option>
+                <option value="peninsula" selected>Peninsula</option>
+                <option value="omega">Omega</option>
+                <option value="starte/SP">Starte/SP</option>
+                <option value="cavemac/SC">Cavemac/SC</option>
+                <option value="green">Green</option>
+                <option value="reach">Reach</option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label>STATUS</label>
+            <select name="status" class="form-control">
+                <option value=""></option>
+                <option value="100">Autorizado o uso da NF-e</option>
+                <option value="cancelamento registrado">Cancelamento registrado</option>
+                <option value="cancelamento nfe">Cancelando NFe</option>
+                <option value="carta de correçao">Carta de Correção registrada</option>
+                <option value="cancelada COB">COB cancelada</option>
+                <option value="fatura COB">COB faturada</option>
+                <option value="NFe não enviada">NFe não enviada</option>
+                <option value="uso denegado">Uso Denegado</option>
+                <option value="uso denegado fiscal">Uso Denegado: Irregularidade fiscal</option>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label>PEDIDO</label>
+            <input type="text" name="pedido" placeholder="Nº do pedido" class="form-control">
+        </div>
+
+        <div class="filter-field">
+            <label>NF-e</label>
+            <input type="text" name="numero_nfe" placeholder="Número da NF-e" class="form-control">
+        </div>
+    </div>
+
+    <div class="top-action-buttons">
+        <button type="button" class="btn-gray">Voltar nº</button>
+        <button type="button" class="btn-gray">PESO/VOL</button>
+        <button type="button" class="btn-gray disabled">BOLETO</button>
+        <button type="button" class="btn-gray" onclick="limparFiltros()">LIMPAR</button>
+    </div>
+</div>
+
+<hr class="header-divider">
+
+<div class="main-section">
+    <div class="table-container">
+        <table class="grid-table">
+            <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>NFe</th>
+                    <th>Série</th>
+                    <th>Status</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                </tr>
+            </thead>
             <tbody>
-                {% if nfe.itens.exists %}
-                    {% for item in nfe.itens.all %}
-                        <tr>
-                            <td class="text-center">{{ forloop.counter }}</td> <!-- ou item.numero_item se existir -->
-                            <td>{{ item.produto.codigo|default:"-" }}</td>
-                            <td>{{ item.ean|default:"-" }}</td>
-                            <td>{{ item.descricao|default:"-" }}</td>
-                            <td>{{ item.ncm|default:"-" }}</td>
-                            <td>{{ item.nve|default:"-" }}</td>
-                            <td>{{ item.tipi|default:"-" }}</td>
-                            <td>{{ item.cfop|default:"-" }}</td>
-                            <td>{{ item.unidade|default:"-" }}</td>
-                            <td class="text-right">{{ item.quantidade|floatformat:4|default:"0,0000" }}</td>
-                            <td class="text-right">{{ item.valor_unitario|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_total_bruto|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.unidade_tributavel|default:"-" }}</td>
-                            <td class="text-right">{{ item.quantidade_tributavel|floatformat:4|default:"0,0000" }}</td>
-                            <td class="text-right">{{ item.valor_unitario_tributavel|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_frete|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_seguro|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_desconto|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_outros|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.numero_pedido_compra|default:"-" }}</td>
-                            <td>{{ item.fci|default:"-" }}</td>
-                            <td class="text-right">{{ item.valor_tributos|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.origem_mercadoria|default:"-" }}</td>
-                            <td>{{ item.cst_operacao|default:"-" }}</td>
-                            <td class="text-right">{{ item.icms_bc|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icms_porcen|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_icms|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.bc_cst|default:"-" }}</td>
-                            <td>{{ item.icms_st|default:"-" }}</td>
-                            <td class="text-right">{{ item.red_bc_icms_st|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_icms_st|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icms_porcen_st|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_icms_st|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.pis_cst|default:"-" }}</td>
-                            <td class="text-right">{{ item.bc_pis|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.pis_porcen|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_pis|floatformat:2|default:"0,00" }}</td>
-                            <td>{{ item.confins_cst|default:"-" }}</td>
-                            <td class="text-right">{{ item.confins_bc|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.confins_porcen|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.valor_confins|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_vbcufdest|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_pfcpufdest|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_picmsufdest|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_picmsinter|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_picmsinterpart|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_vfcpufdest|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_vicmsufdest|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-right">{{ item.icmsufdest_vicmsufremet|floatformat:2|default:"0,00" }}</td>
-                            <td class="text-center">{{ item.numero_di|default:"-" }}</td>
-                            <td class="text-center">{{ item.data_di|default:"-" }}</td>
-                            <td class="text-center">{{ item.local_desemb|default:"-" }}</td>
-                            <td class="text-center">{{ item.uf_desemb|default:"-" }}</td>
-                            <td class="text-center">{{ item.data_desemb|default:"-" }}</td>
-                        </tr>
-                    {% empty %}
-                        <!-- Caso não tenha itens, mostra linhas vazias -->
-                        {% for i in "123456789" %}
-                            <tr>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                            </tr>
-                        {% endfor %}
-                    {% endfor %}
-                {% endif %}
             </tbody>
         </table>
     </div>
+
+    <div class="side-bar-buttons">
+        <button class="btn-side">TRANSMITIR</button>
+        <button class="btn-side">FATURAR COB</button>
+        <button class="btn-side">DANFE</button>
+        <button class="btn-side red-text">Salvar</button>
+        <button class="btn-side">Agrupar Orç</button>
+        <button class="btn-side">Menu Caixa</button>
+    </div>
 </div>
+
+<div class="user-bar">
+    <div class="linha-branca-user"></div>
+    <div style="font-weight: bold; white-space: nowrap;">USUÁRIO: <span style="color: #0080ff;"></span></div>
+</div>
+
+<ul class="tabs">
+    <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
+    <li class="tab-link active" data-tab="cliente">Cliente</li>
+    <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
+    <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
+    <li class="tab-link active" data-tab="produto">Produto</li>
+    <li class="tab-link" data-tab="Pagamento">Pagamento</li>
+    <li class="tab-link active" data-tab="Cobranca">Cobranca</li>
+    <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
+    <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
+    <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
+</ul>
+
+<hr class="header-divider">
+
+<form method="post">
+    {% csrf_token %}
+
+    <div id="NFe" class="tab-content">
+        <div class="form-group-box">
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Pedido</td>
+                    <td class="label-cell">NF-e</td>
+                    <td class="label-cell">Série</td>
+                    <td class="label-cell">Modelo NF-e</td>
+                    <td class="label-cell">Tipo Emissão</td>
+                    <td class="label-cell">Tipo NF-e</td>
+                    <td class="label-cell"> Finalidade NF-e</td>
+                    <td class="label-cell">Natureza Operação</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ nfe_form.pedido}}</td>
+                    <td class="input-cell">{{ nfe_form.numero}}</td>
+                    <td class="input-cell">{{ nfe_form.serie}}</td>
+                    <td class="input-cell">{{ nfe_form.modelo}}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_emissao}}</td>
+                    <td class="input-cell">{{nfe_form.tipo_nfe}}</td>
+                    <td class="input-cell">{{nfe_form.finalidade}}</td>
+                    <td class="input-cell">{{ nfe_form.naturza_operacao}}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="labe-cell"> Presença Comprador?</td>
+                    <td class="label-cell">Operação com Consumidor?</td>
+                    <td class="label-cell">Local Destino da Operação</td>
+                    <td class="input-cell">Chave de Acesso</td>
+                    <td class="input-cell">cDV</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{nfe_form.presenca_comprador}}</td>
+                    <td class="input-cell">{{ nfe_form.operacao_consumidor}}</td>
+                    <td class="input-cell">{{ nfe_form.local_destino }}</td>
+                    <td class="input-cell">{{ nfe_form.chave_acesso}}</td>
+                    <td class="input-cell">{{ nfe_form.cdv }}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Recibo</td>
+                    <td class="label-cell">Protocolo</td>
+                    <td class="label-cell">Dígito Validador</td>
+                    <td class="label-cell">Data/Hora Emissão</td>
+                    <td class="label-cell">Data/Hora Recebimento</td>
+                    <td class="label-cell">Status SEFAZ</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ nfe_form.recibo}}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo}}</td>
+                    <td class="input-cell">{{ nfe_form.digito_validador}}</td>
+                    <td class="input-cell">{{ nfe_form.data_emissao}}</td>
+                    <td class="input-cell">{{ nfe_form.data_recebimento}}</td>
+                    <td class="input-cell">{{ nfe_form.status_sefaz}}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell">Código Retorno</td>
+                    <td class="label-cell">Tipo Evento</td>
+                    <td class="label-cell">Protocolo Evento</td>
+                    <td class="label-cell">Seq. Evento</td>
+                    <td class="label-cell">Referenciar Nf-e?</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{nfe_form.codigo_retorno}}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_evento }}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo_evento}}</td>
+                    <td class="input-cell"> {{ nfe_form.sequencia_evento}}</td>
+                    <td class="input-cell">{{ nfe_form.referenciar_nfe}}</td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 10px; display: flex; align-items: center; gap: 15px">
+                <label><input type="checkbox" name="transmitir"> Transmitir </label>
+                <label><input type="checkbox" name="cce"> CCE</label>
+                <label><input type="checkbox" name="cancelar"> Cancelar</label>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div class="label-cell">Justificativa</div>
+                <div class="input-cell">
+                    <textarea name="justificativa" rows="3"
+                        style="width:100%; resize:vertical;"> {{nfe.justificativa|default:""}}</textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="cliente" class="tab-content ">
+        <div class="form-group-box">
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 10%;">Tipo Pessoa</td>
+                    <td class="label-cell" style="width: 25%;">Tipo de Contribuinte</td>
+                    <td class="label-cell" style="width: 15%;">CNPJ e CPF</td>
+                    <td class="label-cell" style="width: 10%;">Inscr. Estadual</td>
+                    <td class="label-cell" style="width: 10%;">Inscr. Municipal</td>
+                    <td class="label-cell" style="width: 15%;">Inscr. SUFRAMA</td>
+                    <td class="label-cell" style="width: 15%;">Lote SUFRAMA</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.tipo_pessoa }}</td>
+                    <td class="input-cell">{{ cliente_form.tipo_contribuinte }}</td>
+                    <td class="input-cell">{{ cliente_form.cnpj }}</td>
+                    <td class="input-cell">{{ cliente_form.ie }}</td>
+                    <td class="input-cell">{{ cliente_form.im }}</td>
+                    <td class="input-cell">{{ cliente_form.inscr_suframa }}</td>
+                    <td class="input-cell">{{ cliente_form.lote_suframa }}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 70%;">Cliente</td>
+                    <td class="label-cell" style="width: 30%;">Informação Estrangeira</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.nome }}</td>
+                    <td class="input-cell">{{ cliente_form.info_estrangeira }}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 12%;">CEP</td>
+                    <td class="label-cell" style="width: 48%;">Logradouro</td>
+                    <td class="label-cell" style="width: 8%;">Nº</td>
+                    <td class="label-cell" style="width: 32%;">Bairro</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.cep }}</td>
+                    <td class="input-cell">{{ cliente_form.logradouro }}</td>
+                    <td class="input-cell">{{ cliente_form.numero }}</td>
+                    <td class="input-cell">{{ cliente_form.bairro }}</td>
+                </tr>
+            </table>
+
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 20%;">Complemento</td>
+                    <td class="label-cell" style="width: 10%;">Cód. IBGE</td>
+                    <td class="label-cell" style="width: 20%;">Município</td>
+                    <td class="label-cell" style="width: 5%;">UF</td>
+                    <td class="label-cell" style="width: 25%;">E-mail</td>
+                    <td class="label-cell" style="width: 45%;">Telefone</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.complemento }}</td>
+                    <td class="input-cell">{{ cliente_form.cod_ibge }}</td>
+                    <td class="input-cell">{{ cliente_form.municipio }}</td>
+                    <td class="input-cell">{{ cliente_form.uf }}</td>
+                    <td class="input-cell">{{ cliente_form.email }}</td>
+                    <td class="input-cell">{{ cliente_form.telefone }}</td>
+                    <td class="input-cell">{{ cliente_form.email }}</td>
+                </tr>
+            </table>
+            <table class="form-table">
+                <tr>
+                    <td class="label-cell" style="width: 6%;">Cód.País</td>
+                    <td class="label-cell" style="width: 4%;">País</td>
+                    <td class="label-cell" style="width: 12%;">E-mail Contador</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ cliente_form.cod_pais }}</td>
+                    <td class="input-cell">{{ cliente_form.pais }}</td>
+                    <td class="input-cell">{{ cliente_form.email_contador }}</td>
+                </tr>
+            </table>
+
+            <!-- <div class="side-buttons">
+                <button class="btn-side">TRANSMITIR</button>
+                <button class="btn-side">FATURAR COB</button>
+                <button class="btn-side">DANFE</button>
+                <button class="btn-side">Salvar</button>
+                <button class="btn-side">Agrupar Orç</button>
+                <button class="btn-side">Menu Caixa</button>
+            </div> -->
+        </div>
+    </div>
+    </div>
+    <div id="End_Entrega" class="tab-content">
+        <div class="form-group-box">
+            <table class="form-table endereco-entrega">
+                <!-- Linha 1: Cliente -->
+                <tr>
+                    <td class="label-cell" colspan="7">Cliente</td>
+                </tr>
+                <tr>
+                    <td class="input-cell" colspan="7">
+                        {{ end_entrega_form.cliente|default:"" }}
+                    </td>
+                </tr>
+
+                <!-- Linha 2: CEP | Logradouro | Nº | Complemento | Bairro -->
+                <tr>
+                    <td class="label-cell" style="width: 12%;">CEP</td>
+                    <td class="label-cell" style="width: 30%;">Logradouro</td>
+                    <td class="label-cell" style="width: 8%;">N°</td>
+                    <td class="label-cell" style="width: 20%;">Complemento</td>
+                    <td class="label-cell" style="width: 30%;">Bairro</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ end_entrega_form.cep }}</td>
+                    <td class="input-cell">{{ end_entrega_form.logradouro }}</td>
+                    <td class="input-cell">{{ end_entrega_form.numero }}</td>
+                    <td class="input-cell">{{ end_entrega_form.complemento }}</td>
+                    <td class="input-cell">{{ end_entrega_form.bairro }}</td>
+                </tr>
+
+                <!-- Linha 3: Cód. IBGE | Município | UF -->
+                <tr>
+                    <td class="label-cell">Cód. IBGE</td>
+                    <td class="label-cell">Município</td>
+                    <td class="label-cell">UF</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ end_entrega_form.IBGE }}</td>
+                    <td class="input-cell">{{ end_entrega_form.municipio }}</td>
+                    <td class="input-cell">{{ end_entrega_form.uf }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="base_calculo" class ="tab-content">
+        <div class="form-group-box">
+            <table class="form-table">
+            <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
+        <tbody>
+
+                <!-- Valores principais da nota -->
+                <tr>
+                <td><strong>Base Cálculo ICMS</strong></td>
+                <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor Total IPI</strong></td>
+                <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>Valor Total Produtos</strong></td>
+                <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor do Frete</strong></td>
+                <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>Valor do Seguro</strong></td>
+                <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Outras Despesas</strong></td>
+                <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>Desconto</strong></td>
+                <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
+                <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
+                <td style="color: #d32f2f; font-weight: bold;" class="valor">
+                    {{ nfe.vNF|floatformat:2|default:"0,00" }}
+                </td>
+                </tr>
+
+                <tr class="cabecalho-resumo">
+                <td colspan="4" style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
+                    Resumo de Tributos
+                </td>
+                </tr>
+
+                <tr>
+                <td><strong>Valor Total ICMS</strong></td>
+                <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
+                <td><strong>Valor Total PIS</strong></td>
+                <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>Valor Total COFINS</strong></td>
+                <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
+                <td><strong>ICMS ST</strong></td>
+                <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>Base Cálculo ICMS ST</strong></td>
+                <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
+                <td><strong>ICMS Interestadual Destino</strong></td>
+                <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+                <tr>
+                <td><strong>ICMS Interestadual Remetente</strong></td>
+                <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
+                <td><strong>FCP UF Destino</strong></td>
+                <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                </tr>
+
+            </tbody>
+            </table>
+            </table>
+        </div>
+    </div>
+
+    <!-- Aba de Produtos -->
+    <div id="produto" class="tab-content">
+        <div class="form-group-box">
+            {{ item_formset.management_form }}
+
+            <div class="tabela-produtos-container">
+                <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="text-center align-middle">Nº do Item</th>
+                            <th class="text-center align-middle">Cd. Produto</th>
+                            <th class="text-center align-middle">EAN</th>
+                            <th class="align-middle">Descrição do Produto</th>
+                            <th class="text-center align-middle">NCM</th>
+                            <th class="text-center align-middle">NVE</th>
+                            <th class="text-center align-middle">TIPI</th>
+                            <th class="text-center align-middle">CFOP</th>
+                            <th class="text-center align-middle">Unidade</th>
+                            <th class="text-center align-middle">Qtd</th>
+                            <th class="text-end align-middle">Vr Unitário</th>
+                            <th class="text-end align-middle">Vr. Total Bruto</th>
+                            <th class="text-center align-middle">Und. Tributo</th>
+                            <th class="text-center align-middle">Qtd. Tributo</th>
+                            <th class="text-center align-middle">Vr. Unt. Trib.</th>
+                            <th class="text-end align-middle">Vr Frete</th>
+                            <th class="text-end align-middle">Vr Seguro</th>
+                            <th class="text-center align-middle">Vr. Desconto</th>
+                            <th class="text-end align-middle">Vr. Outros</th>
+                            <th class="text-center align-middle">Nº do Pedido de Compra</th>
+                            <th class="text-center align-middle">Nº do Item do Pedido de Compra</th>
+                            <th class="text-center align-middle">FCI</th>
+                            <th class="text-end align-middle">Vr. Tributos</th>
+                            <th class="text-center align-middle">Origem da Mercadoria</th>
+                            <th class="text-center align-middle">CST Operação</th>
+                            <th class="text-center bg-light">ICMS BC</th>
+                            <th class="text-center bg-light">% ICMS</th>
+                            <th class="text-center bg-light">Vr. ICMS</th>
+                            <th class="text-center bg-light">BC CST</th>
+                            <th class="text-center">ICMS ST</th>
+                            <th class="text-center">Red. BC ICMS ST</th>
+                            <th class="text-end align-middle">Vr. ICMS ST</th>
+                            <th class="text-center bg-light">% ICMS ST</th>
+                            <th class="text-end align-middle">Vr. ICMS ST</th>
+                            <th class="text-end align-middle">PIS CST</th>
+                            <th class="text-center bg-light">BC PIS</th>
+                            <th class="text-end align-middle">% PIS</th>
+                            <th class="text-end align-middle">Vr. PIS</th>
+                            <th class="text-end align-middle">COFINS CST</th>
+                            <th class="text-center bg-light">COFINS BC</th>
+                            <th class="text-end align-middle">% COFINS</th>
+                            <th class="text-end align-middle">Vr. COFINS</th>
+                            <th class="text-center align-middle">ICMSUFDest_vBCUFDest</th>
+                            <th class="text-center bg-light">ICMSUFDest_pFCPUFDest</th>
+                            <th class="text-end align-middle">ICMSUFDest_pICMSInter</th>
+                            <th class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
+                            <th class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
+                            <th class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
+                            <th class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
+                            <th class="text-center align-middle">Nº DI</th>
+                            <th class="text-center align-middle">Data DI</th>
+                            <th class="text-center align-middle">Local Desemb.</th>
+                            <th class="text-center align-middle">UF Desemb.</th>
+                            <th class="text-center align-middle">Data Desemb.</th>
+                        </tr>      
+                    </thead>
+
+                    <tbody>
+                        {% for form in item_formset %}
+                            <tr>
+                                <td class="text-center">{{ form.item_pedido }}</td>
+                                <td>{{ form.codigo_produto }}</td>
+                                <td>{{ form.ean }}</td>
+                                <td>{{ form.descricao }}</td>
+                                <td>{{ form.ncm }}</td>
+                                <td>{{ form.nve }}</td>
+                                <td>{{ form.tipi }}</td>
+                                <td>{{ form.cfop }}</td>
+                                <td>{{ form.unidade }}</td>
+                                <td class="text-right">{{ form.quantidade }}</td>
+                                <td class="text-right">{{ form.valor_unitario }}</td>
+                                <td class="text-right">{{ form.valor_total_bruto }}</td>
+                                <td>{{ form.unidade_tributo }}</td>
+                                <td class="text-right">{{ form.quantidade_tributo }}</td>
+                                <td class="text-right">{{ form.valor_unitario_tributo }}</td>
+                                <td class="text-right">{{ form.valor_frete }}</td>
+                                <td class="text-right">{{ form.valor_seguro }}</td>
+                                <td class="text-right">{{ form.valor_desconto }}</td>
+                                <td class="text-right">{{ form.valor_outros }}</td>
+                                <td>{{ form.numero_pedido_compra }}</td>
+                                <td>{{ form.item_pedido_compra }}</td>
+                                <td>{{ form.fci }}</td>
+                                <td class="text-right">{{ form.valor_tributos_estimado }}</td>
+                                <td>{{ form.origem_mercadoria }}</td>
+                                <td>{{ form.cst_operacao }}</td>
+                                <td class="text-right">{{ form.icms_bc }}</td>
+                                <td class="text-right">{{ form.icms_percentual }}</td>
+                                <td class="text-right">{{ form.icms_valor }}</td>
+                                <td class="text-right">{{ form.icms_st_bc }}</td>
+                                <td class="text-right">{{ form.icms_st }}</td>
+                                <td class="text-right">{{ form.icms_st_red_bc }}</td>
+                                <td class="text-right">{{ form.icms_st_valor }}</td>
+                                <td class="text-right">{{ form.icms_st_percentual }}</td>
+                                <td class="text-right">{{ form.icms_st_valor }}</td>
+                                <td>{{ form.pis_cst }}</td>
+                                <td class="text-right">{{ form.pis_bc }}</td>
+                                <td class="text-right">{{ form.pis_percentual }}</td>
+                                <td class="text-right">{{ form.pis_valor }}</td>
+                                <td>{{ form.cofins_cst }}</td>
+                                <td class="text-right">{{ form.cofins_bc }}</td>
+                                <td class="text-right">{{ form.cofins_percentual }}</td>
+                                <td class="text-right">{{ form.cofins_valor }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_bc }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_p_fcp }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_p_inter }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_p_inter_part }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_v_fcp }}</td>
+                                <td class="text-right">{{ form.icms_uf_dest_v_icms }}</td>
+                                <td class="text-right">{{ form.icms_uf_remet_v_icms }}</td>
+                                <td class="text-center">{{ form.di_numero }}</td>
+                                <td class="text-center">{{ form.di_data }}</td>
+                                <td class="text-center">{{ form.di_local_desemb }}</td>
+                                <td class="text-center">{{ form.di_uf_desemb }}</td>
+                                <td class="text-center">{{ form.di_data_desemb }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="info" class="tab-content">
+        <div class="form-group-box">
+            <div class="label-cell">Informações complementares da NF</div>
+            <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
+        </div>
+        <div class="form-group-box">
+            <div class="label-cell">Informações adicionais ao Fisco</div>
+            <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
+        </div>
+    </div>
+
+    <div class="actions-bar">
+        <button type="button" class="btn-action">CARTA DE CORREÇÃO</button>
+        <button type="button" class="btn-action">CANCELAR</button>
+        <button type="button" class="btn-action">CANCELAR COB</button>
+        <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
+
+        <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
+        <button type="button" class="btn-action">Relat. NF Emitidas</button>
+        <button type="button" class="btn-action">Frete/Prazo</button>
+        <button type="button" class="btn-action">PIN</button>
+        <button type="button" class="btn-action disabled">CSV (Correio)</button>
+    </div>
+</form>
+
+<script>
+
+    document.querySelectorAll('.tab-link').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab.dataset.tab).classList.add('active');
+            tab.classList.add('active');
+        });
+    });
+
+
+    document.addEventListener('input', function (e) {
+        if (e.target.name.includes('quantidade') || e.target.name.includes('valor_unitario')) {
+            let row = e.target.closest('tr');
+            let qtd = parseFloat(row.querySelector('input[name$="-quantidade"]').value) || 0;
+            let unit = parseFloat(row.querySelector('input[name$="-valor_unitario"]').value) || 0;
+            let totalField = row.querySelector('input[name$="-valor_total_bruto"]');
+            if (totalField) totalField.value = (qtd * unit).toFixed(2);
+        }
+    });
+</script>
+{% endblock %}
