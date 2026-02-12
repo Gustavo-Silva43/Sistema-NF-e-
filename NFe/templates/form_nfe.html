@@ -474,8 +474,8 @@
         width: 100%;
         overflow-x: auto;
         max-height: 550px;
-        border: 1px solid #7cb342;      /* borda verde como no sistema */
-        background: #c5d4b5;            /* fundo verde-claro ao redor da grade */
+        border: 1px solid #555;
+        background: white;
         margin-top: 10px;
     }
 
@@ -485,27 +485,26 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 11px;
         white-space: nowrap;
-        background: #ffffff;
     }
 
     .tabela-itens thead th {
-        background: #d6dde8;           /* cinza-azulado claro, igual às imagens */
-        color: #000;
-        padding: 4px 6px;
-        border: 1px solid #9ea9ba;
-        font-weight: normal;
+        background: #333333;
+        color: white;
+        padding: 5px 8px;
+        border: 1px solid #444;
+        font-weight: bold;
         text-align: left;
         vertical-align: middle;
-        cursor: default;
+        cursor: pointer;
         position: relative;
     }
 
-    /* pequena setinha como nas imagens */
+    /* Seta de ordenação (igual na foto) */
     .tabela-itens thead th::after {
-        content: " ▾";
+        content: " ▼";
         font-size: 9px;
-        opacity: 0.7;
-        margin-left: 3px;
+        opacity: 0.8;
+        margin-left: 5px;
     }
 
     /* Células do corpo */
@@ -582,6 +581,8 @@
     .tabela-pedido-compra tbody tr:hover {
         background-color: #e8f5e9;
     }
+
+    
 </style>
 
 <!-- <ul class="tabs">
@@ -935,94 +936,101 @@
         </div>
     </div>
 
-    <div id="base_calculo" class ="tab-content">
+    <div id="base_calculo" class="tab-content">
         <div class="form-group-box">
             <table class="form-table">
-            <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
-        <tbody>
+                <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
+                    <tbody>
+                        <!-- Valores principais da nota -->
+                        <tr>
+                            <td><strong>Base Cálculo ICMS</strong></td>
+                            <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>Valor Total IPI</strong></td>
+                            <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <!-- Valores principais da nota -->
-                <tr>
-                <td><strong>Base Cálculo ICMS</strong></td>
-                <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
-                <td><strong>Valor Total IPI</strong></td>
-                <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>Valor Total Produtos</strong></td>
+                            <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>Valor do Frete</strong></td>
+                            <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>Valor Total Produtos</strong></td>
-                <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
-                <td><strong>Valor do Frete</strong></td>
-                <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>Valor do Seguro</strong></td>
+                            <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>Outras Despesas</strong></td>
+                            <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>Valor do Seguro</strong></td>
-                <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
-                <td><strong>Outras Despesas</strong></td>
-                <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>Desconto</strong></td>
+                            <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
+                            <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
+                            <td style="color: #d32f2f; font-weight: bold;" class="valor">
+                                {{ nfe.vNF|floatformat:2|default:"0,00" }}
+                            </td>
+                        </tr>
 
-                <tr>
-                <td><strong>Desconto</strong></td>
-                <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
-                <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
-                <td style="color: #d32f2f; font-weight: bold;" class="valor">
-                    {{ nfe.vNF|floatformat:2|default:"0,00" }}
-                </td>
-                </tr>
+                        <tr class="cabecalho-resumo">
+                            <td colspan="4"
+                                style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
+                                Resumo de Tributos
+                            </td>
+                        </tr>
 
-                <tr class="cabecalho-resumo">
-                <td colspan="4" style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
-                    Resumo de Tributos
-                </td>
-                </tr>
+                        <tr>
+                            <td><strong>Valor Total ICMS</strong></td>
+                            <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>Valor Total PIS</strong></td>
+                            <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>Valor Total ICMS</strong></td>
-                <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
-                <td><strong>Valor Total PIS</strong></td>
-                <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>Valor Total COFINS</strong></td>
+                            <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>ICMS ST</strong></td>
+                            <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>Valor Total COFINS</strong></td>
-                <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
-                <td><strong>ICMS ST</strong></td>
-                <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>Base Cálculo ICMS ST</strong></td>
+                            <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>ICMS Interestadual Destino</strong></td>
+                            <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>Base Cálculo ICMS ST</strong></td>
-                <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
-                <td><strong>ICMS Interestadual Destino</strong></td>
-                <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
-                </tr>
+                        <tr>
+                            <td><strong>ICMS Interestadual Remetente</strong></td>
+                            <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
+                            <td><strong>FCP UF Destino</strong></td>
+                            <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                        </tr>
 
-                <tr>
-                <td><strong>ICMS Interestadual Remetente</strong></td>
-                <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
-                <td><strong>FCP UF Destino</strong></td>
-                <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
-                </tr>
-
-            </tbody>
-            </table>
+                    </tbody>
+                </table>
             </table>
         </div>
     </div>
 
-    <!-- Aba de Produtos -->
     <div id="produto" class="tab-content">
         <div class="form-group-box">
-            {{ item_formset.management_form }}
-
             <div class="tabela-produtos-container">
-                <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
+                {% if item_formset %}
+                    {{ item_formset.management_form }}
+                    {% for form in item_formset %}
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+                <table class="table table-bordered table-sm tabela-itens"
+                    style="font-size: 0.85rem; white-space: nowrap;">
                     <thead>
                         <tr class="bg-light">
                             <th class="text-center align-middle">Nº do Item</th>
-                            <th class="text-center align-middle">Cd. Produto</th>
+                            <th class="text-center align-middle">Cód. Produto</th>
                             <th class="text-center align-middle">EAN</th>
                             <th class="align-middle">Descrição do Produto</th>
                             <th class="text-center align-middle">NCM</th>
@@ -1032,116 +1040,86 @@
                             <th class="text-center align-middle">Unidade</th>
                             <th class="text-center align-middle">Qtd</th>
                             <th class="text-end align-middle">Vr Unitário</th>
-                            <th class="text-end align-middle">Vr. Total Bruto</th>
+                            <th class="text-end align-middle">Vr Total Bruto</th>
                             <th class="text-center align-middle">Und. Tributo</th>
-                            <th class="text-center align-middle">Qtd. Tributo</th>
-                            <th class="text-center align-middle">Vr. Unt. Trib.</th>
-                            <th class="text-end align-middle">Vr Frete</th>
-                            <th class="text-end align-middle">Vr Seguro</th>
-                            <th class="text-center align-middle">Vr. Desconto</th>
-                            <th class="text-end align-middle">Vr. Outros</th>
-                            <th class="text-center align-middle">Nº do Pedido de Compra</th>
-                            <th class="text-center align-middle">Nº do Item do Pedido de Compra</th>
-                            <th class="text-center align-middle">FCI</th>
-                            <th class="text-end align-middle">Vr. Tributos</th>
-                            <th class="text-center align-middle">Origem da Mercadoria</th>
-                            <th class="text-center align-middle">CST Operação</th>
-                            <th class="text-center bg-light">ICMS BC</th>
-                            <th class="text-center bg-light">% ICMS</th>
-                            <th class="text-center bg-light">Vr. ICMS</th>
-                            <th class="text-center bg-light">BC CST</th>
-                            <th class="text-center">ICMS ST</th>
-                            <th class="text-center">Red. BC ICMS ST</th>
-                            <th class="text-end align-middle">Vr. ICMS ST</th>
-                            <th class="text-center bg-light">% ICMS ST</th>
-                            <th class="text-end align-middle">Vr. ICMS ST</th>
-                            <th class="text-end align-middle">PIS CST</th>
-                            <th class="text-center bg-light">BC PIS</th>
-                            <th class="text-end align-middle">% PIS</th>
-                            <th class="text-end align-middle">Vr. PIS</th>
-                            <th class="text-end align-middle">COFINS CST</th>
-                            <th class="text-center bg-light">COFINS BC</th>
-                            <th class="text-end align-middle">% COFINS</th>
-                            <th class="text-end align-middle">Vr. COFINS</th>
-                            <th class="text-center align-middle">ICMSUFDest_vBCUFDest</th>
-                            <th class="text-center bg-light">ICMSUFDest_pFCPUFDest</th>
-                            <th class="text-end align-middle">ICMSUFDest_pICMSInter</th>
-                            <th class="text-center bg-light">ICMSUFDest_pICMSInterPart</th>
-                            <th class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
-                            <th class="text-end bg-light">ICMSUFDest_vICMSUFDest</th>
-                            <th class="text-end bg-light">ICMSUFDest_vICMSUFRemet</th>
-                            <th class="text-center align-middle">Nº DI</th>
-                            <th class="text-center align-middle">Data DI</th>
-                            <th class="text-center align-middle">Local Desemb.</th>
-                            <th class="text-center align-middle">UF Desemb.</th>
-                            <th class="text-center align-middle">Data Desemb.</th>
-                        </tr>      
+                            <th class="text-center align-middle">Qtd Tributo</th>
+                            <th class="text-center align-middle">Vr Unit. Tributo</th>
+                        </tr>
                     </thead>
-
                     <tbody>
-                        {% for form in item_formset %}
-                            <tr>
-                                <td class="text-center">{{ form.item_pedido }}</td>
-                                <td>{{ form.codigo_produto }}</td>
-                                <td>{{ form.ean }}</td>
-                                <td>{{ form.descricao }}</td>
-                                <td>{{ form.ncm }}</td>
-                                <td>{{ form.nve }}</td>
-                                <td>{{ form.tipi }}</td>
-                                <td>{{ form.cfop }}</td>
-                                <td>{{ form.unidade }}</td>
-                                <td class="text-right">{{ form.quantidade }}</td>
-                                <td class="text-right">{{ form.valor_unitario }}</td>
-                                <td class="text-right">{{ form.valor_total_bruto }}</td>
-                                <td>{{ form.unidade_tributo }}</td>
-                                <td class="text-right">{{ form.quantidade_tributo }}</td>
-                                <td class="text-right">{{ form.valor_unitario_tributo }}</td>
-                                <td class="text-right">{{ form.valor_frete }}</td>
-                                <td class="text-right">{{ form.valor_seguro }}</td>
-                                <td class="text-right">{{ form.valor_desconto }}</td>
-                                <td class="text-right">{{ form.valor_outros }}</td>
-                                <td>{{ form.numero_pedido_compra }}</td>
-                                <td>{{ form.item_pedido_compra }}</td>
-                                <td>{{ form.fci }}</td>
-                                <td class="text-right">{{ form.valor_tributos_estimado }}</td>
-                                <td>{{ form.origem_mercadoria }}</td>
-                                <td>{{ form.cst_operacao }}</td>
-                                <td class="text-right">{{ form.icms_bc }}</td>
-                                <td class="text-right">{{ form.icms_percentual }}</td>
-                                <td class="text-right">{{ form.icms_valor }}</td>
-                                <td class="text-right">{{ form.icms_st_bc }}</td>
-                                <td class="text-right">{{ form.icms_st }}</td>
-                                <td class="text-right">{{ form.icms_st_red_bc }}</td>
-                                <td class="text-right">{{ form.icms_st_valor }}</td>
-                                <td class="text-right">{{ form.icms_st_percentual }}</td>
-                                <td class="text-right">{{ form.icms_st_valor }}</td>
-                                <td>{{ form.pis_cst }}</td>
-                                <td class="text-right">{{ form.pis_bc }}</td>
-                                <td class="text-right">{{ form.pis_percentual }}</td>
-                                <td class="text-right">{{ form.pis_valor }}</td>
-                                <td>{{ form.cofins_cst }}</td>
-                                <td class="text-right">{{ form.cofins_bc }}</td>
-                                <td class="text-right">{{ form.cofins_percentual }}</td>
-                                <td class="text-right">{{ form.cofins_valor }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_bc }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_p_fcp }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_p_inter }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_p_inter_part }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_v_fcp }}</td>
-                                <td class="text-right">{{ form.icms_uf_dest_v_icms }}</td>
-                                <td class="text-right">{{ form.icms_uf_remet_v_icms }}</td>
-                                <td class="text-center">{{ form.di_numero }}</td>
-                                <td class="text-center">{{ form.di_data }}</td>
-                                <td class="text-center">{{ form.di_local_desemb }}</td>
-                                <td class="text-center">{{ form.di_uf_desemb }}</td>
-                                <td class="text-center">{{ form.di_data_desemb }}</td>
-                            </tr>
-                        {% endfor %}
+                        {% if item_formset %}
+                            {% for form in item_formset %}
+                                <tr>
+                                    <td class="text-center">{{ form.item_pedido }}</td>
+                                    <td>{{ form.codigo_produto }}</td>
+                                    <td>{{ form.ean }}</td>
+                                    <td>{{ form.descricao }}</td>
+                                    <td>{{ form.ncm }}</td>
+                                    <td>{{ form.nve }}</td>
+                                    <td>{{ form.tipi }}</td>
+                                    <td>{{ form.cfop }}</td>
+                                    <td>{{ form.unidade }}</td>
+                                    <td class="text-right">{{ form.quantidade }}</td>
+                                    <td class="text-right">{{ form.valor_unitario }}</td>
+                                    <td class="text-right">{{ form.valor_total_bruto }}</td>
+                                    <td>{{ form.unidade_tributo }}</td>
+                                    <td class="text-right">{{ form.quantidade_tributo }}</td>
+                                    <td class="text-right">{{ form.valor_unitario_tributo }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% elif nfe %}
+                            {% for item in nfe.produtos.all %}
+                                <tr>
+                                    <td class="text-center">{{ item.item_pedido }}</td>
+                                    <td>{{ item.codigo_produto }}</td>
+                                    <td>{{ item.ean }}</td>
+                                    <td>{{ item.descricao }}</td>
+                                    <td>{{ item.ncm }}</td>
+                                    <td>{{ item.nve }}</td>
+                                    <td>{{ item.tipi }}</td>
+                                    <td>{{ item.cfop }}</td>
+                                    <td>{{ item.unidade }}</td>
+                                    <td class="text-right">{{ item.quantidade|floatformat:4|default:"0,0000" }}</td>
+                                    <td class="text-right">{{ item.valor_unitario|floatformat:2|default:"0,00" }}</td>
+                                    <td class="text-right">{{ item.valor_total_bruto|floatformat:2|default:"0,00" }}</td>
+                                    <td>{{ item.unidade_tributo }}</td>
+                                    <td class="text-right">{{ item.quantidade_tributo|floatformat:4|default:"0,0000" }}</td>
+                                    <td class="text-right">{{ item.valor_unitario_tributo|floatformat:2|default:"0,00" }}</td>
+                                </tr>
+                            {% empty %}
+                                {% for i in "123456789" %}
+                                    <tr class="linha-vazia">
+                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in "123456789" %}
+                                <tr class="linha-vazia">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <div id="pagamento" class="tab-content">
+        <div class="form-group-box">
+            <div class="tabela-produto-container">
+                <table class="table table-bordered table-sm tabela-itens">
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     <div id="info" class="tab-content">
