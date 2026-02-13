@@ -192,6 +192,7 @@ class Produto(models.Model):
     cofins_bc = models.DecimalField("CONFINS BC", max_digits=15, decimal_places=2, default=0)
 
     cofins_percentual = models.DecimalField("%CONFINS", max_digits=5, decimal_places=2, default=0)
+    cofins_valor = models.DecimalField("Vr. COFINS", max_digits=15, decimal_places=2, default=0)
     icms_uf_dest_bc = models.DecimalField("ICMSUFDest_vBCUFDest",max_digits=15, decimal_places=2, default=0)
     icms_uf_dest_p_fcp = models.DecimalField("ICMSUFDest_pFCPUFDest", max_digits=5, decimal_places=2, default=0)
     icms_uf_dest_p_inter = models.DecimalField("ICMSUFDest_pICMSInter", max_digits=5, decimal_places=2, default=0)
