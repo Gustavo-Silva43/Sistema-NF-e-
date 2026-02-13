@@ -32,6 +32,7 @@ def gerenciar_nfe(request, pk=None):
         info_form = InfoStatusForm(instance=getattr(nfe, 'info_status', None))
     
     context = {
+        'nfe': nfe,
         'nfe_form': nfe_form,
         'transporte_form': transporte_form,
         'cobranca_form': cobranca_form,
