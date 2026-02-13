@@ -414,9 +414,8 @@
         vertical-align: middle;
     }
 
-    /* Subcabeçalhos (segunda linha) */
     .tabela-itens thead tr:nth-child(2) th {
-        background: #444444;         /* um pouco mais claro que o principal */
+        background: #444444;        
         color: white;
         padding: 3px 5px;
         border: 1px solid #555;
@@ -581,8 +580,65 @@
     .tabela-pedido-compra tbody tr:hover {
         background-color: #e8f5e9;
     }
+    /* Container com barra preta grossa à esquerda (exatamente como na primeira foto) */
+    .tabela-pagamento-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 450px;
+        border-left: 6px solid #000000;   /* barra preta grossa */
+        border-right: 1px solid #ccc;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        background: white;
+    }
 
-    
+    /* Tabela principal */
+    .tabela-pagamento {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        white-space: nowrap;
+        background: white;
+    }
+
+    /* Cabeçalho escuro */
+    .tabela-pagamento thead th {
+        background: #333333;
+        color: white;
+        padding: 5px 8px;
+        border: 1px solid #444;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    /* Seta ▼ em cada coluna */
+    .tabela-pagamento thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 5px;
+    }
+
+    /* Células do corpo */
+    .tabela-pagamento tbody td {
+        border: 1px solid #cccccc;
+        padding: 4px 6px;
+        vertical-align: middle;
+        height: 26px;
+    }
+
+    /* Linhas vazias (grade branca) */
+    .tabela-pagamento tbody tr td {
+        background: white;
+    }
+
+    /* Alinhamentos */
+    .tabela-pagamento td.text-center { text-align: center; }
+    .tabela-pagamento td.text-right  { text-align: right; padding-right: 8px; }
 </style>
 
 <!-- <ul class="tabs">
@@ -1110,17 +1166,64 @@
 
     <div id="pagamento" class="tab-content">
         <div class="form-group-box">
-            <div class="tabela-produto-container">
-                <table class="table table-bordered table-sm tabela-itens">
-
-                </table>
+            <div class="tabela-pagamento-container">
+                <table class="table table-bordered table-sm tabela-pagamento">
+                    <thead>
+                        <tr>
+                            <th class="text-center align-middle">Nº Forma</th>
+                            <th class="text-center align-middle">Ind. Forma Pagto.</th>
+                            <th class="text-center align-middle">Forma pagto</th>
+                            <th class="text-center align-middle">Valor Pagto</th>
+                            <th class="text-center align-middle">Tipo Integraçao CC</th>
+                            <th class="text-center align-middle">CNPJ Credenciadora</th>
+                            <th class="text-center align-middle"> Bandeira CC</th>
+                            <th class="text-center align-middle">Nº Autorização Transação </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if nuemro_forma %}
+                            {% for form in nuemro_forma %}
+                                <tr>
+                                    <td class="text-center align-middle"> {{form.indicador_forma_pagamento}}</td>
+                                    <td class="text-center align-middle">{{ form.forma_pagto }}</td>
+                                    <td class="text-center align-middle">{{ form.valor_pagamento }}</td>
+                                    <td class="text-center align-middle">{{ form.tipo_integracao_cc}}</td>
+                                    <td class="text-center align-middle">{{ form.cnpj_credenciadora }}</td>
+                                    <td class="text-center align-middle">{{ form.bandeira_cc }}</td>
+                                    <td class="text-center align-middle">{{ form.numero_autorizacao }}</td>
+                                </tr>
+                            {% empty %}
+                                {% for i in "123456789" %}
+                                    <tr class="linha-vazia">
+                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in "123456789" %}
+                                <tr class="linha-vazia">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; padding: 8px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 4px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="font-weight: bold; color: #004d40; font-size: 12px;">Troco:</label>
+                <input type="text" name="troco" value="0,00" readonly style="width: 140px; text-align: right; padding: 5px; border: 1px solid #7cb342; border-radius: 3px; font-size: 12px;">
+            </div>
+
+            <button type="button" class="btn-action" style="background: #4caf50; color: white; border: none; padding: 8px 16px;">
+                Calcular Formas Pago
+            </button>
         </div>
     </div>
-
-
-
-
+</div>
 
     <div id="info" class="tab-content">
         <div class="form-group-box">
