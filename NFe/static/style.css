@@ -1,0 +1,652 @@
+    body {
+        background: #d4e4d4;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 11px;
+    }
+
+    .tabs {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        background: #e0e0e0;
+        border-bottom: 1px solid #999;
+    }
+
+    .tabs li {
+        padding: 5px 12px;
+        background: #f0f0f0;
+        border: 1px solid #999;
+        border-bottom: none;
+        margin-right: 2px;
+        cursor: pointer;
+    }
+
+    .tabs li.active {
+        background: white;
+        font-weight: bold;
+        border-top: 3px solid #666;
+    }
+
+    .tab-content {
+        display: none;
+        background: #d4e4d4;
+        padding: 10px;
+        border: 1px solid #999;
+        border-top: none;
+        min-height: 400px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-group-box {
+        border: 1px solid #80a0c0;
+        margin-bottom: 8px;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+    }
+
+    .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        border: none;
+        padding: 4px;
+        font-size: 11px;
+        outline: none;
+        background: transparent;
+    }
+
+    .grid-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    .grid-table thead th {
+        background: #333;
+        color: white;
+        padding: 4px;
+        border: 1px solid #555;
+        text-align: left;
+    }
+
+    .grid-table td {
+        border: 1px solid #ccc;
+        padding: 2px;
+    }
+
+    .actions-bar {
+        display: flex;
+        gap: 10px;
+        padding: 15px;
+        background-color: #c5d4b5;
+        /* Cor de fundo verde musgo clara do seu sistema */
+        border-top: 1px solid #999;
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    .btn-action {
+        background-color: #f0f0f0;
+        border: 1px solid #999;
+        padding: 5px 10px;
+        color: #555;
+        font-size: 11px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 2px;
+    }
+
+    .btn-action:hover {
+        background-color: #e0e0e0;
+    }
+
+    .btn-action strong {
+        color: #000;
+    }
+
+    .spacer {
+        flex-grow: 1;
+        /* Empurra os botões seguintes para a direita */
+    }
+
+    .btn-action.disabled {
+        color: #aaa;
+        cursor: not-allowed;
+    }
+
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 12px 10px;
+        background-color: #c5d4b5;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end;
+    }
+
+    .filter-field {
+        display: flex;
+        flex-direction: column;
+        min-width: 140px;
+    }
+
+    .filter-field label {
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 3px;
+        color: #000;
+    }
+
+    .form-control {
+        height: 24px;
+        padding: 3px 6px;
+        font-size: 12px;
+        border: 1px solid #7a8a99;
+        border-radius: 3px;
+        background: white;
+        box-sizing: border-box;
+    }
+
+    select.form-control {
+        padding-right: 20px;
+        /* espaço para seta */
+    }
+
+    .top-action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-gray {
+        background: #f0f0f0;
+        border: 1px solid #777;
+        padding: 6px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        min-width: 85px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        border-radius: 3px;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-gray:hover {
+        background: #e0e0e0;
+    }
+
+    .btn-gray.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .header-divider {
+        border: 0;
+        height: 2px;
+        background: #000;
+        margin: 0 0 10px 0;
+    }
+
+    .main-content {
+        display: flex;
+        gap: 12px;
+        padding: 0 10px 10px;
+        background: #c5d4b5;
+        flex-grow: 1;
+    }
+
+    .table-container {
+        flex-grow: 1;
+        background: white;
+        border: 1px solid #777;
+        overflow: auto;
+        max-height: calc(100vh - 180px);
+    }
+
+    table.list-table tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    .main-area {
+        display: flex;
+        gap: 10px;
+        min-height: calc(100vh - 140px);
+    }
+
+    .main-section {
+        display: flex;
+        gap: 0;
+        padding: 10px;
+        background-color: #c5d4b5;
+    }
+
+    .table-container {
+        flex: 1;
+        border: 1px solid #777;
+        background: white;
+        height: 180px;
+        overflow-y: auto;
+    }
+
+    .side-bar-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 110px;
+        border: 1px solid #777;
+        border-left: none;
+        background: #e0e0e0;
+    }
+
+    .btn-side {
+        border: none;
+        border-bottom: 1px solid #999;
+        background: #f0f0f0;
+        padding: 5px;
+        font-size: 10px;
+        cursor: pointer;
+    }
+
+    .red-text {
+        color: red;
+        font-weight: bold;
+    }
+
+    .user-bar {
+        background: #c5d4b5;
+        padding: 5px 10px;
+        text-align: right;
+        /* Alinha o texto à direita conforme a foto 1 */
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+        /* Crucial para o visual de grade */
+        margin-bottom: -1px;
+        /* Remove o espaço entre as tabelas empilhadas */
+    }
+
+    .label-cell {
+        background: #b0cce0;
+        /* O azul claro da Foto 1 */
+        color: #003366;
+        padding: 2px 5px;
+        border: 1px solid #80a0c0;
+        font-weight: normal;
+    }
+
+    .input-cell {
+        border: 1px solid #80a0c0;
+        background: white;
+    }
+
+    .input-cell input,
+    .input-cell select {
+        border: none;
+        height: 22px;
+    }
+
+    Estilos para tabela de Endereço de Entrega */ .endereco-entrega {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        margin-bottom: 1px;
+    }
+
+    .endereco-entrega .label-cell {
+        background: #b0cce0;
+        /* azul claro da sua imagem  */
+        color: #003366;
+        font-weight: bold;
+        padding: 4px 6px;
+        border: 1px solid #80a0c0;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .endereco-entrega .input-cell {
+        background: white;
+        padding: 2px 4px;
+        border: 1px solid #80a0c0;
+        vertical-align: middle;
+        height: 24px;
+    }
+
+    .endereco-entrega .input-cell input,
+    .endereco-entrega .input-cell select {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 2px 4px;
+        font-size: 11px;
+        background: white;
+        color: #000;
+        box-sizing: border-box;
+        cursor: text;
+    }
+
+    .endereco-entrega .input-cell input:focus,
+    .endereco-entrega .input-cell select:focus {
+        outline: 2px solid #0066cc;
+        background: #f0f8ff;
+    }
+
+
+    .tabela-totais td {
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .tabela-totais .valor {
+        text-align: right;
+        min-width: 120px;
+    }
+
+    .cabecalho-resumo td {
+        background: #fff3e0;
+    }
+
+    /* Container com scroll horizontal */
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 600px;
+        /* ajuste conforme necessário */
+        border: 1px solid #777;
+        background: white;
+    }
+
+    /* Tabela principal dos itens */
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;
+        /* evita quebra de linha nos cabeçalhos */
+    }
+
+    /* Cabeçalho principal (primeira linha de títulos agrupados) */
+    .tabela-itens thead tr:first-child th {
+        background: #333333;
+        /* cinza bem escuro como nas fotos */
+        color: white;
+        font-weight: bold;
+        padding: 4px 6px;
+        border: 1px solid #444;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .tabela-itens thead tr:nth-child(2) th {
+        background: #444444;
+        color: white;
+        padding: 3px 5px;
+        border: 1px solid #555;
+        font-weight: normal;
+        text-align: center;
+    }
+
+    /* Células normais (corpo da tabela) */
+    .tabela-itens td {
+        border: 1px solid #cccccc;
+        padding: 3px 5px;
+        vertical-align: middle;
+    }
+
+    /* Alinhamentos específicos */
+    .tabela-itens td.text-left {
+        text-align: left;
+    }
+
+    .tabela-itens td.text-center {
+        text-align: center;
+    }
+
+    .tabela-itens td.text-right {
+        text-align: right;
+    }
+
+    /* Linhas pares com fundo leve */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover na linha */
+    .tabela-itens tbody tr:hover {
+        background-color: #e6f3ff;
+    }
+
+    /* Colunas de valores monetários (alinhamento à direita + espaço) */
+    .tabela-itens td.valor-mon {
+        text-align: right;
+        padding-right: 8px;
+        min-width: 90px;
+    }
+
+    /* Cabeçalhos de grupos com cores diferentes (opcional, mas ajuda muito) */
+    .tabela-itens th.grupo-comercial {
+        background: #2c5aa0 !important;
+        /* azul escuro */
+    }
+
+    .tabela-itens th.grupo-icms {
+        background: #1e6e3b !important;
+        /* verde escuro */
+    }
+
+    .tabela-itens th.grupo-st-fcp {
+        background: #8b5a2b !important;
+        /* marrom */
+    }
+
+    .tabela-itens th.grupo-pis-cofins {
+        background: #6a1b9a !important;
+        /* roxo */
+    }
+
+    .tabela-itens th.grupo-outros {
+        background: #555555 !important;
+    }
+
+    .tabela-produtos-container {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 550px;
+        border: 1px solid #555;
+        background: white;
+        margin-top: 10px;
+    }
+
+    .tabela-itens {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .tabela-itens thead th {
+        background: #333333;
+        color: white;
+        padding: 5px 8px;
+        border: 1px solid #444;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        cursor: pointer;
+        position: relative;
+    }
+
+    /* Seta de ordenação (igual na foto) */
+    .tabela-itens thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 5px;
+    }
+
+    /* Células do corpo */
+    .tabela-itens tbody td {
+        border: 1px solid #cccccc;
+        padding: 4px 6px;
+        vertical-align: middle;
+        height: 26px;
+    }
+
+    /* Linhas vazias (sem dados) */
+    .tabela-itens .linha-vazia td {
+        background: white;
+        border: 1px solid #ddd;
+    }
+
+    /* Alinhamentos */
+    .tabela-itens td.text-center {
+        text-align: center;
+    }
+
+    .tabela-itens td.text-right {
+        text-align: right;
+        padding-right: 8px;
+    }
+
+    /* Linhas alternadas (opcional) */
+    .tabela-itens tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Tabela estilo Itens do Pedido de Compra (borda verde, header verde-azulado) */
+    .tabela-pedido-compra-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 400px;
+        border: 2px solid #7cb342;
+        background: white;
+        margin-top: 10px;
+    }
+
+    .tabela-pedido-compra {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        white-space: nowrap;
+    }
+
+    .tabela-pedido-compra thead th {
+        background: #6ab7c6;
+        color: #003366;
+        padding: 6px 8px;
+        border: 1px solid #5a9fb0;
+        font-weight: bold;
+        text-align: left;
+        vertical-align: middle;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .tabela-pedido-compra thead th::after {
+        content: " ▼";
+        font-size: 9px;
+        opacity: 0.8;
+        margin-left: 3px;
+    }
+
+    .tabela-pedido-compra tbody td {
+        border: 1px solid #ddd;
+        padding: 4px 6px;
+        vertical-align: middle;
+    }
+
+    .tabela-pedido-compra tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .tabela-pedido-compra tbody tr:hover {
+        background-color: #e8f5e9;
+    }
+
+    /* Container com barra preta grossa à esquerda (exatamente como na primeira foto) */
+    /* Tabela de Pagamento */
+    /* === SOLUÇÃO FINAL PARA CAMPOS INVISÍVEIS / SEM CURSOR === */
+    /* === SOLUÇÃO FINAL PARA CAMPOS INVISÍVEIS / SEM CURSOR === */
+    .input-cell * {
+        cursor: text !important;
+        pointer-events: auto !important;
+        user-select: text !important;
+    }
+
+    .input-cell input,
+    .input-cell select,
+    .input-cell textarea {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: 22px !important;
+        padding: 3px 6px !important;
+        margin: 0 !important;
+        font-size: 11px !important;
+        color: #000000 !important;
+        background-color: #ffffff !important;
+        border: 1px solid #80a0c0 !important;
+        border-radius: 3px !important;
+        box-sizing: border-box !important;
+        cursor: text !important;
+        outline: none !important;
+        appearance: auto !important;
+    }
+
+    .input-cell input:focus,
+    .input-cell select:focus,
+    .input-cell textarea:focus {
+        border-color: #0066cc !important;
+        box-shadow: 0 0 5px #0066cc80 !important;
+        background-color: #f0f8ff !important;
+    }
+
+    /* Selects com seta visível */
+    .input-cell select {
+        background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='6'><polygon points='0,0 12,0 6,6' fill='%23333'/></svg>") no-repeat right 8px center !important;
+        padding-right: 24px !important;
+        appearance: none !important;
+    }
