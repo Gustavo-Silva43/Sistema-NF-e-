@@ -441,6 +441,43 @@
                             <th class="text-center align-middle">Und. Tributo</th>
                             <th class="text-center align-middle">Qtd Tributo</th>
                             <th class="text-center align-middle">Vr Unit. Tributo</th>
+                            <th class="text-center align-middle">Vr Frete</th>
+                            <th class="text-center align-middle">Vr Seguro</th>
+                            <th class="text-center align-middle">Vr Outros</th>
+                            <th class="text-center align-middle">Nº do Pedido de Compra</th>
+                            <th class="text-center align-middle">Nº do Item do Pedido de Compra </th>
+                            <th class="text-end align-middle">FCI</th>
+                            <th class="text-end align-middle">Vr. Tributos</th>
+                            <th class="text-end align-middle"> Origem da Mercadoria </th>
+                            <th class="text-end align-middle"> CST Operação</th>
+                            <th class="text-center align-middle">ICMS BC</th>
+                            <th class="text-center align-middle">% ICMS</th>
+                            <th class="text-center align-middle">Vr.ICMS</th>
+                            <th class="text-center align-middle">BC CST</th>
+                            <th class="text-center align-middle"> ICMS ST </th>
+                            <th class="text-center align-middle"> Red. BC ICMS ST</th>
+                            <th class="text-center align-middle">Vr.ICMS ST</th>
+                            <th class="text-center align-middle"> %ICMS ST</th>
+                            <th class="text-center align-middle"> Vr. ICMS ST</th>
+                            <th class="text-center align-middle"> PIS CST</th>
+                            <th class="text-center align-middle"> % PIS</th>
+                            <th class="text-center align-middle">Vr. PIS</th>
+                            <th class="text-center align-middle">CONFINS CST</th>
+                            <th class="text-center align-middle">CONFINS BC</th>
+                            <th class="text-center align-middle">% CONFINS</th>
+                            <th class="text-center align-middle">VR. CONFINS</th>
+                            <th class="text-center align-middle">ICMSUFDest_vBCUFDest</th>
+                            <th class="text-center align-middle">ICMSUFDest_pFCPUFDest</th>
+                            <th class="text-center align-middle">ICMSUFDest_pICMSUFDest</th>
+                            <th class="text-center align-middle">ICMSUFDest_pICMSInter</th>
+                            <th class="text-center align-middle">ICMSUFDest_pICMSInterPart</th>
+                            <th class="text-center align-middle">ICMSUFDest_vFCPUFDest</th>
+                            <th class="text-center align-middle">ICMSUFDest_vICMSUF</th>
+                            <th class="text-center align-middle">ICMSUFDest_vICMSUFRemet</th>
+                            <th class="text-center align-middle"> Data Di</th>
+                            <th class="text-center align-middle">Local Desemb.</th>
+                            <th class="text-center align-middle">UF Desemb.</th>
+                            <th class="text-center align-middle"> Data Desemb.</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -482,6 +519,10 @@
                             <td>{{ item.unidade_tributo }}</td>
                             <td class="text-right">{{ item.quantidade_tributo|floatformat:4|default:"0,0000" }}</td>
                             <td class="text-right">{{ item.valor_unitario_tributo|floatformat:2|default:"0,00" }}</td>
+                            <td>{{item.valor_frete}}</td>
+                            <td>{{item.valor_seguro}}</td>
+                            <td class="text-right">{{valor_outros}}</td>
+                            <td>{{item.</td>
                         </tr>
                         {% empty %}
                         {% for i in "123456789" %}
