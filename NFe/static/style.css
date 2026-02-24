@@ -38,7 +38,7 @@
     }
 
     .tab-content.active {
-        display: block;
+        display: block !important;
     }
 
     .form-group-box {
