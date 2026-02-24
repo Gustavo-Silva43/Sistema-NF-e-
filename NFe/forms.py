@@ -103,3 +103,20 @@ class ProdutoForm(forms.ModelForm):
         widgets = {}
 
 ProdutoFormSet = inlineformset_factory(NFe, Produto, form=ProdutoForm, extra=10)
+
+class PagamentoForm(forms.ModelForm):
+    class Meta:
+        model = Pagamento
+        fields = [
+            'numero_forma',
+            'indicador_pagamento',
+            'forma_pagamento',
+            'valor_pagamento',
+            'tipo_integracao',
+            'cnpj_credenciadora',
+            'bandeira_cc',
+            'autorizacao_transacao',
+        ]
+        widgets = {}
+
+PagamentoFormSet = inlineformset_factory(NFe, Pagamento, form=PagamentoForm, extra=5)
