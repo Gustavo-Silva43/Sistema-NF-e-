@@ -502,7 +502,40 @@
                             <td>{{item.valor_frete}}</td>
                             <td>{{item.valor_seguro}}</td>
                             <td class="text-right">{{valor_outros}}</td>
-                            <td>{{item</td>
+                            <td>{{item.numero_pedido_compra}}</td>
+                            <td>{{item.numero_item_pedido_compra}}</td>
+                            <td>{{form.fci}}</td>
+                            <td>{{form.valor_tributos}}</td>
+                            <td>{{form.origem_mercadoria}}</td>
+                            <td>{{form.cst_operacao}}</td>
+                            <td>{{form.icms_bc}}</td>
+                            <td>{{form.icms_aliquota}}</td>
+                            <td>{{form.icms_valor}}</td>
+                            <td>{{form.bc_cst}}</td>
+                            <td> {{form.icms_st}}</td>
+                            <td>{{form.red_bc_icms_st}}</td>
+                            <td>{{form.icms_st_valor}}</td>
+                            <td>{{form.icms_st_aliquota}}</td>
+                            <td>{{form.icms_st_valor}}</td>
+                            <td>{{form.pis_cst}}</td>
+                            <td>{{form.pis_aliquota}}</td>
+                            <td>{{form.pis_valor}}</td>
+                            <td>{{form.cofins_cst}}</td>
+                            <td>{{form.cofins_bc}}</td>
+                            <td>{{form.cofins_aliquota}}</td>
+                            <td>{{form.cofins_valor}}</td>
+                            <td>{{form.icms_uf_dest_vbc}}</td>
+                            <td>{{form.icms_uf_dest_pfcp}}</td>
+                            <td>{{form.icms_uf_dest_picms}}</td>
+                            <td>{{form.icms_uf_dest_picms_inter}}</td>
+                            <td>{{form.icms_uf_dest_picms_inter_part}}</td>
+                            <td>{{form.icms_uf_dest_vfcp}}</td>
+                            <td>{{form.icms_uf_dest_vicmsuf}}</td>
+                            <td>{{form.icms_uf_dest_vicmsuf_remet}}</td>
+                            <td>{{form.data_di}}</td>
+                            <td>{{form.local_desembaraco}}</td>
+                            <td>{{form.uf_desembaraco}}</td>
+                            <td>{{form.data_desembaraco}}</td>
                         </tr>
                         </tr>
                         {% endfor %}
@@ -527,7 +560,40 @@
                             <td>{{item.valor_frete}}</td>
                             <td>{{item.valor_seguro}}</td>
                             <td class="text-right">{{valor_outros}}</td>
-                            <td>{{item</td>
+                            <td>{{item.numero_pedido_compra}}</td>
+                            <td>{{item.numero_item_pedido_compra}}</td>
+                            <td>{{item.fci}}</td>
+                            <td>{{item.valor_tributos}}</td>
+                            <td>{{item.origem_mercadoria}}</td>
+                            <td>{{item.cst_operacao}}</td>
+                            <td>{{item.icms_bc}}</td>
+                            <td>{{item.icms_aliquota}}</td>
+                            <td>{{item.icms_valor}}</td>
+                            <td>{{item.bc_cst}}</td>
+                            <td class="text-right">{{ item.icms_st|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{item.red_bc_icms_st |floatformat:4|default:"0,0000"}}</td>
+                            <td class="text-right">{{ item.icms_st_valor|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_st_aliquota|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_st_valor|floatformat:2|default:"0,00" }}</td>
+                            <td>{{item.pis_cst}}</td>
+                            <td class="text-right">{{ item.pis_aliquota|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.pis_valor|floatformat:2|default:"0,00" }}</td>
+                            <td>{{item.cofins_cst}}</td>
+                            <td class="text-right">{{ item.cofins_bc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.cofins_aliquota|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.cofins_valor|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_vbc|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_pfcp|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_picms|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_picms_inter|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_picms_inter_part|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_vfcp|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_vicmsuf|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-right">{{ item.icms_uf_dest_vicmsuf_remet|floatformat:2|default:"0,00" }}</td>
+                            <td>{{item.data_di}}</td>
+                            <td>{{item.local_desembaraco}}</td>
+                            <td>{{item.uf_desembaraco}}</td>
+                            <td>{{item.data_desembaraco}}</td>
                         </tr>
                         {% empty %}
                         {% for i in "123456789" %}
@@ -576,69 +642,91 @@
             </div>
         </div>
     </div>
+<div id="pagamento" class="tab-content">
+    <div class="form-group-box">
+        <div class="tabela-pagamento-container">
+            {% if pagamento_formset %}
+            {{ pagamento_formset.management_form }}
+            {% for form in pagamento_formset %}
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+            {% endfor %}
+            {% endif %}
 
-    <div id="pagamento" class="tab-content">
-        <div class="form-group-box">
-            <div class="tabela-pagamento-container">
-                <table class="table table-bordered table-sm tabela-pagamento">
-                    <thead>
-                        <tr>
-                            <th class="text-center align-middle">Nº Forma</th>
-                            <th class="text-center align-middle">Ind. Forma Pagto.</th>
-                            <th class="text-center align-middle">Forma pagto</th>
-                            <th class="text-center align-middle">Valor Pagto</th>
-                            <th class="text-center align-middle">Tipo Integraçao CC</th>
-                            <th class="text-center align-middle">CNPJ Credenciadora</th>
-                            <th class="text-center align-middle"> Bandeira CC</th>
-                            <th class="text-center align-middle">Nº Autorização Transação </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if nuemro_forma %}
-                        {% for form in nuemro_forma %}
-                        <tr>
-                            <td class="text-center align-middle"> {{form.indicador_forma_pagamento}}</td>
-                            <td class="text-center align-middle">{{ form.forma_pagto }}</td>
-                            <td class="text-center align-middle">{{ form.valor_pagamento }}</td>
-                            <td class="text-center align-middle">{{ form.tipo_integracao_cc}}</td>
-                            <td class="text-center align-middle">{{ form.cnpj_credenciadora }}</td>
-                            <td class="text-center align-middle">{{ form.bandeira_cc }}</td>
-                            <td class="text-center align-middle">{{ form.numero_autorizacao }}</td>
-                        </tr>
-                        {% empty %}
-                        {% for i in "123456789" %}
-                        <tr class="linha-vazia">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                        {% endfor %}
-                        {% else %}
-                        {% for i in "123456789" %}
-                        <tr class="linha-vazia">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-bordered table-sm tabela-itens"
+                style="font-size: 0.85rem; white-space: nowrap;">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="text-center align-middle">Nº Forma</th>
+                        <th class="text-center align-middle">Ind. Forma Pagto.</th>
+                        <th class="text-center align-middle">Forma pagto</th>
+                        <th class="text-center align-middle">Valor Pagto</th>
+                        <th class="text-center align-middle">Tipo Integraçao CC</th>
+                        <th class="text-center align-middle">CNPJ Credenciadora</th>
+                        <th class="text-center align-middle">Bandeira CC</th>
+                        <th class="text-center align-middle">Nº Autorização Transação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if pagamento_formset %}
+                    {% for form in pagamento_formset %}
+                    <tr>
+                        <td class="text-center">{{ form.numero_forma }}</td>
+                        <td class="text-center">{{ form.indicador_forma_pagamento }}</td>
+                        <td class="text-center">{{ form.forma_pagto }}</td>
+                        <td class="text-center">{{ form.valor_pagamento }}</td>
+                        <td class="text-center">{{ form.tipo_integracao_cc }}</td>
+                        <td class="text-center">{{ form.cnpj_credenciadora }}</td>
+                        <td class="text-center">{{ form.bandeira_cc }}</td>
+                        <td class="text-center">{{ form.numero_autorizacao }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% elif nfe %}
+                    {% for pagamento in nfe.pagamentos.all %}
+                    <tr>
+                        <td class="text-center">{{ pagamento.numero_forma }}</td>
+                        <td class="text-center">{{ pagamento.indicador_forma_pagamento }}</td>
+                        <td class="text-center">{{ pagamento.forma_pagto }}</td>
+                        <td class="text-center">{{ pagamento.valor_pagamento|floatformat:2|default:"0,00" }}</td>
+                        <td class="text-center">{{ pagamento.tipo_integracao_cc }}</td>
+                        <td class="text-center">{{ pagamento.cnpj_credenciadora }}</td>
+                        <td class="text-center">{{ pagamento.bandeira_cc }}</td>
+                        <td class="text-center">{{ pagamento.numero_autorizacao }}</td>
+                    </tr>
+                    {% empty %}
+                    {% for i in "123456789" %}
+                    <tr class="linha-vazia">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                    {% else %}
+                    {% for i in "123456789" %}
+                    <tr class="linha-vazia">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
-
+</div>
     <div
         style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; padding: 8px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 4px;">
         <div style="display: flex; align-items: center; gap: 12px;">
@@ -681,16 +769,18 @@
 </form>
 
 <script>
-
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
-            document.getElementById(tab.dataset.tab).classList.add('active');
+            
+            const targetId = tab.dataset.tab;
+            if (targetId) {
+                document.getElementById(targetId).classList.add('active');
+            }
             tab.classList.add('active');
         });
     });
-
 
     document.addEventListener('input', function (e) {
         if (e.target.name.includes('quantidade') || e.target.name.includes('valor_unitario')) {
@@ -701,5 +791,7 @@
             if (totalField) totalField.value = (qtd * unit).toFixed(2);
         }
     });
+
 </script>
 {% endblock %}
+
