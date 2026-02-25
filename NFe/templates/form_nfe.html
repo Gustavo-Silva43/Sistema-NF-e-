@@ -642,6 +642,7 @@
             </div>
         </div>
     </div>
+    
 <div id="pagamento" class="tab-content">
     <div class="form-group-box">
         <div class="tabela-pagamento-container">
@@ -727,6 +728,7 @@
         </div>
     </div>
 </div>
+
     <div
         style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; padding: 8px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 4px;">
         <div style="display: flex; align-items: center; gap: 12px;">
@@ -766,6 +768,27 @@
         <button type="button" class="btn-action">PIN</button>
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
     </div>
+
+   
+        <tbody>
+        <tr style="background-color: #e0ffe0; height: 80px;">
+            <td colspan="8" style="text-align: center; vertical-align: middle; font-size: 18px; color: #006400; font-weight: bold;">
+                TABELA DE PAGAMENTO VISÍVEL AGORA (teste sem if/elif/else)
+            </td>
+        </tr>
+        {% for i in "123456789" %}
+        <tr class="linha-vazia">
+            <td style="background: #f0f0f0;">Linha vazia teste {{ forloop.counter }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        </tbody>
 </form>
 
 <script>
