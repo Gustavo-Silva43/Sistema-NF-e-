@@ -292,7 +292,6 @@
     <div id="End_Entrega" class="tab-content">
         <div class="form-group-box">
             <table class="form-table endereco-entrega">
-                <!-- Linha 1: Cliente -->
                 <tr>
                     <td class="label-cell" colspan="7">Cliente</td>
                 </tr>
@@ -302,7 +301,6 @@
                     </td>
                 </tr>
 
-                <!-- Linha 2: CEP | Logradouro | Nº | Complemento | Bairro -->
                 <tr>
                     <td class="label-cell" style="width: 12%;">CEP</td>
                     <td class="label-cell" style="width: 30%;">Logradouro</td>
@@ -318,7 +316,6 @@
                     <td class="input-cell">{{ end_entrega_form.bairro }}</td>
                 </tr>
 
-                <!-- Linha 3: Cód. IBGE | Município | UF -->
                 <tr>
                     <td class="label-cell">Cód. IBGE</td>
                     <td class="label-cell">Município</td>
@@ -338,7 +335,6 @@
             <table class="form-table">
                 <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
                     <tbody>
-                        <!-- Valores principais da nota -->
                         <tr>
                             <td><strong>Base Cálculo ICMS</strong></td>
                             <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
@@ -642,10 +638,10 @@
             </div>
         </div>
     </div>
-    
-<div id="pagamento" class="tab-content">
+
+    <div id="Pagamento" class="tab-content">
     <div class="form-group-box">
-        <div class="tabela-pagamento-container">
+        <div class="tabela-Pagamento-container">
             {% if pagamento_formset %}
             {{ pagamento_formset.management_form }}
             {% for form in pagamento_formset %}
@@ -706,12 +702,22 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     {% endfor %}
                     {% endfor %}
                     {% else %}
                     {% for i in "123456789" %}
                     <tr class="linha-vazia">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -727,8 +733,9 @@
             </table>
         </div>
     </div>
-</div>
+    </div>
 
+    
     <div
         style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; padding: 8px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 4px;">
         <div style="display: flex; align-items: center; gap: 12px;">
@@ -768,29 +775,7 @@
         <button type="button" class="btn-action">PIN</button>
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
     </div>
-
-   
-        <tbody>
-        <tr style="background-color: #e0ffe0; height: 80px;">
-            <td colspan="8" style="text-align: center; vertical-align: middle; font-size: 18px; color: #006400; font-weight: bold;">
-                TABELA DE PAGAMENTO VISÍVEL AGORA (teste sem if/elif/else)
-            </td>
-        </tr>
-        {% for i in "123456789" %}
-        <tr class="linha-vazia">
-            <td style="background: #f0f0f0;">Linha vazia teste {{ forloop.counter }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        {% endfor %}
-        </tbody>
-</form>
-
+    
 <script>
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
