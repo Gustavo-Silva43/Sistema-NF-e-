@@ -289,6 +289,7 @@
         </div>
     </div>
     </div>
+
     <div id="End_Entrega" class="tab-content">
         <div class="form-group-box">
             <table class="form-table endereco-entrega">
@@ -331,80 +332,162 @@
     </div>
 
     <div id="base_calculo" class="tab-content">
-        <div class="form-group-box">
-            <table class="form-table">
-                <table class="tabela-totais" border="1" style="border-collapse: collapse; width: 100%;">
-                    <tbody>
+    <div class="form-group-box">
+        <div class="tabela-totais-container" style="width: 100%; overflow-x: auto; max-height: 550px; border: 1px solid #555; background: white; margin-top: 10px;">
+            <table class="table table-bordered table-sm tabela-itens"
+                   style="font-size: 0.85rem; white-space: nowrap;">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="text-center align-middle">Descrição</th>
+                        <th class="text-center align-middle">Valor</th>
+                        <th class="text-center align-middle">Descrição</th>
+                        <th class="text-center align-middle">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if nfe_form %}  
                         <tr>
-                            <td><strong>Base Cálculo ICMS</strong></td>
-                            <td class="valor">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>Valor Total IPI</strong></td>
-                            <td class="valor">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
+                            <td>Base Cálculo ICMS</td>
+                            <td class="text-end">{{ nfe_form.vBC }}</td>
+                            <td>Valor Total IPI</td>
+                            <td class="text-end">{{ nfe_form.vIPI }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>Valor Total Produtos</strong></td>
-                            <td class="valor">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>Valor do Frete</strong></td>
-                            <td class="valor">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor Total Produtos</td>
+                            <td class="text-end">{{ nfe_form.vProd }}</td>
+                            <td>Valor do Frete</td>
+                            <td class="text-end">{{ nfe_form.vFrete }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>Valor do Seguro</strong></td>
-                            <td class="valor">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>Outras Despesas</strong></td>
-                            <td class="valor">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor do Seguro</td>
+                            <td class="text-end">{{ nfe_form.vSeg }}</td>
+                            <td>Outras Despesas</td>
+                            <td class="text-end">{{ nfe_form.vOutro }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>Desconto</strong></td>
-                            <td class="valor">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
-                            <td style="color: #d32f2f; font-weight: bold;"><strong>Total da NF-e</strong></td>
-                            <td style="color: #d32f2f; font-weight: bold;" class="valor">
-                                {{ nfe.vNF|floatformat:2|default:"0,00" }}
+                            <td>Desconto</td>
+                            <td class="text-end">{{ nfe_form.vDesc }}</td>
+                            <td style="color: #d32f2f; font-weight: bold;">Total da NF-e</td>
+                            <td style="color: #d32f2f; font-weight: bold;" class="text-end">
+                                {{ nfe_form.vNF }}
                             </td>
                         </tr>
 
-                        <tr class="cabecalho-resumo">
-                            <td colspan="4"
-                                style="text-align: center; background: #fff3e0; font-weight: bold; padding: 10px;">
+                        <tr>
+                            <td colspan="4" class="text-center" style="background: #fff3e0; font-weight: bold; padding: 12px; font-size: 1rem;">
                                 Resumo de Tributos
                             </td>
                         </tr>
 
                         <tr>
-                            <td><strong>Valor Total ICMS</strong></td>
-                            <td class="valor">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>Valor Total PIS</strong></td>
-                            <td class="valor">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor Total ICMS</td>
+                            <td class="text-end">{{ nfe_form.vICMS }}</td>
+                            <td>Valor Total PIS</td>
+                            <td class="text-end">{{ nfe_form.vPIS }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>Valor Total COFINS</strong></td>
-                            <td class="valor">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>ICMS ST</strong></td>
-                            <td class="valor">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor Total COFINS</td>
+                            <td class="text-end">{{ nfe_form.vCOFINS }}</td>
+                            <td>ICMS ST</td>
+                            <td class="text-end">{{ nfe_form.vST }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>Base Cálculo ICMS ST</strong></td>
-                            <td class="valor">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>ICMS Interestadual Destino</strong></td>
-                            <td class="valor">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
+                            <td>Base Cálculo ICMS ST</td>
+                            <td class="text-end">{{ nfe_form.vBCST }}</td>
+                            <td>ICMS Interestadual Destino</td>
+                            <td class="text-end">{{ nfe_form.vICMSUFDest }}</td>
                         </tr>
 
                         <tr>
-                            <td><strong>ICMS Interestadual Remetente</strong></td>
-                            <td class="valor">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
-                            <td><strong>FCP UF Destino</strong></td>
-                            <td class="valor">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                            <td>ICMS Interestadual Remetente</td>
+                            <td class="text-end">{{ nfe_form.vICMSUFRemet }}</td>
+                            <td>FCP UF Destino</td>
+                            <td class="text-end">{{ nfe_form.vFCPUFDest }}</td>
+                        </tr>
+                    {% elif nfe %}  
+                        <tr>
+                            <td>Base Cálculo ICMS</td>
+                            <td class="text-end">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor Total IPI</td>
+                            <td class="text-end">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
                         </tr>
 
-                    </tbody>
-                </table>
+                        <tr>
+                            <td>Valor Total Produtos</td>
+                            <td class="text-end">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor do Frete</td>
+                            <td class="text-end">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Valor do Seguro</td>
+                            <td class="text-end">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
+                            <td>Outras Despesas</td>
+                            <td class="text-end">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Desconto</td>
+                            <td class="text-end">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
+                            <td style="color: #d32f2f; font-weight: bold;">Total da NF-e</td>
+                            <td style="color: #d32f2f; font-weight: bold;" class="text-end">
+                                {{ nfe.vNF|floatformat:2|default:"0,00" }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" class="text-center" style="background: #fff3e0; font-weight: bold; padding: 12px; font-size: 1rem;">
+                                Resumo de Tributos
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Valor Total ICMS</td>
+                            <td class="text-end">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
+                            <td>Valor Total PIS</td>
+                            <td class="text-end">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Valor Total COFINS</td>
+                            <td class="text-end">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
+                            <td>ICMS ST</td>
+                            <td class="text-end">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Base Cálculo ICMS ST</td>
+                            <td class="text-end">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
+                            <td>ICMS Interestadual Destino</td>
+                            <td class="text-end">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>ICMS Interestadual Remetente</td>
+                            <td class="text-end">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
+                            <td>FCP UF Destino</td>
+                            <td class="text-end">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                        </tr>
+                    {% else %}  
+                        {% for i in "123456789" %}
+                        <tr class="linha-vazia">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
             </table>
         </div>
     </div>
+</div>
 
     <div id="produto" class="tab-content">
         <div class="form-group-box">
@@ -640,116 +723,88 @@
     </div>
 
     <div id="Pagamento" class="tab-content">
-    <div class="form-group-box">
-        <div class="tabela-Pagamento-container">
-            {% if pagamento_formset %}
-            {{ pagamento_formset.management_form }}
-            {% for form in pagamento_formset %}
-            {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-            {% endfor %}
-            {% endfor %}
-            {% endif %}
-
-            <table class="table table-bordered table-sm tabela-itens"
-                style="font-size: 0.85rem; white-space: nowrap;">
-                <thead>
-                    <tr class="bg-light">
-                        <th class="text-center align-middle">Nº Forma</th>
-                        <th class="text-center align-middle">Ind. Forma Pagto.</th>
-                        <th class="text-center align-middle">Forma pagto</th>
-                        <th class="text-center align-middle">Valor Pagto</th>
-                        <th class="text-center align-middle">Tipo Integraçao CC</th>
-                        <th class="text-center align-middle">CNPJ Credenciadora</th>
-                        <th class="text-center align-middle">Bandeira CC</th>
-                        <th class="text-center align-middle">Nº Autorização Transação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if pagamento_formset %}
+        <div class="form-group-box">
+            <div class="tabela-pagamento-container">
+                {% if pagamento_formset %}
+                    {{ pagamento_formset.management_form }}
                     {% for form in pagamento_formset %}
-                    <tr>
-                        <td class="text-center">{{ form.numero_forma }}</td>
-                        <td class="text-center">{{ form.indicador_forma_pagamento }}</td>
-                        <td class="text-center">{{ form.forma_pagto }}</td>
-                        <td class="text-center">{{ form.valor_pagamento }}</td>
-                        <td class="text-center">{{ form.tipo_integracao_cc }}</td>
-                        <td class="text-center">{{ form.cnpj_credenciadora }}</td>
-                        <td class="text-center">{{ form.bandeira_cc }}</td>
-                        <td class="text-center">{{ form.numero_autorizacao }}</td>
-                    </tr>
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
                     {% endfor %}
-                    {% elif nfe %}
-                    {% for pagamento in nfe.pagamentos.all %}
-                    <tr>
-                        <td class="text-center">{{ pagamento.numero_forma }}</td>
-                        <td class="text-center">{{ pagamento.indicador_forma_pagamento }}</td>
-                        <td class="text-center">{{ pagamento.forma_pagto }}</td>
-                        <td class="text-center">{{ pagamento.valor_pagamento|floatformat:2|default:"0,00" }}</td>
-                        <td class="text-center">{{ pagamento.tipo_integracao_cc }}</td>
-                        <td class="text-center">{{ pagamento.cnpj_credenciadora }}</td>
-                        <td class="text-center">{{ pagamento.bandeira_cc }}</td>
-                        <td class="text-center">{{ pagamento.numero_autorizacao }}</td>
-                    </tr>
-                    {% empty %}
-                    {% for i in "123456789" %}
-                    <tr class="linha-vazia">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                    {% endfor %}
-                    {% else %}
-                    {% for i in "123456789" %}
-                    <tr class="linha-vazia">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-    </div>
+                {% endif %}
 
-    
-    <div
-        style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; padding: 8px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 4px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <label style="font-weight: bold; color: #004d40; font-size: 12px;">Troco:</label>
-            <input type="text" name="troco" value="0,00" readonly
-                style="width: 140px; text-align: right; padding: 5px; border: 1px solid #7cb342; border-radius: 3px; font-size: 12px;">
-        </div>
+                <table class="table table-bordered table-sm tabela-itens"
+                    style="font-size: 0.85rem; white-space: nowrap;">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="text-center align-middle">Nº Forma</th>
+                            <th class="text-center align-middle">Ind. Forma Pagto.</th>
+                            <th class="text-center align-middle">Forma pagto</th>
+                            <th class="text-center align-middle">Valor Pagto</th>
+                            <th class="text-center align-middle">Tipo Integraçao CC</th>
+                            <th class="text-center align-middle">CNPJ Credenciadora</th>
+                            <th class="text-center align-middle">Bandeira CC</th>
+                            <th class="text-center align-middle">Nº Autorização Transação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if pagamento_formset %}
+                            {% for form in pagamento_formset %}
+                                <tr>
+                                    <td class="text-center">{{ form.numero_forma }}</td>
+                                    <td class="text-center">{{ form.indicador_forma_pagamento }}</td>
+                                    <td class="text-center">{{ form.forma_pagto }}</td>
+                                    <td class="text-center">{{ form.valor_pagamento }}</td>
+                                    <td class="text-center">{{ form.tipo_integracao_cc }}</td>
+                                    <td class="text-center">{{ form.cnpj_credenciadora }}</td>
+                                    <td class="text-center">{{ form.bandeira_cc }}</td>
+                                    <td class="text-center">{{ form.numero_autorizacao }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% elif nfe %}
+                            {% for pagamento in nfe.pagamentos.all %}
+                                <tr>
+                                    <td class="text-center">{{ pagamento.numero_forma }}</td>
+                                    <td class="text-center">{{ pagamento.indicador_forma_pagamento }}</td>
+                                    <td class="text-center">{{ pagamento.forma_pagto }}</td>
+                                    <td class="text-center">{{ pagamento.valor_pagamento|floatformat:2|default:"0,00" }}</td>
+                                    <td class="text-center">{{ pagamento.tipo_integracao_cc }}</td>
+                                    <td class="text-center">{{ pagamento.cnpj_credenciadora }}</td>
+                                    <td class="text-center">{{ pagamento.bandeira_cc }}</td>
+                                    <td class="text-center">{{ pagamento.numero_autorizacao }}</td>
+                                </tr>
+                            {% empty %}
+                                {% for i in "123456789" %}
+                                    <tr class="linha-vazia">
+                                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in "123456789" %}
+                                <tr class="linha-vazia">
+                                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
 
-        <button type="button" class="btn-action"
-            style="background: #4caf50; color: white; border: none; padding: 8px 16px;">
-            Calcular Formas Pago
-        </button>
-    </div>
-    </div>
+            <div style="margin-top: 15px; display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #e8f5e9; border: 1px solid #7cb342; border-radius: 5px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <label style="font-weight: bold; color: #004d40; font-size: 13px;">Troco:</label>
+                    <input type="text" name="troco" value="0,00" readonly
+                        style="width: 150px; text-align: right; padding: 6px 10px; border: 1px solid #7cb342; border-radius: 4px; font-size: 13px; background: white;">
+                </div>
+
+                <button type="button" class="btn-action"
+                        style="background: #4caf50; color: white; border: none; padding: 10px 20px; font-size: 13px; border-radius: 4px; cursor: pointer;">
+                    Calcular Formas Pago
+                </button>
+            </div>
+        </div>
     </div>
 
     <div id="info" class="tab-content">
