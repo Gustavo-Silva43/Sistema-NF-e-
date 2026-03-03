@@ -807,6 +807,98 @@
         </div>
     </div>
 
+    <div id="cobrança" class="tab-content">
+        <div class="form-group-box">
+            <div class="tabela-cobranca-container" style="width: 100%; overflow-x: auto; max-height: 550px; border: 1px solid #555; background: white; margin-top: 10px;">
+                {% if duplicata_form %}
+                    {{ duplicata_form.management_form }}
+                    {% for form in duplicata_formset %}
+                        {% for hidden in form.hidden_fields%}
+                            {{ hidden}}
+                        {% endfor %}
+                    {% endfor %}
+                {%endif %}
+
+                <div style="display: flex; gap: 20px; margin-bottm: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                    <div  style="flex: 1;">
+                        <label>Valor Total</label>
+                        <input type="text" name="valor_total" value="{{ cobranca_form.valor_total|default:"0,00"}}" class="form-control text-end" readonly>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Desconto: </label>
+                        {{ conbranca_form.desconto }}
+                    </div>
+                    <div style="flex: 1;">
+                        <label> Valor Líquido: </label>
+                        {{cobranca_form.valor_liquido}}
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Nº Fatura: </label>
+                        {{ cobranca_form.numero_fatura }}
+                    </div>
+                    <div style="flex: 1;">
+                        <label>idBanco: </label>
+                        {{ cobranca_form.idbanco }}
+                    </div>
+                </div>
+                
+                <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
+                    <thead>
+                        <tr class="br-light">
+                            <th class="text-center align-middle">Nº Duplicata</th>
+                            <th class="text-center align-middle">Data Vencimento</th>
+                            <th class="text-center align-middle">Valor</th>
+                            <th class="text-center align-middle">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if duplicata_formset %}
+                            {% for form in duplicata_formset%}
+                            <tr>
+                                <td class="text-center">{{ form.numero_duplicata}}</td>
+                                <td class="text-center">{{ form.data_vencimento }}</td>
+                                <td class="text-center">{{ form.valor}}</td>
+                                <td class="text-center">
+                                    {% if form.instance.pk %}
+                                        {{ form.DELTE }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% elif nfe and nfe.duplicatas.exists %}
+                            {% for dup in nfe.duplicatas.all %}    
+                            <tr>
+                                <td class="text-center">{{ dup.numero_duplicata }}</td>
+                                <td class="text-center">{{ dup.data_vencimento }}</td>
+                                <td class="text-center">{{ dup.valor|floatformat:2|default:"0,00" }}</td>
+                                <td class="text-center"></td> 
+                            </tr>
+                            {% empty %}
+                            {% for i in "123456789" %}
+                            <tr class="linha-vazia">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for i in "123456789" %}
+                            <tr class="linha-vazia">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div id="info" class="tab-content">
         <div class="form-group-box">
             <div class="label-cell">Informações complementares da NF</div>
@@ -831,6 +923,39 @@
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
     </div>
     
+<div id="cobranca" class="tab-content">
+    <div style="background: yellow; padding: 30px; font-size: 24px; text-align: center; color: black; border: 5px solid red;">
+        TESTE: ABA COBRANÇA ESTÁ VISÍVEL AQUI
+    </div>
+
+    <div style="margin-top: 20px;">
+        <table class="table table-bordered tabela-itens">
+            <thead>
+                <tr class="bg-light">
+                    <th>Nº Duplicata</th>
+                    <th>Data Vencimento</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in "12345" %}
+                <tr>
+                    <td>Linha teste {{ forloop.counter }}</td>
+                    <td>01/01/2025</td>
+                    <td class="text-end">1.234,56</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 20px; text-align: right;">
+        <button style="background: green; color: white; padding: 12px 24px; font-size: 16px;">
+            Botão Gerar Boletos - Teste
+        </button>
+    </div>
+</div>
+
 <script>
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
@@ -857,4 +982,3 @@
 
 </script>
 {% endblock %}
-
