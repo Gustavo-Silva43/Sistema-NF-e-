@@ -808,100 +808,102 @@
         </div>
     </div>
 
-    <div id="cobrança" class="tab-content">
-        <div class="form-group-box">
-            <div class="tabela-cobranca-container" style="width: 100%; overflow-x: auto; max-height: 550px; border: 1px solid #555; background: white; margin-top: 10px;">
-                {% if duplicata_form %}
-                    {{ duplicata_form.management_form }}
-                    {% for form in duplicata_formset %}
-                        {% for hidden in form.hidden_fields%}
-                            {{ hidden}}
-                        {% endfor %}
-                    {% endfor %}
-                {%endif %}
-
-                <div style="display: flex; gap: 20px; margin-bottm: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                    <div  style="flex: 1;">
-                        <label>Valor Total</label>
-                        <input type="text" name="valor_total" value="{{ cobranca_form.valor_total|default:"0,00"}}" class="form-control text-end" readonly>
-                    </div>
-                    <div style="flex: 1;">
-                        <label>Desconto: </label>
-                        {{ conbranca_form.desconto }}
-                    </div>
-                    <div style="flex: 1;">
-                        <label> Valor Líquido: </label>
-                        {{cobranca_form.valor_liquido}}
-                    </div>
-                    <div style="flex: 1;">
-                        <label>Nº Fatura: </label>
-                        {{ cobranca_form.numero_fatura }}
-                    </div>
-                    <div style="flex: 1;">
-                        <label>idBanco: </label>
-                        {{ cobranca_form.idbanco }}
-                    </div>
+<div id="cobranca" class="tab-content">
+    <div class="form-group-box">
+        <div class="tabela-cobranca-container">
+            <!-- Ícone boleto + texto no topo direito (como na foto base) -->
+            <div class="boleto-header">
+                <img src="{% static 'img/boleto_bancario.png' %}" alt="Boleto Bancário" class="boleto-icon">
+                <div class="boleto-text">
+                    Gerar os Boletos e encaminhar com a NFEZ
                 </div>
-                
-                <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
-                    <thead>
-                        <tr class="br-light">
-                            <th class="text-center align-middle">Nº Duplicata</th>
-                            <th class="text-center align-middle">Data Vencimento</th>
-                            <th class="text-center align-middle">Valor</th>
-                            <th class="text-center align-middle">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if duplicata_formset %}
-                            {% for form in duplicata_formset%}
+            </div>
+
+            <!-- Campos superiores - estilo vertical com label à esquerda -->
+            <div class="cobranca-campos">
+                <div class="campo-linha">
+                    <label>Valor Total:</label>
+                    <input type="text" name="valor_total" value="{{ cobranca_form.valor_total.value|default:'0,00' }}" readonly class="campo-valor">
+                </div>
+                <div class="campo-linha">
+                    <label>Desconto:</label>
+                    {{ cobranca_form.desconto }}
+                </div>
+                <div class="campo-linha">
+                    <label>Valor Líquido:</label>
+                    {{ cobranca_form.valor_liquido }}
+                </div>
+                <div class="campo-linha">
+                    <label>Nº Fatura:</label>
+                    {{ cobranca_form.numero_fatura }}
+                </div>
+                <div class="campo-linha">
+                    <label>idBanco:</label>
+                    {{ cobranca_form.idbanco }}
+                </div>
+            </div>
+
+            <!-- Título "Duplicatas" + tabela -->
+            <div class="duplicatas-titulo">Duplicatas</div>
+
+            {% if duplicata_formset %}
+                {{ duplicata_formset.management_form }}
+                {% for form in duplicata_formset %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <table class="tabela-duplicatas">
+                <thead>
+                    <tr>
+                        <th>Nº Duplicata ▼</th>
+                        <th>Data Vencimento ▼</th>
+                        <th>Valor ▼</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if duplicata_formset %}
+                        {% for form in duplicata_formset %}
                             <tr>
-                                <td class="text-center">{{ form.numero_duplicata}}</td>
+                                <td class="text-center">{{ form.numero_duplicata }}</td>
                                 <td class="text-center">{{ form.data_vencimento }}</td>
-                                <td class="text-center">{{ form.valor}}</td>
+                                <td class="text-end">{{ form.valor }}</td>
                                 <td class="text-center">
                                     {% if form.instance.pk %}
-                                        {{ form.DELTE }}
+                                        {{ form.DELETE }}
                                     {% endif %}
                                 </td>
                             </tr>
-                            {% endfor %}
-                        {% elif nfe and nfe.duplicatas.exists %}
-                            {% for dup in nfe.duplicatas.all %}    
+                        {% endfor %}
+                    {% elif nfe and nfe.duplicatas.exists %}
+                        {% for dup in nfe.duplicatas.all %}
                             <tr>
-                                <td class="text-center">{{ dup.numero_duplicata }}</td>
-                                <td class="text-center">{{ dup.data_vencimento }}</td>
-                                <td class="text-center">{{ dup.valor|floatformat:2|default:"0,00" }}</td>
-                                <td class="text-center"></td> 
+                                <td class="text-center">{{ dup.numero_duplicata|default:"-" }}</td>
+                                <td class="text-center">{{ dup.data_vencimento|date:"d/m/Y"|default:"-" }}</td>
+                                <td class="text-end">{{ dup.valor|floatformat:2|default:"0,00" }}</td>
+                                <td class="text-center"></td>
                             </tr>
-                            {% empty %}
-                            {% for i in "123456789" %}
-                            <tr class="linha-vazia">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            {% endfor %}
-                            {% endfor %}
-                        {% else %}
-                            {% for i in "123456789" %}
-                            <tr class="linha-vazia">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            {% endfor %}
-                        {% endif %}
-                        <div style="margin-top: 10px; display: flex; align-items: center; gap: 15px">
-                            <label><input type="checkbox" name="boleto"> Gerar os boletos e encaminhar com a NFe? </label>
-                        </div>
-                    </tbody>
-                </table>
+                        {% empty %}
+                            {% include "linhas_vazias.html" %}
+                        {% endfor %}
+                    {% else %}
+                        {% comment %} {% include "linhas_vazias.html" %} {% endcomment %}
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <!-- Botão Gerar Boletos (abaixo da tabela, à direita) -->
+            <div class="cobranca-footer">
+                <button type="button" class="btn-gerar-boletos">
+                    Gerar os Boletos e encaminhar com a NFEZ
+                </button>
             </div>
         </div>
     </div>
+</div>
 
     <div id="info" class="tab-content">
         <div class="form-group-box">
@@ -927,11 +929,7 @@
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
     </div>
     
-<div id="cobranca" class="tab-content">
-    <div style="background: yellow; padding: 30px; font-size: 24px; text-align: center; color: black; border: 5px solid red;">
-        TESTE: ABA COBRANÇA ESTÁ VISÍVEL AQUI
-    </div>
-
+<div id="Cobranca" class="tab-content">
     <div style="margin-top: 20px;">
         <table class="table table-bordered tabela-itens">
             <thead>
