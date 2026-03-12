@@ -384,6 +384,7 @@
         background: #fff3e0;
     }
 
+
     /* Container com scroll horizontal */
     .tabela-produtos-container {
         width: 100%;
@@ -553,6 +554,9 @@
         background-color: #f9f9f9;
     }
 
+
+
+
     /* Tabela estilo Itens do Pedido de Compra (borda verde, header verde-azulado) */
     .tabela-pedido-compra-container {
         width: 100%;
@@ -605,16 +609,16 @@
         background-color: #e8f5e9;
     }
 
-    /* Container com barra preta grossa à esquerda (exatamente como na primeira foto) */
-    /* Tabela de Pagamento */
-    /* === SOLUÇÃO FINAL PARA CAMPOS INVISÍVEIS / SEM CURSOR === */
-    /* === SOLUÇÃO FINAL PARA CAMPOS INVISÍVEIS / SEM CURSOR === */
+    /* === SOLUÇÃO PARA CAMPOS INVISÍVEIS / SEM CURSOR / SELECT SEM SETA === */
+
+    /* Garante que elementos dentro de .input-cell sejam interativos */
     .input-cell * {
         cursor: text !important;
         pointer-events: auto !important;
         user-select: text !important;
     }
 
+    /* Estilo base para inputs, selects e textareas dentro de .input-cell */
     .input-cell input,
     .input-cell select,
     .input-cell textarea {
@@ -636,6 +640,7 @@
         appearance: auto !important;
     }
 
+    /* Efeito de foco (destacar borda azul) */
     .input-cell input:focus,
     .input-cell select:focus,
     .input-cell textarea:focus {
@@ -644,151 +649,147 @@
         background-color: #f0f8ff !important;
     }
 
-    /* Selects com seta visível */
+    /* Selects com seta visível personalizada (evita que desapareça) */
     .input-cell select {
         background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='6'><polygon points='0,0 12,0 6,6' fill='%23333'/></svg>") no-repeat right 8px center !important;
         padding-right: 24px !important;
         appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+    }
+
+    /* Garante que o select não fique invisível em alguns navegadores */
+    .input-cell select::-ms-expand {
+        display: none;
     }
 
 
-    /* === ABA COBRANÇA - Estilo consistente com Produto/Pagamento === */
 
-    /* Container geral da aba Cobrança */
-    #cobranca .form-group-box {
-        border: 1px solid #80a0c0;
-        background: white;
-        padding: 12px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
 
-    /* Container da tabela + campos superiores */
+    /* === ABA COBRANÇA - IGUAL À PRIMEIRA FOTO === */
+
     .tabela-cobranca-container {
+        position: relative;
         width: 100%;
-        overflow-x: auto;
-        max-height: 550px;
-        border: 1px solid #555;
         background: white;
-        margin-top: 10px;
-        border-radius: 4px;
+        border: 2px solid #80a0c0;
+        /* borda azul clara da foto */
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
-    /* Campos superiores (Valor Total, Desconto, Valor Líquido, Nº Fatura, Banco) */
-    .cobranca-campos-superiores {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin-bottom: 20px;
-        padding: 12px;
+    /* Ícone boleto no topo direito */
+    .boleto-header {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        text-align: center;
+        z-index: 10;
+    }
+
+    .boleto-icon {
+        width: 80px;
+        height: auto;
+    }
+
+    .boleto-text {
+        font-size: 11px;
+        color: #333;
+        margin-top: 4px;
+        font-weight: bold;
+    }
+
+    /* Campos superiores - label à esquerda */
+    .cobranca-campos {
+        padding: 15px 20px 10px;
         background: #f8f9fa;
-        border-radius: 5px;
-        border: 1px solid #ddd;
+        border-bottom: 1px solid #e0e0e0;
     }
 
-    .cobranca-campos-superiores .form-group {
-        flex: 1;
-        min-width: 180px;
+    .campo-linha {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        gap: 10px;
     }
 
-    .cobranca-campos-superiores label {
+    .campo-linha label {
+        width: 120px;
         font-size: 11px;
         font-weight: bold;
         color: #003366;
-        margin-bottom: 4px;
-        display: block;
+        text-align: right;
+        flex-shrink: 0;
     }
 
-    .cobranca-campos-superiores input,
-    .cobranca-campos-superiores select {
-        width: 100%;
-        padding: 6px 8px;
+    .campo-linha input,
+    .campo-linha select {
+        flex: 1;
+        padding: 5px 8px;
         font-size: 12px;
         border: 1px solid #80a0c0;
         border-radius: 3px;
-        background: white;
         text-align: right;
+        background: white;
     }
 
-    .cobranca-campos-superiores input[readonly] {
-        background: #f0f0f0;
-        cursor: not-allowed;
+    /* Título "Duplicatas" */
+    .duplicatas-titulo {
+        background: #e0e0e0;
+        color: #333;
+        font-weight: bold;
+        font-size: 13px;
+        padding: 8px 15px;
+        border-bottom: 1px solid #ccc;
     }
 
-    /* Tabela de duplicatas */
-    .tabela-cobranca-container .tabela-itens {
+    /* Tabela */
+    .tabela-duplicatas {
         width: 100%;
         border-collapse: collapse;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 11px;
+        font-size: 0.85rem;
     }
 
-    .tabela-cobranca-container .tabela-itens thead th {
+    .tabela-duplicatas thead th {
         background: #333333;
         color: white;
         padding: 8px 10px;
-        border: 1px solid #444;
         font-weight: bold;
         text-align: center;
-        vertical-align: middle;
+        border: 1px solid #444;
     }
 
-    .tabela-cobranca-container .tabela-itens tbody td {
-        border: 1px solid #cccccc;
+    .tabela-duplicatas tbody td {
+        border: 1px solid #dddddd;
         padding: 6px 8px;
         vertical-align: middle;
     }
 
-    .tabela-cobranca-container .tabela-itens td.text-end {
+    .tabela-duplicatas td.text-end {
         text-align: right;
         padding-right: 12px;
     }
 
-    .tabela-cobranca-container .tabela-itens tbody tr:nth-child(even) {
-        background-color: #f9f9f9;
+    /* Botão abaixo da tabela */
+    .cobranca-footer {
+        padding: 12px 15px;
+        text-align: right;
+        background: #f8f9fa;
+        border-top: 1px solid #ddd;
     }
 
-    .tabela-cobranca-container .tabela-itens tbody tr:hover {
-        background-color: #e6f3ff;
-    }
-
-    /* Linhas vazias */
-    .tabela-cobranca-container .linha-vazia td {
-        background: #ffffff;
-        height: 28px;
-        border: 1px solid #ddd;
-    }
-
-    /* Botão Gerar Boletos */
     .btn-gerar-boletos {
-        background: #28a745 !important;
-        color: white !important;
-        border: none !important;
-        padding: 10px 24px !important;
-        font-size: 13px !important;
-        font-weight: bold !important;
-        border-radius: 4px !important;
-        cursor: pointer !important;
-        transition: background 0.2s !important;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        font-size: 13px;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
     .btn-gerar-boletos:hover {
-        background: #218838 !important;
-    }
-
-    .tabela-itens input[type="text"],
-    .tabela-itens input[type="date"],
-    .tabela-itens input[type="number"] {
-        width: 100%;
-        padding: 4px 6px;
-        font-size: 11px;
-        border: 1px solid #80a0c0;
-        border-radius: 3px;
-        text-align: right;
-    }
-
-    .valor-liquido,
-    .valor-total {
-        font-weight: bold;
-        color: #006400;
+        background: #218838;
     }
