@@ -811,7 +811,7 @@
 <div id="cobranca" class="tab-content">
     <div class="form-group-box">
         <div class="tabela-cobranca-container">
-            <!-- Ícone boleto + texto no topo direito (como na foto base) -->
+            <!-- Boleto no topo direito (como na foto base) -->
             <div class="boleto-header">
                 <img src="{% static 'img/boleto_bancario.png' %}" alt="Boleto Bancário" class="boleto-icon">
                 <div class="boleto-text">
@@ -819,11 +819,11 @@
                 </div>
             </div>
 
-            <!-- Campos superiores - estilo vertical com label à esquerda -->
+            <!-- Campos superiores - TODOS como inputs editáveis do form -->
             <div class="cobranca-campos">
                 <div class="campo-linha">
                     <label>Valor Total:</label>
-                    <input type="text" name="valor_total" value="{{ cobranca_form.valor_total.value|default:'0,00' }}" readonly class="campo-valor">
+                    {{ cobranca_form.valor_total }}
                 </div>
                 <div class="campo-linha">
                     <label>Desconto:</label>
@@ -843,9 +843,10 @@
                 </div>
             </div>
 
-            <!-- Título "Duplicatas" + tabela -->
+            <!-- Título "Duplicatas" -->
             <div class="duplicatas-titulo">Duplicatas</div>
 
+            <!-- Formset de duplicatas -->
             {% if duplicata_formset %}
                 {{ duplicata_formset.management_form }}
                 {% for form in duplicata_formset %}
@@ -887,15 +888,28 @@
                                 <td class="text-center"></td>
                             </tr>
                         {% empty %}
-                            {% include "linhas_vazias.html" %}
+                            {% for i in "123456789" %}
+                                <tr class="linha-vazia">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
                         {% endfor %}
                     {% else %}
-                        {% comment %} {% include "linhas_vazias.html" %} {% endcomment %}
+                        {% for i in "123456789" %}
+                            <tr class="linha-vazia">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
                     {% endif %}
                 </tbody>
             </table>
 
-            <!-- Botão Gerar Boletos (abaixo da tabela, à direita) -->
             <div class="cobranca-footer">
                 <button type="button" class="btn-gerar-boletos">
                     Gerar os Boletos e encaminhar com a NFEZ
@@ -984,3 +998,116 @@
 
 </script>
 {% endblock %}
+
+1. Estrutura geral do template
+
+{% extends "base.html" %}: Este template herda de um arquivo base (base.html), que provavelmente tem o cabeçalho, rodapé, menu, links de CSS/JS comuns, etc.
+{% load static %}: Carrega a tag para usar arquivos estáticos (imagens, CSS, JS).
+<link rel="stylesheet" href="{% static 'style.css' %}">: Carrega seu arquivo CSS principal.
+
+O conteúdo fica dentro de {% block content %} → é aqui que você coloca o HTML específico desta página.
+2. Filtros no topo (.filter-header)
+Essa parte é uma barra de filtros para buscar NF-e's na lista principal.
+
+<div class="filter-header">: Container principal com fundo verde musgo (#c5d4b5 no seu CSS).
+Filtros (empresa, status, pedido, NF-e):
+São selects e inputs normais com class="form-control" (estilo Bootstrap-like).
+Empresa tem "Peninsula" selecionada por padrão (selected).
+Status tem várias opções típicas de NF-e (autorizado, cancelada, denegada, etc.).
+
+Botões de ação à direita (.top-action-buttons):
+"Voltar nº", "PESO/VOL", "BOLETO" (disabled), "LIMPAR" (com onclick para limpar filtros via JS).
+
+
+3. Tabela principal de listagem (.main-section)
+
+<div class="main-section">: Flex horizontal com tabela + barra lateral.
+Tabela (<table class="grid-table">):
+Cabeçalho com colunas: Pedido, NFe, Série, Status, Data, Cliente.
+Corpo vazio (<tbody></tbody>): provavelmente preenchido via JavaScript/AJAX depois (não tem dados estáticos aqui).
+
+Barra lateral (.side-bar-buttons):
+Botões verticais: Transmitir, Faturar COB, DANFE, Salvar (vermelho), Agrupar Orç, Menu Caixa.
+
+
+4. Barra de usuário no rodapé (.user-bar)
+
+Mostra "USUÁRIO:" + nome (vazio no código).
+Linha branca decorativa.
+
+5. Abas de navegação (.tabs)
+
+Lista horizontal de abas (.tabs + .tab-link).
+Cada aba tem data-tab="ID" para ativar o conteúdo correspondente via JS.
+Todas as abas estão marcadas como active (provavelmente erro de teste – só uma deve ser ativa).
+Abas incluem: Dados NF-e, Cliente, End.Entrega, Base de Cálculo, Produto, Pagamento, Cobrança, Transportadoras e Volumes, Informações Complementares, Arquivos da NFe, Info NFe.
+
+6. Formulário principal (<form method="post">)
+
+Tem {% csrf_token %} (segurança Django).
+Dentro dele ficam todas as abas (.tab-content).
+
+7. Conteúdo das abas (principais)
+Aba "Dados NF-e" (#NFe)
+
+Várias tabelas pequenas (form-table) com labels e inputs.
+Campos como pedido, número NF-e, série, modelo, tipo emissão, natureza operação, etc.
+Checkboxes para Transmitir, CCE, Cancelar.
+Textarea para justificativa.
+
+Aba "Cliente" (#cliente)
+
+Dados do cliente: tipo pessoa, CNPJ/CPF, IE, IM, SUFRAMA, nome, CEP, logradouro, etc.
+
+Aba "End.Entrega" (#End_Entrega)
+
+Endereço de entrega do cliente (CEP, logradouro, número, complemento, bairro, município, UF).
+
+Aba "Base de Cálculo" (#base_calculo)
+
+Tabela com valores totais e tributos (ICMS, IPI, PIS, COFINS, etc.).
+Dois modos:
+{% if nfe_form %} → modo edição → inputs editáveis ({{ nfe_form.vBC }}, etc.).
+{% elif nfe %} → modo visualização → valores formatados ({{ nfe.vBC|floatformat:2 }}).
+Sem dados → linhas vazias.
+
+
+Aba "Produto" (#produto)
+
+Tabela enorme com todos os itens da NF-e.
+Muitos campos: código, EAN, descrição, NCM, CFOP, quantidade, valores, tributos (ICMS, PIS, COFINS, etc.), dados de DI, etc.
+Usa item_formset para edição (inputs) ou lista de produtos salvos para visualização.
+
+Aba "Pagamento" (#Pagamento)
+
+Tabela com formas de pagamento (número, indicador, forma, valor, cartão, etc.).
+Inputs via pagamento_formset.
+Rodapé com campo "Troco" (readonly) e botão "Calcular Formas Pago".
+
+Aba "Cobrança" (#cobranca)
+
+Campos superiores: Valor Total, Desconto, Valor Líquido, Nº Fatura, idBanco (alguns como inputs, outros como form).
+Título "Duplicatas".
+Tabela com duplicatas (via formset ou dados salvos).
+Boleto no topo direito.
+Botão "Gerar os Boletos..." abaixo.
+
+8. JavaScript no final
+
+Ativa/desativa abas ao clicar (.tab-link → data-tab).
+Calcula valor total bruto automaticamente quando muda quantidade ou valor unitário nos itens (evento input).
+
+Resumo do que o código faz
+
+Página de gerenciamento de NF-e.
+Filtros + lista de NF-es no topo.
+Botões laterais de ações rápidas.
+Abas com todos os dados da NF-e (dados gerais, cliente, entrega, cálculos, produtos, pagamento, cobrança, etc.).
+Formulário POST para salvar alterações.
+Modo edição (com inputs) e visualização (com textos formatados).
+JavaScript simples para abas e cálculos automáticos.
+
+Se quiser que eu explique alguma aba específica em mais detalhes (ex: por que a Cobrança não aparece, como melhorar o layout, corrigir bugs, etc.), é só pedir! 😊
+
+
+
