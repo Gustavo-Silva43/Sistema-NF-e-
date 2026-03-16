@@ -9,9 +9,9 @@
         <div class="filter-field">
             <label>EMPRESA</label>
             <select name="empresa" class="form-control">
-                <option value=""></option>
+                <option value="" selected></option>
                 <option value="cavemac">CAVEMAC</option>
-                <option value="peninsula" selected>Peninsula</option>
+                <option value="peninsula">Peninsula</option>
                 <option value="omega">Omega</option>
                 <option value="starte/SP">Starte/SP</option>
                 <option value="cavemac/SC">Cavemac/SC</option>
@@ -97,7 +97,7 @@
     <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
     <li class="tab-link active" data-tab="produto">Produto</li>
     <li class="tab-link" data-tab="Pagamento">Pagamento</li>
-    <li class="tab-link active" data-tab="Cobranca">Cobranca</li>
+    <li class="tab-link active" data-tab="Cobranca">Cobrança</li>
     <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
     <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
     <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
@@ -879,7 +879,7 @@
                                 </td>
                             </tr>
                         {% endfor %}
-                    {% elif nfe and nfe.duplicatas.exists %}
+                    {% elif nfe and nfe.duplicatas.exists %} 
                         {% for dup in nfe.duplicatas.all %}
                             <tr>
                                 <td class="text-center">{{ dup.numero_duplicata|default:"-" }}</td>
@@ -999,7 +999,7 @@
 </script>
 {% endblock %}
 
-1. Estrutura geral do template
+ {% comment %} 1. Estrutura geral do template 
 
 {% extends "base.html" %}: Este template herda de um arquivo base (base.html), que provavelmente tem o cabeçalho, rodapé, menu, links de CSS/JS comuns, etc.
 {% load static %}: Carrega a tag para usar arquivos estáticos (imagens, CSS, JS).
@@ -1110,4 +1110,4 @@ JavaScript simples para abas e cálculos automáticos.
 Se quiser que eu explique alguma aba específica em mais detalhes (ex: por que a Cobrança não aparece, como melhorar o layout, corrigir bugs, etc.), é só pedir! 😊
 
 
-
+ {% endcomment %}
