@@ -42,6 +42,13 @@ class InfoStatusForm(forms.ModelForm):
             'retorno': forms.Textarea(attrs={'rows': 4, 'class': 'textarea-status'}),
         }
 
+
+class BaseCalculoForm(forms.ModelForm):
+    class Meta:
+        model = base_calculo
+        exclude = ['nfe']
+        fields = '__all__'
+
 class ProdutoForm(forms.ModelForm):
    class Meta:
         model = Produto
