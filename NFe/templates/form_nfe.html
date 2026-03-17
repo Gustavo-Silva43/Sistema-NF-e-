@@ -92,16 +92,16 @@
 
 <ul class="tabs">
     <li class="tab-link active" data-tab="NFe">Dados NF-e</li>
-    <li class="tab-link active" data-tab="cliente">Cliente</li>
-    <li class="tab-link active" data-tab="End_Entrega">End.Entrega</li>
-    <li class="tab-link active" data-tab="base_calculo">Base de Cálculo</li>
-    <li class="tab-link active" data-tab="produto">Produto</li>
+    <li class="tab-link" data-tab="cliente">Cliente</li>
+    <li class="tab-link" data-tab="End_Entrega">End.Entrega</li>
+    <li class="tab-link" data-tab="base_calculo">Base de Cálculo</li>
+    <li class="tab-link" data-tab="produto">Produto</li>
     <li class="tab-link" data-tab="Pagamento">Pagamento</li>
-    <li class="tab-link active" data-tab="Cobranca">Cobrança</li>
-    <li class="tab-link active" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
-    <li class="tab-link active" data-tab="InformacoesAdicionais">Informações Complementares</li>
-    <li class="tab-link active" data-tab="ArquivosNFe">Arquivos da NFe</li>
-    <li class="tab-link active" data-tab="Info_nfe">Info NFe</li>
+    <li class="tab-link" data-tab="Cobranca">Cobrança</li>
+    <li class="tab-link" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
+    <li class="tab-link" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link" data-tab="ArquivosNFe">Arquivos da NFe</li>
+    <li class="tab-link" data-tab="Info_nfe">Info NFe</li>
 </ul>
 
 <hr class="header-divider">
@@ -109,7 +109,7 @@
 <form method="post">
     {% csrf_token %}
 
-    <div id="NFe" class="tab-content">
+    <div id="NFe" class="tab-content active">
         <div class="form-group-box">
             <table class="form-table">
                 <tr>
@@ -333,9 +333,9 @@
 
     <div id="base_calculo" class="tab-content">
     <div class="form-group-box">
-        <div class="tabela-totais-container" style="width: 100%; overflow-x: auto; max-height: 550px; border: 1px solid #555; background: white; margin-top: 10px;">
-            <table class="table table-bordered table-sm tabela-itens"
-                   style="font-size: 0.85rem; white-space: nowrap;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+            <div class="tabela-totais-container" style="flex:1; overflow-x: auto; max-height: 550px; border: 1px solid #555; background: white; margin-top: 10px;">
+            <table class="table table-bordered table-sm tabela-itens" style="font-size: 0.85rem; white-space: nowrap;">
                 <thead>
                     <tr class="bg-light">
                         <th class="text-center align-middle">Descrição</th>
@@ -345,34 +345,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if nfe_form %}  
+                    {% if base_calculo_form %}
                         <tr>
                             <td>Base Cálculo ICMS</td>
-                            <td class="text-end">{{ nfe_form.vBC }}</td>
+                            <td class="text-end">{{ base_calculo_form.base_calculo_icms }}</td>
                             <td>Valor Total IPI</td>
-                            <td class="text-end">{{ nfe_form.vIPI }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_ipi }}</td>
                         </tr>
 
                         <tr>
                             <td>Valor Total Produtos</td>
-                            <td class="text-end">{{ nfe_form.vProd }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_produto }}</td>
                             <td>Valor do Frete</td>
-                            <td class="text-end">{{ nfe_form.vFrete }}</td>
+                            <td class="text-end">{{ base_calculo_form.valor_frete }}</td>
                         </tr>
 
                         <tr>
                             <td>Valor do Seguro</td>
-                            <td class="text-end">{{ nfe_form.vSeg }}</td>
+                            <td class="text-end">{{ base_calculo_form.valor_seguro }}</td>
                             <td>Outras Despesas</td>
-                            <td class="text-end">{{ nfe_form.vOutro }}</td>
+                            <td class="text-end">{{ base_calculo_form.outros_despesas }}</td>
                         </tr>
 
                         <tr>
                             <td>Desconto</td>
-                            <td class="text-end">{{ nfe_form.vDesc }}</td>
+                            <td class="text-end">{{ base_calculo_form.desconto }}</td>
                             <td style="color: #d32f2f; font-weight: bold;">Total da NF-e</td>
                             <td style="color: #d32f2f; font-weight: bold;" class="text-end">
-                                {{ nfe_form.vNF }}
+                                {{ base_calculo_form.total_nf }}
                             </td>
                         </tr>
 
@@ -384,94 +384,30 @@
 
                         <tr>
                             <td>Valor Total ICMS</td>
-                            <td class="text-end">{{ nfe_form.vICMS }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_icms }}</td>
                             <td>Valor Total PIS</td>
-                            <td class="text-end">{{ nfe_form.vPIS }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_pis }}</td>
                         </tr>
 
                         <tr>
                             <td>Valor Total COFINS</td>
-                            <td class="text-end">{{ nfe_form.vCOFINS }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_cofins }}</td>
                             <td>ICMS ST</td>
-                            <td class="text-end">{{ nfe_form.vST }}</td>
+                            <td class="text-end">{{ base_calculo_form.total_icms_st }}</td>
                         </tr>
 
                         <tr>
                             <td>Base Cálculo ICMS ST</td>
-                            <td class="text-end">{{ nfe_form.vBCST }}</td>
+                            <td class="text-end">{{ base_calculo_form.base_calculo_icms_st }}</td>
                             <td>ICMS Interestadual Destino</td>
-                            <td class="text-end">{{ nfe_form.vICMSUFDest }}</td>
+                            <td class="text-end">{{ base_calculo_form.icms_inter_uf_dest }}</td>
                         </tr>
 
                         <tr>
                             <td>ICMS Interestadual Remetente</td>
-                            <td class="text-end">{{ nfe_form.vICMSUFRemet }}</td>
+                            <td class="text-end">{{ base_calculo_form.icms_inter_uf_remet }}</td>
                             <td>FCP UF Destino</td>
-                            <td class="text-end">{{ nfe_form.vFCPUFDest }}</td>
-                        </tr>
-                    {% elif nfe %}  
-                        <tr>
-                            <td>Base Cálculo ICMS</td>
-                            <td class="text-end">{{ nfe.vBC|floatformat:2|default:"0,00" }}</td>
-                            <td>Valor Total IPI</td>
-                            <td class="text-end">{{ nfe.vIPI|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Valor Total Produtos</td>
-                            <td class="text-end">{{ nfe.vProd|floatformat:2|default:"0,00" }}</td>
-                            <td>Valor do Frete</td>
-                            <td class="text-end">{{ nfe.vFrete|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Valor do Seguro</td>
-                            <td class="text-end">{{ nfe.vSeg|floatformat:2|default:"0,00" }}</td>
-                            <td>Outras Despesas</td>
-                            <td class="text-end">{{ nfe.vOutro|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Desconto</td>
-                            <td class="text-end">{{ nfe.vDesc|floatformat:2|default:"0,00" }}</td>
-                            <td style="color: #d32f2f; font-weight: bold;">Total da NF-e</td>
-                            <td style="color: #d32f2f; font-weight: bold;" class="text-end">
-                                {{ nfe.vNF|floatformat:2|default:"0,00" }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="4" class="text-center" style="background: #fff3e0; font-weight: bold; padding: 12px; font-size: 1rem;">
-                                Resumo de Tributos
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Valor Total ICMS</td>
-                            <td class="text-end">{{ nfe.vICMS|floatformat:2|default:"0,00" }}</td>
-                            <td>Valor Total PIS</td>
-                            <td class="text-end">{{ nfe.vPIS|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Valor Total COFINS</td>
-                            <td class="text-end">{{ nfe.vCOFINS|floatformat:2|default:"0,00" }}</td>
-                            <td>ICMS ST</td>
-                            <td class="text-end">{{ nfe.vST|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Base Cálculo ICMS ST</td>
-                            <td class="text-end">{{ nfe.vBCST|floatformat:2|default:"0,00" }}</td>
-                            <td>ICMS Interestadual Destino</td>
-                            <td class="text-end">{{ nfe.vICMSUFDest|floatformat:2|default:"0,00" }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>ICMS Interestadual Remetente</td>
-                            <td class="text-end">{{ nfe.vICMSUFRemet|floatformat:2|default:"0,00" }}</td>
-                            <td>FCP UF Destino</td>
-                            <td class="text-end">{{ nfe.vFCPUFDest|floatformat:2|default:"0,00" }}</td>
+                            <td class="text-end">{{ base_calculo_form.icms_fcp_uf_dest }}</td>
                         </tr>
                     {% else %}  
                         {% for i in "123456789" %}
@@ -485,6 +421,13 @@
                     {% endif %}
                 </tbody>
             </table>
+            </div>
+
+            <div style="margin-top:10px;">
+                <button type="button" class="btn-gray" style="height:48px; min-width:140px;">
+                    Calcular Total
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -808,112 +751,171 @@
         </div>
     </div>
 
-<div id="cobranca" class="tab-content">
-    <div class="form-group-box">
-        <div class="tabela-cobranca-container">
-            <!-- Boleto no topo direito (como na foto base) -->
-            <div class="boleto-header">
-                <img src="{% static 'img/boleto_bancario.png' %}" alt="Boleto Bancário" class="boleto-icon">
-                <div class="boleto-text">
-                    Gerar os Boletos e encaminhar com a NFEZ
+<div id="Transportadora_Volumes" class="tab-content">
+    <div class="transporte-layout">
+        <div class="transporte-left">
+            <div class="transporte-box">
+                <div class="box-title">Transportadora</div>
+                <div class="transporte-inner">
+                    <!-- Tipo de Frete (linha única) -->
+                    <table class="form-table transporte-table">
+                        <tr>
+                            <td class="label-cell" style="width: 140px;">Tipo de Frete:</td>
+                            <td class="input-cell">{{ transporte_form.tipo_frete }}</td>
+                        </tr>
+                    </table>
+
+                    <!-- Nome / CNPJ / IE (3 colunas) -->
+                    <table class="form-table transporte-table transporte-table-3col">
+                        <tr>
+                            <td class="label-cell">Nome da Transportadora:</td>
+                            <td class="label-cell">CNPJ</td>
+                            <td class="label-cell">IE</td>
+                        </tr>
+                        <tr>
+                            <td class="input-cell">{{ transporte_form.nome_transportadora }}</td>
+                            <td class="input-cell">{{ transporte_form.cnpj_transportadora }}</td>
+                            <td class="input-cell">{{ transporte_form.ie_transportadora }}</td>
+                        </tr>
+                    </table>
+
+                    <!-- Logradouro / Município / UF (3 colunas) -->
+                    <table class="form-table transporte-table transporte-table-3col">
+                        <tr>
+                            <td class="label-cell">Logradouro:</td>
+                            <td class="label-cell">Município:</td>
+                            <td class="label-cell">UF:</td>
+                        </tr>
+                        <tr>
+                            <td class="input-cell">{{ transporte_form.logradouro }}</td>
+                            <td class="input-cell">{{ transporte_form.municipio }}</td>
+                            <td class="input-cell">{{ transporte_form.uf_transportadora }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
+        </div>
 
-            <!-- Campos superiores - TODOS como inputs editáveis do form -->
-            <div class="cobranca-campos">
-                <div class="campo-linha">
-                    <label>Valor Total:</label>
-                    {{ cobranca_form.valor_total }}
-                </div>
-                <div class="campo-linha">
-                    <label>Desconto:</label>
-                    {{ cobranca_form.desconto }}
-                </div>
-                <div class="campo-linha">
-                    <label>Valor Líquido:</label>
-                    {{ cobranca_form.valor_liquido }}
-                </div>
-                <div class="campo-linha">
-                    <label>Nº Fatura:</label>
-                    {{ cobranca_form.numero_fatura }}
-                </div>
-                <div class="campo-linha">
-                    <label>idBanco:</label>
-                    {{ cobranca_form.idbanco }}
-                </div>
-            </div>
-
-            <!-- Título "Duplicatas" -->
-            <div class="duplicatas-titulo">Duplicatas</div>
-
-            <!-- Formset de duplicatas -->
-            {% if duplicata_formset %}
-                {{ duplicata_formset.management_form }}
-                {% for form in duplicata_formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                {% endfor %}
-            {% endif %}
-
-            <table class="tabela-duplicatas">
-                <thead>
+        <div class="transporte-right">
+            <div class="transporte-box transporte-veiculo">
+                <div class="box-title">Veículo</div>
+                <table class="form-table transporte-table">
                     <tr>
-                        <th>Nº Duplicata ▼</th>
-                        <th>Data Vencimento ▼</th>
-                        <th>Valor ▼</th>
-                        <th>Ações</th>
+                        <td class="label-cell" style="width: 55%;">Placa</td>
+                        <td class="label-cell">UF</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% if duplicata_formset %}
-                        {% for form in duplicata_formset %}
-                            <tr>
-                                <td class="text-center">{{ form.numero_duplicata }}</td>
-                                <td class="text-center">{{ form.data_vencimento }}</td>
-                                <td class="text-end">{{ form.valor }}</td>
-                                <td class="text-center">
-                                    {% if form.instance.pk %}
-                                        {{ form.DELETE }}
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% elif nfe and nfe.duplicatas.exists %} 
-                        {% for dup in nfe.duplicatas.all %}
-                            <tr>
-                                <td class="text-center">{{ dup.numero_duplicata|default:"-" }}</td>
-                                <td class="text-center">{{ dup.data_vencimento|date:"d/m/Y"|default:"-" }}</td>
-                                <td class="text-end">{{ dup.valor|floatformat:2|default:"0,00" }}</td>
-                                <td class="text-center"></td>
-                            </tr>
-                        {% empty %}
-                            {% for i in "123456789" %}
-                                <tr class="linha-vazia">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                    <tr>
+                        <td class="input-cell">{{ transporte_form.placa_veiculo }}</td>
+                        <td class="input-cell">{{ transporte_form.uf_veiculo }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell" colspan="2">RNTC</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell" colspan="2">{{ transporte_form.rntc_veiculo }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volumes (mais compacto, sem espaço extra) -->
+    <div class="transporte-box transporte-volumes">
+        <div class="box-title">Volumes</div>
+        <table class="form-table transporte-table">
+            <tr>
+                <td class="label-cell">Qtd Volumes</td>
+                <td class="label-cell">Espécie Volume</td>
+                <td class="label-cell">Marca</td>
+                <td class="label-cell">N° Volumes</td>
+                <td class="label-cell">Peso Líquido</td>
+                <td class="label-cell">Peso Bruto</td>
+            </tr>
+            <tr>
+                <td class="input-cell">{{ transporte_form.qtd_volumes }}</td>
+                <td class="input-cell">{{ transporte_form.especie_volume }}</td>
+                <td class="input-cell">{{ transporte_form.marca_volume }}</td>
+                <td class="input-cell">{{ transporte_form.numero_volumes }}</td>
+                <td class="input-cell">{{ transporte_form.peso_liquido }}</td>
+                <td class="input-cell">{{ transporte_form.peso_bruto }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div id="Cobranca" class="tab-content">
+    <div class="form-group-box">
+        <div class="cobranca-layout">
+            <div class="cobranca-left">
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell">Valor Total:</td>
+                        <td class="label-cell">Desconto</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cobranca_form.valor_total }}</td>
+                        <td class="input-cell">{{ cobranca_form.desconto }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Valor Líquido:</td>
+                        <td class="label-cell">N° Fatura:</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell">{{ cobranca_form.valor_liquido }}</td>
+                        <td class="input-cell">{{ cobranca_form.numero_fatura }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell" colspan="2">IdBanco:</td>
+                    </tr>
+                    <tr>
+                        <td class="input-cell" colspan="2">{{ cobranca_form.id_banco }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="cobranca-middle">
+                <div class="cobranca-duplicatas-header">Duplicatas</div>
+                <table class="cobranca-duplicatas-table">
+                    <thead>
+                        <tr>
+                            <th>N° Duplicata</th>
+                            <th>Data Vencimento</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if duplicata_formset %}
+                            {{ duplicata_formset.management_form }}
+                            {% for form in duplicata_formset %}
+                                {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+                                <tr>
+                                    <td class="input-cell">{{ form.numero_duplicata }}</td>
+                                    <td class="input-cell">{{ form.data_vencimento }}</td>
+                                    <td class="input-cell">{{ form.valor_duplicata }}</td>
                                 </tr>
                             {% endfor %}
-                        {% endfor %}
-                    {% else %}
-                        {% for i in "123456789" %}
-                            <tr class="linha-vazia">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
+                        {% else %}
+                            {% for i in "123456789" %}
+                                <tr class="linha-vazia">
+                                    <td></td><td></td><td></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
 
-            <div class="cobranca-footer">
-                <button type="button" class="btn-gerar-boletos">
-                    Gerar os Boletos e encaminhar com a NFEZ
-                </button>
+            <div class="cobranca-right">
+                <div class="boleto-box">
+                    <div class="boleto-barcode" aria-hidden="true"></div>
+                    <div class="boleto-title">Boleto<br>Bancário</div>
+                </div>
+                <div class="boleto-actions">
+                    <label class="boleto-checkbox">
+                        {{ cobranca_form.gerar_boleto }}
+                        <span>Gerar os Boletos e encaminhar com a NF-e</span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
@@ -943,35 +945,6 @@
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
     </div>
     
-<div id="Cobranca" class="tab-content">
-    <div style="margin-top: 20px;">
-        <table class="table table-bordered tabela-itens">
-            <thead>
-                <tr class="bg-light">
-                    <th>Nº Duplicata</th>
-                    <th>Data Vencimento</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in "12345" %}
-                <tr>
-                    <td>Linha teste {{ forloop.counter }}</td>
-                    <td>01/01/2025</td>
-                    <td class="text-end">1.234,56</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div style="margin-top: 20px; text-align: right;">
-        <button style="background: green; color: white; padding: 12px 24px; font-size: 16px;">
-            Botão Gerar Boletos - Teste
-        </button>
-    </div>
-</div>
-
 <script>
     document.querySelectorAll('.tab-link').forEach(tab => {
         tab.addEventListener('click', () => {
