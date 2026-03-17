@@ -324,7 +324,8 @@
         height: 22px;
     }
 
-    Estilos para tabela de Endereço de Entrega */ .endereco-entrega {
+    /* Estilos para tabela de Endereço de Entrega */
+    .endereco-entrega {
         width: 100%;
         border-collapse: collapse;
         font-size: 11px;
@@ -666,130 +667,263 @@
 
 
 
-    /* === ABA COBRANÇA - IGUAL À PRIMEIRA FOTO === */
+    /* === ABA COBRANÇA (layout igual ao print) === */
 
-    .tabela-cobranca-container {
-        position: relative;
-        width: 100%;
-        background: white;
-        border: 2px solid #80a0c0;
-        /* borda azul clara da foto */
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Ícone boleto no topo direito */
-    .boleto-header {
-        position: absolute;
-        top: 12px;
-        right: 15px;
-        text-align: center;
-        z-index: 10;
-    }
-
-    .boleto-icon {
-        width: 80px;
-        height: auto;
-    }
-
-    .boleto-text {
-        font-size: 11px;
-        color: #333;
-        margin-top: 4px;
-        font-weight: bold;
-    }
-
-    /* Campos superiores - label à esquerda */
-    .cobranca-campos {
-        padding: 15px 20px 10px;
-        background: #f8f9fa;
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    .campo-linha {
+    .cobranca-layout {
         display: flex;
-        align-items: center;
-        margin-bottom: 8px;
-        gap: 10px;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 10px;
+        background: #c5d4b5; /* mesmo fundo do sistema */
     }
 
-    .campo-linha label {
-        width: 120px;
-        font-size: 11px;
-        font-weight: bold;
-        color: #003366;
-        text-align: right;
-        flex-shrink: 0;
+    .cobranca-left {
+        width: 260px;
+        background: #c5d4b5;
     }
 
-    .campo-linha input,
-    .campo-linha select {
-        flex: 1;
-        padding: 5px 8px;
-        font-size: 12px;
-        border: 1px solid #80a0c0;
-        border-radius: 3px;
-        text-align: right;
+    .cobranca-left .form-table {
         background: white;
+        border: 1px solid #80a0c0;
     }
 
-    /* Título "Duplicatas" */
-    .duplicatas-titulo {
-        background: #e0e0e0;
-        color: #333;
+    .cobranca-middle {
+        flex: 1;
+        min-width: 520px;
+        background: white;
+        border: 1px solid #80a0c0;
+    }
+
+    .cobranca-duplicatas-header {
+        background: #b0cce0;
+        color: #003366;
+        border-bottom: 1px solid #80a0c0;
+        padding: 2px 6px;
         font-weight: bold;
-        font-size: 13px;
-        padding: 8px 15px;
-        border-bottom: 1px solid #ccc;
+        font-size: 12px;
     }
 
-    /* Tabela */
-    .tabela-duplicatas {
+    .cobranca-duplicatas-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 0.85rem;
+        background: white;
     }
 
-    .tabela-duplicatas thead th {
-        background: #333333;
-        color: white;
-        padding: 8px 10px;
-        font-weight: bold;
+    .cobranca-duplicatas-table thead th {
+        background: #e8e8e8;
+        color: #333;
+        padding: 4px 6px;
+        border: 1px solid #c9c9c9;
+        font-weight: normal;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .cobranca-duplicatas-table tbody td {
+        border: 1px solid #e0e0e0;
+        height: 22px;
+        background: white;
+    }
+
+    .cobranca-duplicatas-table tbody td input,
+    .cobranca-duplicatas-table tbody td select {
+        width: 100% !important;
+        height: 22px !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 2px 4px !important;
+        font-size: 11px !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    .cobranca-right {
+        width: 190px;
+        background: #c5d4b5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding-top: 2px;
+    }
+
+    .boleto-box {
+        width: 120px;
+        border: 1px solid #333;
+        background: white;
         text-align: center;
-        border: 1px solid #444;
+        padding: 6px 6px 8px;
     }
 
-    .tabela-duplicatas tbody td {
-        border: 1px solid #dddddd;
-        padding: 6px 8px;
-        vertical-align: middle;
+    .boleto-barcode {
+        height: 44px;
+        margin-bottom: 4px;
+        background: repeating-linear-gradient(
+            90deg,
+            #000 0px,
+            #000 2px,
+            #fff 2px,
+            #fff 4px
+        );
     }
 
-    .tabela-duplicatas td.text-end {
-        text-align: right;
-        padding-right: 12px;
-    }
-
-    /* Botão abaixo da tabela */
-    .cobranca-footer {
-        padding: 12px 15px;
-        text-align: right;
-        background: #f8f9fa;
-        border-top: 1px solid #ddd;
-    }
-
-    .btn-gerar-boletos {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        font-size: 13px;
+    .boleto-title {
         font-weight: bold;
-        border-radius: 4px;
-        cursor: pointer;
+        font-size: 12px;
+        line-height: 1.1;
+        color: #333;
     }
 
-    .btn-gerar-boletos:hover {
-        background: #218838;
+    .boleto-actions {
+        width: 100%;
+        padding: 0 6px;
     }
+
+    .boleto-checkbox {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        font-size: 11px;
+        color: #333;
+        user-select: none;
+    }
+
+    .boleto-checkbox input[type="checkbox"] {
+        width: 14px !important;
+        height: 14px !important;
+        margin-top: 2px;
+        border: 1px solid #555 !important;
+        background: white !important;
+    }
+
+    /* Cobrança: força layout mesmo com cache do CSS (movido do template) */
+    .cobranca-layout{
+        display:flex;
+        align-items:flex-start;
+        gap:14px;
+        padding:6px 6px 12px;
+        background:#c5d4b5;
+    }
+    .cobranca-left{width:235px; flex:0 0 235px;}
+    .cobranca-left .form-table{width:100%; background:#fff; border:1px solid #80a0c0;}
+    .cobranca-middle{flex:1 1 auto; min-width:520px; background:#fff; border:1px solid #80a0c0;}
+    .cobranca-duplicatas-header{background:#b0cce0; color:#003366; border-bottom:1px solid #80a0c0; padding:2px 6px; font-weight:bold;}
+    .cobranca-duplicatas-table{width:100%; border-collapse:collapse;}
+    .cobranca-duplicatas-table thead th{background:#e8e8e8; border:1px solid #c9c9c9; padding:3px 6px; font-weight:normal; text-align:left; white-space:nowrap;}
+    .cobranca-duplicatas-table tbody td{border:1px solid #e0e0e0; height:20px;}
+    .cobranca-right{width:150px; flex:0 0 150px; display:flex; flex-direction:column; align-items:center; gap:8px; padding-top:2px;}
+    .boleto-box{width:105px; border:1px solid #333; background:#fff; text-align:center; padding:6px 6px 8px;}
+    .boleto-barcode{height:42px; margin-bottom:4px; background:repeating-linear-gradient(90deg,#000 0,#000 2px,#fff 2px,#fff 4px);}
+    .boleto-title{font-weight:bold; font-size:12px; line-height:1.1;}
+    .boleto-checkbox{display:flex; gap:6px; align-items:flex-start; font-size:11px; color:#333;}
+    .boleto-checkbox input[type="checkbox"]{width:14px !important; height:14px !important; margin-top:2px;}
+
+    /* Cobrança: garante que inputs apareçam e sejam editáveis (movido do template) */
+    .cobranca-layout .input-cell input,
+    .cobranca-layout .input-cell select,
+    .cobranca-layout .input-cell textarea{
+        display:block !important;
+        width:100% !important;
+        height:22px !important;
+        padding:3px 6px !important;
+        margin:0 !important;
+        font-size:11px !important;
+        color:#000 !important;
+        background:#fff !important;
+        border:1px solid #80a0c0 !important;
+        box-sizing:border-box !important;
+        outline:none !important;
+    }
+    .cobranca-layout .input-cell textarea{
+        height:auto !important;
+        min-height:22px !important;
+        resize:vertical;
+    }
+
+    /* === ABA TRANSPORTADORA E VOLUMES (mais compacto, igual à primeira foto) === */
+.transporte-layout {
+    display: flex;
+    gap: 12px;               /* menos espaço entre colunas */
+    align-items: flex-start;
+    padding: 8px;
+    background: #c5d4b5;
+}
+
+.transporte-left {
+    flex: 1;
+    min-width: 620px;        /* mais compacto */
+}
+
+.transporte-right {
+    flex: 0 0 220px;         /* caixa de veículo mais estreita */
+}
+
+.transporte-box {
+    position: relative;
+    background: #fff;
+    border: 2px solid #80a0c0;
+    margin-bottom: 8px;      /* menos margem */
+    padding-top: 8px;        /* espaço menor para título */
+}
+
+.transporte-box .box-title {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #b0cce0;
+    border: 1px solid #80a0c0;
+    color: #003366;
+    font-weight: bold;
+    padding: 1px 8px;
+    font-size: 11px;
+}
+
+.transporte-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: -1px;     /* junta as tabelas como no exemplo */
+}
+
+.transporte-table .label-cell {
+    background: #b0cce0;
+    color: #003366;
+    border: 1px solid #80a0c0;
+    padding: 2px 5px;
+    font-weight: bold;       /* negrito como na foto */
+    white-space: nowrap;
+}
+
+.transporte-table .input-cell {
+    border: 1px solid #80a0c0;
+    background: white;
+    padding: 0;
+    overflow: hidden;
+}
+
+.transporte-table .input-cell input,
+.transporte-table .input-cell select {
+    width: 200% !important;
+    height: 22px !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 2px 5px !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+}
+
+/* Ajuste para Volumes (mais compacto) */
+.transporte-volumes {
+    margin: 0 10px 10px;
+    max-width: 820px;
+}
+
+.transporte-inner {
+    padding: 0 8px 8px;      /* menos padding interno */
+}
+
+/* Tabelas de 2 e 3 colunas ficam mais coladas */
+.transporte-table-2col,
+.transporte-table-3col {
+    margin-bottom: -1px;
+}
