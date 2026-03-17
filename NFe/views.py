@@ -11,18 +11,21 @@ def gerenciar_nfe(request, pk=None):
         nfe_form = NFeForm(request.POST, instance=nfe)
         transporte_form = TransportadoraForm(request.POST, instance=getattr(nfe, 'transporte', None))
         cobranca_form = CobrancaForm(request.POST, instance=getattr(nfe, 'cobranca', None))
+        base_calculo_form = BaseCalculoForm(request.POST, instance=getattr(nfe, 'base_calculo_totais', None))
         info_form = InfoStatusForm(request.POST, instance=getattr(nfe, 'info_status', None))
         item_formset = ProdutoFormSet(request.POST, instance=nfe)
         pagamento_formset = PagamentoFormSet(request.POST, instance=nfe)
         
-        if nfe_form.is_valid() and transporte_form.is_valid() and cobranca_form.is_valid() and info_form.is_valid() and item_formset.is_valid() and pagamento_formset.is_valid():
+        if nfe_form.is_valid() and transporte_form.is_valid() and cobranca_form.is_valid() and base_calculo_form.is_valid() and info_form.is_valid() and item_formset.is_valid() and pagamento_formset.is_valid():
             nfe = nfe_form.save()
             transporte = transporte_form.save(commit=False)
             transporte.nfe = nfe
             transporte.save()
             cobranca = cobranca_form.save(commit=False)
-            cobranca.nfe = nfe
             cobranca.save()
+            base_calc = base_calculo_form.save(commit=False)
+            base_calc.nfe = nfe
+            base_calc.save()
             info = info_form.save(commit=False)
             info.nfe = nfe
             info.save()
@@ -33,6 +36,7 @@ def gerenciar_nfe(request, pk=None):
         nfe_form = NFeForm(instance=nfe)
         transporte_form = TransportadoraForm(instance=getattr(nfe, 'transporte', None))
         cobranca_form = CobrancaForm(instance=getattr(nfe, 'cobranca', None))
+        base_calculo_form = BaseCalculoForm(instance=getattr(nfe, 'base_calculo_totais', None))
         info_form = InfoStatusForm(instance=getattr(nfe, 'info_status', None))
         item_formset = ProdutoFormSet(instance=nfe)
         pagamento_formset = PagamentoFormSet(instance=nfe)
@@ -42,24 +46,34 @@ def gerenciar_nfe(request, pk=None):
         'nfe_form': nfe_form,
         'transporte_form': transporte_form,
         'cobranca_form': cobranca_form,
+        'base_calculo_form': base_calculo_form,
         'info_form': info_form,
         'item_formset': item_formset,
         'pagamento_formset': pagamento_formset,
     }
-    return render(request, 'nfe/form_nfe.html', context)
+    return render(request, 'form_nfe.html', context)
 
 def emitir_nfe(request):
     if request.method == 'POST':
         cliente_form = ClienteForm(request.POST)
         nfe_form = NFeForm(request.POST)
+        cobranca_form = CobrancaForm(request.POST)
+        base_calculo_form = BaseCalculoForm(request.POST)
         item_formset = ProdutoFormSet(request.POST)
         pagamento_formset = PagamentoFormSet(request.POST)
 
-        if cliente_form.is_valid() and nfe_form.is_valid() and item_formset.is_valid() and pagamento_formset.is_valid():
+        if cliente_form.is_valid() and nfe_form.is_valid() and cobranca_form.is_valid() and base_calculo_form.is_valid() and item_formset.is_valid() and pagamento_formset.is_valid():
             cliente = cliente_form.save()
             nfe = nfe_form.save(commit=False)
             nfe.cliente = cliente
             nfe.save()
+
+            cobranca = cobranca_form.save(commit=False)
+            cobranca.save()
+
+            base_calc = base_calculo_form.save(commit=False)
+            base_calc.nfe = nfe
+            base_calc.save()
             
             item_formset.instance = nfe
             item_formset.save()
@@ -71,12 +85,16 @@ def emitir_nfe(request):
     else:
         cliente_form = ClienteForm()
         nfe_form = NFeForm()
+        cobranca_form = CobrancaForm()
+        base_calculo_form = BaseCalculoForm()
         item_formset = ProdutoFormSet()
         pagamento_formset = PagamentoFormSet()
 
     return render(request, 'form_nfe.html', {
         'cliente_form': cliente_form,
         'nfe_form': nfe_form,
+        'cobranca_form': cobranca_form,
+        'base_calculo_form': base_calculo_form,
         'item_formset': item_formset,
         'pagamento_formset': pagamento_formset,
     })
@@ -93,5 +111,7 @@ def iniciar(request):
         'nfes': nfes,
         'nfe_selecionada': nfe_selecionada,
         'nfe_form': NFeForm(instance=nfe_selecionada) if nfe_selecionada else None,
+        'cobranca_form': CobrancaForm(instance=getattr(nfe_selecionada, 'cobranca', None)) if nfe_selecionada else CobrancaForm(),
+        'base_calculo_form': BaseCalculoForm(instance=getattr(nfe_selecionada, 'base_calculo_totais', None)) if nfe_selecionada else BaseCalculoForm(),
     }
-    return render(request, 'nfe/form_nfe.html', context)
+    return render(request, 'form_nfe.html', context)
