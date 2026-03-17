@@ -751,97 +751,97 @@
         </div>
     </div>
 
-<div id="Transportadora_Volumes" class="tab-content">
-    <div class="transporte-layout">
-        <div class="transporte-left">
-            <div class="transporte-box">
-                <div class="box-title">Transportadora</div>
-                <div class="transporte-inner">
-                    <!-- Tipo de Frete (linha única) -->
+    <div id="Transportadora_Volumes" class="tab-content">
+        <div class="transporte-layout">
+            <div class="transporte-left">
+                <div class="transporte-box">
+                    <div class="box-title">Transportadora</div>
+                    <div class="transporte-inner">
+                        <!-- Tipo de Frete (linha única) -->
+                        <table class="form-table transporte-table">
+                            <tr>
+                                <td class="label-cell" style="width: 140px; font-weight: bold;">Tipo de Frete:</td>
+                                <td class="input-cell">{{ transporte_form.tipo_frete }}</td>
+                            </tr>
+                        </table>
+    
+                        <!-- Nome / CNPJ / IE (3 colunas) -->
+                        <table class="form-table transporte-table transporte-table-3col">
+                            <tr>
+                                <td class="label-cell" style="font-weight: bold;">Nome da Transportadora:</td>
+                                <td class="label-cell" style="font-weight: bold;">CNPJ</td>
+                                <td class="label-cell" style="font-weight: bold;">IE</td>
+                            </tr>
+                            <tr>
+                                <td class="input-cell">{{ transporte_form.nome_transportadora }}</td>
+                                <td class="input-cell">{{ transporte_form.cnpj_transportadora }}</td>
+                                <td class="input-cell">{{ transporte_form.ie_transportadora }}</td>
+                            </tr>
+                        </table>
+    
+                        <!-- Logradouro / Município / UF (3 colunas) -->
+                        <table class="form-table transporte-table transporte-table-3col">
+                            <tr>
+                                <td class="label-cell" style="font-weight: bold;">Logradouro:</td>
+                                <td class="label-cell" style="font-weight: bold;">Município:</td>
+                                <td class="label-cell" style="font-weight: bold;">UF:</td>
+                            </tr>
+                            <tr>
+                                <td class="input-cell">{{ transporte_form.logradouro }}</td>
+                                <td class="input-cell">{{ transporte_form.municipio }}</td>
+                                <td class="input-cell">{{ transporte_form.uf_transportadora }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="transporte-right">
+                <div class="transporte-box transporte-veiculo">
+                    <div class="box-title">Veículo</div>
                     <table class="form-table transporte-table">
                         <tr>
-                            <td class="label-cell" style="width: 140px;">Tipo de Frete:</td>
-                            <td class="input-cell">{{ transporte_form.tipo_frete }}</td>
-                        </tr>
-                    </table>
-
-                    <!-- Nome / CNPJ / IE (3 colunas) -->
-                    <table class="form-table transporte-table transporte-table-3col">
-                        <tr>
-                            <td class="label-cell">Nome da Transportadora:</td>
-                            <td class="label-cell">CNPJ</td>
-                            <td class="label-cell">IE</td>
+                            <td class="label-cell" style="width: 55%; font-weight: bold;">Placa</td>
+                            <td class="label-cell" style="font-weight: bold;">UF</td>
                         </tr>
                         <tr>
-                            <td class="input-cell">{{ transporte_form.nome_transportadora }}</td>
-                            <td class="input-cell">{{ transporte_form.cnpj_transportadora }}</td>
-                            <td class="input-cell">{{ transporte_form.ie_transportadora }}</td>
-                        </tr>
-                    </table>
-
-                    <!-- Logradouro / Município / UF (3 colunas) -->
-                    <table class="form-table transporte-table transporte-table-3col">
-                        <tr>
-                            <td class="label-cell">Logradouro:</td>
-                            <td class="label-cell">Município:</td>
-                            <td class="label-cell">UF:</td>
+                            <td class="input-cell">{{ transporte_form.placa_veiculo }}</td>
+                            <td class="input-cell">{{ transporte_form.uf_veiculo }}</td>
                         </tr>
                         <tr>
-                            <td class="input-cell">{{ transporte_form.logradouro }}</td>
-                            <td class="input-cell">{{ transporte_form.municipio }}</td>
-                            <td class="input-cell">{{ transporte_form.uf_transportadora }}</td>
+                            <td class="label-cell" colspan="2" style="font-weight: bold;">RNTC</td>
+                        </tr>
+                        <tr>
+                            <td class="input-cell" colspan="2">{{ transporte_form.rntc_veiculo }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-
-        <div class="transporte-right">
-            <div class="transporte-box transporte-veiculo">
-                <div class="box-title">Veículo</div>
-                <table class="form-table transporte-table">
-                    <tr>
-                        <td class="label-cell" style="width: 55%;">Placa</td>
-                        <td class="label-cell">UF</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell">{{ transporte_form.placa_veiculo }}</td>
-                        <td class="input-cell">{{ transporte_form.uf_veiculo }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label-cell" colspan="2">RNTC</td>
-                    </tr>
-                    <tr>
-                        <td class="input-cell" colspan="2">{{ transporte_form.rntc_veiculo }}</td>
-                    </tr>
-                </table>
-            </div>
+    
+        <!-- Volumes (tabela compacta com todos inputs) -->
+        <div class="transporte-box transporte-volumes">
+            <div class="box-title">Volumes</div>
+            <table class="form-table transporte-table">
+                <tr>
+                    <td class="label-cell" style="font-weight: bold;">Qtd Volumes</td>
+                    <td class="label-cell" style="font-weight: bold;">Espécie Volume</td>
+                    <td class="label-cell" style="font-weight: bold;">Marca</td>
+                    <td class="label-cell" style="font-weight: bold;">N° Volumes</td>
+                    <td class="label-cell" style="font-weight: bold;">Peso Líquido</td>
+                    <td class="label-cell" style="font-weight: bold;">Peso Bruto</td>
+                </tr>
+                <tr>
+                    <td class="input-cell">{{ transporte_form.qtd_volumes }}</td>
+                    <td class="input-cell">{{ transporte_form.especie_volume }}</td>
+                    <td class="input-cell">{{ transporte_form.marca_volume }}</td>
+                    <td class="input-cell">{{ transporte_form.numero_volumes }}</td>
+                    <td class="input-cell">{{ transporte_form.peso_liquido }}</td>
+                    <td class="input-cell">{{ transporte_form.peso_bruto }}</td>
+                </tr>
+            </table>
         </div>
     </div>
-
-    <!-- Volumes (mais compacto, sem espaço extra) -->
-    <div class="transporte-box transporte-volumes">
-        <div class="box-title">Volumes</div>
-        <table class="form-table transporte-table">
-            <tr>
-                <td class="label-cell">Qtd Volumes</td>
-                <td class="label-cell">Espécie Volume</td>
-                <td class="label-cell">Marca</td>
-                <td class="label-cell">N° Volumes</td>
-                <td class="label-cell">Peso Líquido</td>
-                <td class="label-cell">Peso Bruto</td>
-            </tr>
-            <tr>
-                <td class="input-cell">{{ transporte_form.qtd_volumes }}</td>
-                <td class="input-cell">{{ transporte_form.especie_volume }}</td>
-                <td class="input-cell">{{ transporte_form.marca_volume }}</td>
-                <td class="input-cell">{{ transporte_form.numero_volumes }}</td>
-                <td class="input-cell">{{ transporte_form.peso_liquido }}</td>
-                <td class="input-cell">{{ transporte_form.peso_bruto }}</td>
-            </tr>
-        </table>
-    </div>
-</div>
 
 <div id="Cobranca" class="tab-content">
     <div class="form-group-box">
