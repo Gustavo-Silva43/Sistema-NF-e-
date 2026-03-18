@@ -921,7 +921,28 @@
     </div>
 </div>
 
-    <div id="info" class="tab-content">
+<div id="InformacoesAdicionais" class="tab-content">
+    <div class="form-group-box">
+        <div class="informacoes-adicionais-layout">
+            <div class="informacoes-adicionais-left">
+                <table class="form-table">
+                    <tr>
+                        <td class="label-cell">Informações complementares da NF (Máximo 250 caracteres)</td>
+                        <td class="input-cell">{{ info_compl_nfe}}
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Informações adicionais ao Fisco (Máximo 250 caracteres)</td>
+                        <td class="input-cell">{{ nfe_form.informacoes_fisico }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="Info_nfe" class="tab-content">
         <div class="form-group-box">
             <div class="label-cell">Informações complementares da NF</div>
             <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
