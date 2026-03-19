@@ -933,6 +933,144 @@
     margin-bottom: -1px !important;
 }
 
+/* === ABA ARQUIVOS DA NFe === */
+#ArquivosNFe .arquivos-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 10px;
+    background: #c5d4b5;
+}
+
+#ArquivosNFe .arquivos-left {
+    width: 260px;
+    flex: 0 0 260px;
+}
+
+#ArquivosNFe .arquivos-right {
+    flex: 1 1 auto;
+    min-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ArquivosNFe .arquivos-right-top {
+    display: flex;
+    justify-content: center;
+    padding-top: 2px;
+}
+
+#ArquivosNFe .arquivos-preview {
+    flex: 1;
+    min-height: 220px;
+    background: #ffffff;
+    border: 1px solid #80a0c0;
+}
+
+/* File input: seu CSS global tende a remover borda/fundo; então forçamos aqui */
+#ArquivosNFe input[type="file"] {
+    width: 100% !important;
+    border: 1px solid #80a0c0 !important;
+    background: #ffffff !important;
+    padding: 6px !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+}
+
+#ArquivosNFe .arquivos-actions .btn-action {
+    width: 100%;
+}
+
+#ArquivosNFe .arquivos-empty {
+    padding: 10px 6px;
+    color: #555;
+    font-size: 11px;
+}
+
+#ArquivosNFe .arquivos-list .arquivo-item {
+    margin-bottom: 6px;
+}
+
+#ArquivosNFe .arquivo-link {
+    color: #003366;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+/* === ABA INFO NFe === */
+#Info_nfe .form-group-box {
+    position: relative;
+    /* reserva espaço para o botão "Info" (só existe no 2º bloco) */
+    padding-right: 70px;
+}
+
+/* Botão "Info" no canto superior direito */
+#Info_nfe .form-group-box > .btn-action {
+    position: absolute !important;
+    right: 8px !important;
+    top: 6px !important;
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+    width: auto !important;
+    z-index: 2 !important;
+    font-size: 12px !important;
+}
+
+/* Override do textarea dentro do box (seu CSS global fixa height/borda) */
+#Info_nfe .input-cell textarea.textarea-status {
+    height: auto !important;
+    min-height: 140px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 6px 8px !important;
+}
 
 
+/* === ABA Informações Complementares (ajuste visual das 2 caixas) === */
+#InfoCompl .info-compl-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+#InfoCompl td {
+    padding: 0 !important;
+}
+
+#InfoCompl .info-compl-label {
+    display: block !important;
+    width: 100% !important;
+    background: #b0cce0 !important;
+    color: #003366 !important;
+    border: 1px solid #80a0c0 !important;
+    border-bottom: none !important;
+    padding: 2px 5px !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+}
+
+/* Override do estilo global de textarea (que deixa background transparente) */
+#InfoCompl .info-compl-input {
+    display: block !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    border: 1px solid #80a0c0 !important;
+    border-top: none !important;
+    padding: 6px 8px !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+    min-height: 80px !important;
+    resize: vertical;
+    color: #000 !important;
+}
+
+#InfoCompl .info-compl-input:focus {
+    border-color: #0066cc !important;
+    box-shadow: 0 0 5px #0066cc80 !important;
+    background-color: #f0f8ff !important;
+    outline: none !important;
+}
 
