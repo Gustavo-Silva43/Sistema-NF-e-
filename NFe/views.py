@@ -1,5 +1,17 @@
+from pathlib import Path
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, get_object_or_404, redirect
+
 from .forms import *
+from .models import ArquivosNFe
+
+
+def _parse_arquivos_text(arquivos_text: str | None) -> list[str]:
+    if not arquivos_text:
+        return []
+    return [line.strip() for line in arquivos_text.splitlines() if line.strip()]
 
 def gerenciar_nfe(request, pk=None):
     if pk:
@@ -8,6 +20,35 @@ def gerenciar_nfe(request, pk=None):
         nfe = None
     
     if request.method == 'POST':
+        acao = request.POST.get('action')
+        # Salvar arquivos enviados na aba "Arquivos da NFe"
+        if acao == 'salvar_arquivos' and nfe is not None:
+            uploaded_files = request.FILES.getlist('arquivos_nfe_files')
+            if uploaded_files:
+                dir_name = f"nfe_{nfe.id}"
+                storage_location = Path(settings.MEDIA_ROOT) / dir_name
+                storage_location.mkdir(parents=True, exist_ok=True)
+
+                storage = FileSystemStorage(location=str(storage_location))
+
+                arquivos_obj = ArquivosNFe.objects.filter(nfe=nfe).first()
+                if arquivos_obj is None:
+                    arquivos_obj = ArquivosNFe(nfe=nfe)
+
+                existing = set(_parse_arquivos_text(arquivos_obj.arquivos))
+                saved_names: list[str] = []
+
+                for f in uploaded_files:
+                    saved_name = storage.save(f.name, f)  # retorna o nome salvo (pode incluir sufixo)
+                    saved_names.append(saved_name)
+
+                # Unifica nomes (sem duplicar)
+                for name in saved_names:
+                    existing.add(name)
+
+                arquivos_obj.arquivos = "\n".join(sorted(existing))
+                arquivos_obj.save()
+
         nfe_form = NFeForm(request.POST, instance=nfe)
         transporte_form = TransportadoraForm(request.POST, instance=getattr(nfe, 'transporte', None))
         cobranca_form = CobrancaForm(request.POST, instance=getattr(nfe, 'cobranca', None))
@@ -31,6 +72,15 @@ def gerenciar_nfe(request, pk=None):
             info.save()
             item_formset.save()
             pagamento_formset.save()
+            if acao == 'salvar_arquivos' and nfe is not None:
+                return redirect('gerenciar_nfe', pk=nfe.pk)
+            if acao == 'carta_correcao' and nfe is not None:
+                # Carta de Correção (evento 135): mantém o mesmo número e registra o evento no cadastro
+                nfe.status_sefaz = '135'
+                nfe.cce = True
+                nfe.save()
+                return redirect('gerenciar_nfe', pk=nfe.pk)
+
             return redirect('emitir_nfe')  # or appropriate URL
     else:
         nfe_form = NFeForm(instance=nfe)
@@ -40,6 +90,10 @@ def gerenciar_nfe(request, pk=None):
         info_form = InfoStatusForm(instance=getattr(nfe, 'info_status', None))
         item_formset = ProdutoFormSet(instance=nfe)
         pagamento_formset = PagamentoFormSet(instance=nfe)
+
+    arquivos_obj = ArquivosNFe.objects.filter(nfe=nfe).first() if nfe is not None else None
+    arquivos_list = _parse_arquivos_text(arquivos_obj.arquivos if arquivos_obj else None)
+    media_url_nfe = f"{settings.MEDIA_URL}nfe_{nfe.id}/" if nfe is not None else ""
     
     context = {
         'nfe': nfe,
@@ -50,6 +104,8 @@ def gerenciar_nfe(request, pk=None):
         'info_form': info_form,
         'item_formset': item_formset,
         'pagamento_formset': pagamento_formset,
+        'arquivos_list': arquivos_list,
+        'media_url_nfe': media_url_nfe,
     }
     return render(request, 'form_nfe.html', context)
 
@@ -97,6 +153,7 @@ def emitir_nfe(request):
         'base_calculo_form': base_calculo_form,
         'item_formset': item_formset,
         'pagamento_formset': pagamento_formset,
+        'info_form': InfoStatusForm(),
     })
 
 def iniciar(request):
@@ -113,5 +170,23 @@ def iniciar(request):
         'nfe_form': NFeForm(instance=nfe_selecionada) if nfe_selecionada else None,
         'cobranca_form': CobrancaForm(instance=getattr(nfe_selecionada, 'cobranca', None)) if nfe_selecionada else CobrancaForm(),
         'base_calculo_form': BaseCalculoForm(instance=getattr(nfe_selecionada, 'base_calculo_totais', None)) if nfe_selecionada else BaseCalculoForm(),
+        'info_form': InfoStatusForm(instance=getattr(nfe_selecionada, 'info_status', None)) if nfe_selecionada else InfoStatusForm(),
     }
     return render(request, 'form_nfe.html', context)
+
+
+def abrir_pasta_arquivos(request, nfe_id: int):
+    nfe = get_object_or_404(NFe, pk=nfe_id)
+    arquivos_obj = ArquivosNFe.objects.filter(nfe=nfe).first()
+    arquivos_list = _parse_arquivos_text(arquivos_obj.arquivos if arquivos_obj else None)
+    media_url_nfe = f"{settings.MEDIA_URL}nfe_{nfe.id}/"
+
+    return render(
+        request,
+        'arquivos_pasta.html',
+        {
+            'nfe': nfe,
+            'arquivos_list': arquivos_list,
+            'media_url_nfe': media_url_nfe,
+        },
+    )
