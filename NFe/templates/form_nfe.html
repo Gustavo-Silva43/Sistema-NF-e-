@@ -99,14 +99,14 @@
     <li class="tab-link" data-tab="Pagamento">Pagamento</li>
     <li class="tab-link" data-tab="Cobranca">Cobrança</li>
     <li class="tab-link" data-tab="Transportadora_Volumes">Transportadoras e Volumes</li>
-    <li class="tab-link" data-tab="InformacoesAdicionais">Informações Complementares</li>
+    <li class="tab-link" data-tab="InfoCompl">Informações Complementares</li>
     <li class="tab-link" data-tab="ArquivosNFe">Arquivos da NFe</li>
     <li class="tab-link" data-tab="Info_nfe">Info NFe</li>
 </ul>
 
 <hr class="header-divider">
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div id="NFe" class="tab-content active">
@@ -921,44 +921,109 @@
     </div>
 </div>
 
-<div id="InformacoesAdicionais" class="tab-content">
-    <div class="form-group-box">
-        <div class="informacoes-adicionais-layout">
-            <div class="informacoes-adicionais-left">
-                <table class="form-table">
-                    <tr>
-                        <td class="label-cell">Informações complementares da NF (Máximo 250 caracteres)</td>
-                        <td class="input-cell">{{ info_compl_nfe}}
-                    </tr>
-                    <tr>
-                        <td class="label-cell">Informações adicionais ao Fisco (Máximo 250 caracteres)</td>
-                        <td class="input-cell">{{ nfe_form.informacoes_fisico }}</td>
-                    </tr>
-                </table>
+<div id="InfoCompl" class="tab-content">
+    <table class="info-compl-table">
+        <tr>
+            <td>
+                <span class="info-compl-label">
+                    Informações complementares da NF (máximo 250 caracteres)
+                </span>
+                <textarea maxlength="250" class="info-compl-input" name="informacoes_complementares">{{ nfe_form.informacoes_complementares.value|default_if_none:"" }}</textarea>
+            </td>
+        </tr>
+    </table>
+    <table class="info-compl-table">
+        <tr>
+            <td>
+                <span class="info-compl-label">
+                    Informações adicionais ao Fisco (máximo 250 caracteres)
+                </span>
+                <textarea maxlength="250" class="info-compl-input" name="informacoes_fisico">{{ nfe_form.informacoes_fisico.value|default_if_none:"" }}</textarea>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="ArquivosNFe" class="tab-content">
+    <div class="arquivos-layout">
+        <div class="arquivos-left">
+            <div class="form-group-box">
+                <div class="label-cell">Arquivos da NFe</div>
+                <div class="input-cell">
+                    <div class="arquivos-upload">
+                        <input type="file" name="arquivos_nfe_files" multiple />
+                        <div class="arquivos-actions">
+                            <button type="submit" name="action" value="salvar_arquivos" class="btn-action">
+                                Salvar arquivos
+                            </button>
+                        </div>
+                    </div>
+
+                    {% if arquivos_list %}
+                        <div class="arquivos-list">
+                            {% for f in arquivos_list %}
+                                <div class="arquivo-item">
+                                    <a class="arquivo-link" href="{{ media_url_nfe }}{{ f|urlencode }}" target="_blank">{{ f }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="arquivos-empty">Nenhum arquivo enviado ainda.</div>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
 
-
-
-
-    <div id="Info_nfe" class="tab-content">
-        <div class="form-group-box">
-            <div class="label-cell">Informações complementares da NF</div>
-            <div class="input-cell">{{ nfe_form.informacoes_complementares }}</div>
+        <div class="arquivos-right">
+            <div class="arquivos-right-top">
+                {% if nfe %}
+                    <a class="btn-action" href="{% url 'abrir_pasta_arquivos' nfe.id %}">
+                        Abrir Pasta
+                    </a>
+                {% else %}
+                    <button class="btn-action disabled" type="button">Abrir Pasta</button>
+                {% endif %}
+            </div>
+            <div class="arquivos-preview"></div>
         </div>
-        <div class="form-group-box">
-            <div class="label-cell">Informações adicionais ao Fisco</div>
-            <div class="input-cell">{{ nfe_form.informacoes_fisico }}</div>
-        </div>
     </div>
+</div>
+
+<div id="Info_nfe" class="tab-content">
+    <div class="form-group-box">
+        <div class="label-cell">Informações sobre a NFe</div>
+        <div class="input-cell">{{ info_form.informacoes_nfe }}</div>
+    </div>
+    <div class="form-group-box">
+        <div class="label-cell">Retorno</div>
+        <div class="input-cell">{{ info_form.retorno }}</div>
+        <button type="button" class="btn-action">Info</button>
+    </div>
+</div>
 
     <div class="actions-bar">
-        <button type="button" class="btn-action">CARTA DE CORREÇÃO</button>
-        <button type="button" class="btn-action">CANCELAR</button>
+        <button
+            type="submit"
+            name="action"
+            value="carta_correcao"
+            class="btn-action"
+            onclick="return confirm('Deseja corrigir a NF-e?');"
+        >
+            CARTA DE CORREÇÃO
+        </button>
+        <button
+            type="submit"
+            name="action"
+            value="cancelar_nfe"
+            class="btn-action"
+            onclick="return confirm('Tem certeza que deseja cancelar esta NF-e? Esta ação não pode ser desfeita.');"
+        >
+            CANCELAR
+        </button>
         <button type="button" class="btn-action">CANCELAR COB</button>
         <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
-
+        
+        <button type="button" class="btn-action"><strong>Situação NFe</strong></button>
         <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
         <button type="button" class="btn-action">Relat. NF Emitidas</button>
         <button type="button" class="btn-action">Frete/Prazo</button>
