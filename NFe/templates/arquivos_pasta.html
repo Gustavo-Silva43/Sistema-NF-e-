@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Arquivos da NFe</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div style="padding: 16px;">
+        <div style="font-weight: bold; margin-bottom: 8px;">
+            Arquivos da NFe: {{ nfe.id }}
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <a href="{% url 'gerenciar_nfe' nfe.pk %}">Voltar</a>
+        </div>
+
+        {% if arquivos_list %}
+            <div style="border: 1px solid #80a0c0; padding: 8px; background: #fff;">
+                {% for f in arquivos_list %}
+                    <div style="margin-bottom: 6px; display: flex; justify-content: space-between; gap: 12px;">
+                        <div style="word-break: break-all;">
+                            {{ f }}
+                        </div>
+                        <div>
+                            <a href="{{ media_url_nfe }}{{ f|urlencode }}">Baixar</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="border: 1px dashed #80a0c0; padding: 12px; background: #fff;">
+                Nenhum arquivo enviado ainda.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
