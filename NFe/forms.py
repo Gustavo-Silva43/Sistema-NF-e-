@@ -38,8 +38,8 @@ class InfoStatusForm(forms.ModelForm):
         model = Info_nfe
         fields = ['informacoes_nfe', 'retorno']
         widgets ={
-            'informacoes_nfe': forms.Textarea(attrs={'rows': 4, 'class': 'textarea-status'}),
-            'retorno': forms.Textarea(attrs={'rows': 4, 'class': 'textarea-status'}),
+            'informacoes_nfe': forms.Textarea(attrs={'rows': 8, 'class': 'textarea-status'}),
+            'retorno': forms.Textarea(attrs={'rows': 8, 'class': 'textarea-status'}),
         }
 
 
