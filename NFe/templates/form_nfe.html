@@ -1008,9 +1008,66 @@
             value="carta_correcao"
             class="btn-action"
             onclick="return confirm('Deseja corrigir a NF-e?');"
+        onclick="return abrirDialogCartaCorrecao(event);"
         >
             CARTA DE CORREÇÃO
         </button>
+
+        <div id="cartaCorrecaoModal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:9999; background:#f7f7f7; border:1px solid #ccc; padding:20px; min-width:400px; box-shadow:0 4px 20px #bbb;">
+            <div style="font-weight:bold; margin-bottom:10px;">Carta de Correção eletrônica da NF-e</div>
+            <div style="margin-bottom:10px;">
+                Informe o texto da correção a ser considerada (o texto deve ter entre 15 a 1000 caracteres).
+            </div>
+            <textarea id="textoCartaCorrecao" style="width:100%; height:50px; margin-bottom:10px;" maxlength="1000"></textarea>
+            <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+                <button type="button" onclick="onConfirmCartaCorrecao()" style="min-width:50px;">OK</button>
+                <button type="button" onclick="fecharDialogCartaCorrecao()" style="min-width:70px;">Cancelar</button>
+            </div>
+            <div id="cartaCorrecaoPreview" style="margin-top:15px; display:none; text-align:center;">
+                <img src="{% static 'img/carta_correcao_prompt.png' %}" alt="Carta de Correção eletronica da NF-e" style="max-width:320px;">
+            </div>
+        </div>
+        <script>
+        function abrirDialogCartaCorrecao(e){
+            e.preventDefault();
+            document.getElementById('cartaCorrecaoModal').style.display = 'block';
+            document.getElementById('cartaCorrecaoPreview').style.display = 'none';
+            document.getElementById('textoCartaCorrecao').value = '';
+            document.getElementById('textoCartaCorrecao').focus();
+            return false;
+        }
+        function fecharDialogCartaCorrecao(){
+            document.getElementById('cartaCorrecaoModal').style.display = 'none';
+        }
+        function onConfirmCartaCorrecao(){
+            let texto = document.getElementById('textoCartaCorrecao').value.trim();
+            if(texto.length < 15 || texto.length > 1000){
+                alert('O texto deve ter entre 15 a 1000 caracteres.');
+                return false;
+            }
+            // Mostra a "foto" após confirmação
+            document.getElementById('cartaCorrecaoPreview').style.display = 'block';
+            // Após um breve delay, envia o form (você pode ajustar para melhor experiência)
+            setTimeout(function(){
+                // Cria um campo oculto para enviar o texto da carta
+                let form = document.querySelector('form');
+                let hidden = document.getElementById('hiddenCartaCorrecao');
+                if(!hidden){
+                    hidden = document.createElement('input');
+                    hidden.type = 'hidden';
+                    hidden.name = 'texto_carta_correcao';
+                    hidden.id = 'hiddenCartaCorrecao';
+                    form.appendChild(hidden);
+                }
+                hidden.value = texto;
+
+                let btn = document.querySelector('button[name=action][value="carta_correcao"]');
+                if(btn){
+                    btn.closest('form').submit();
+                }
+            }, 900); 
+        }
+        </script>
         <button
             type="submit"
             name="action"
