@@ -1009,9 +1009,42 @@
             class="btn-action"
             onclick="return confirm('Deseja corrigir a NF-e?');"
         onclick="return abrirDialogCartaCorrecao(event);"
-        >
+        onclick="return abrirDialogCartaCorrecaoComPrompt(event);">
             CARTA DE CORREÇÃO
         </button>
+        <script>
+        function abrirDialogCartaCorrecaoComPrompt(e){
+            e.preventDefault();
+            // Mostra o prompt nativo conforme a imagem
+            var texto = window.prompt(
+                "Informe o texto da correção a ser considerada (o texto deve ter entre 15 a 1000 caracteres).\n",
+                ""
+            );
+            if (texto === null) {
+                // Usuário clicou em Cancelar
+                return false;
+            }
+            texto = texto.trim();
+            if (texto.length < 15 || texto.length > 1000) {
+                alert('O texto deve ter entre 15 a 1000 caracteres.');
+                return false;
+            }
+            // Cria ou atualiza o campo hidden para enviar o texto da carta
+            var form = document.querySelector('form');
+            var hidden = document.getElementById('hiddenCartaCorrecao');
+            if(!hidden){
+                hidden = document.createElement('input');
+                hidden.type = 'hidden';
+                hidden.name = 'texto_carta_correcao';
+                hidden.id = 'hiddenCartaCorrecao';
+                form.appendChild(hidden);
+            }
+            hidden.value = texto;
+            // Submete o formulário
+            form.submit();
+            return false;
+        }
+        </script>
 
         <div id="cartaCorrecaoModal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:9999; background:#f7f7f7; border:1px solid #ccc; padding:20px; min-width:400px; box-shadow:0 4px 20px #bbb;">
             <div style="font-weight:bold; margin-bottom:10px;">Carta de Correção eletrônica da NF-e</div>
@@ -1078,7 +1111,122 @@
             CANCELAR
         </button>
         <button type="button" class="btn-action">CANCELAR COB</button>
-        <button type="button" class="btn-action"><strong>INUTILIZAR</strong></button>
+        <button type="button" class="btn-action" onclick="abrirDialogInutilizarNfe()"><strong>INUTILIZAR</strong></button>
+
+        <!-- Modal Inutilizar NFe -->
+        <div id="modalInutilizarNfe" style="display:none; position:fixed; top:20px; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.14); z-index:10001; align-items:center; justify-content:center;">
+            <div style="background:#fff; margin:40px auto; border-radius:5px; max-width:990px; width:96%; min-height:300px; box-shadow:0 6px 40px #0002; border:1px solid #eaeaea; padding:24px 20px 0 20px; position:relative;">
+                <div style="margin-bottom:16px;">
+                    <label for="empresaInutilizarNfe" style="font-weight:bold; margin-right:8px;">EMPRESA:</label>
+                    <select id="empresaInutilizarNfe" style="min-width:160px; padding:2px 4px;">
+                        <!-- Exemplos, popular dinamicamente se desejar -->
+                        <option value="" selected></option>
+                        <option value="cavemac">CAVEMAC</option>
+                        <option value="peninsula">Peninsula</option>
+                        <option value="omega">Omega</option>
+                        <option value="starte/SP">Starte/SP</option>
+                        <option value="cavemac/SC">Cavemac/SC</option>
+                        <option value="green">Green</option>
+                        <option value="reach">Reach</option>
+                    </select>
+                </div>
+                <div style="overflow-x:auto; border:1px solid #bbb; border-radius:3px;">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr style="background:#f8f8f9;">
+                                <th style="border-bottom:1px solid #bbb; height:28px;">nProtocoloInut<br>
+                                    <input type="text" id="serieInutilizarNfe" name="serieInutilizarNfe" style="width:80px; padding:5px 6px; font-size:14px; margin-bottom:18px;" >
+                                </th>
+                                <th style="border-bottom:1px solid #bbb;">
+                                    dProtocoloInut<br>
+                                    <input type="text" id="numInicialInutilizarNfe" name="numInicialInutilizarNfe" style="width:150px; padding:5px 6px; font-size:14px; margin-bottom:18px;">
+                                </th>
+                                <th style="border-bottom:1px solid #bbb;">
+                                    Justificativa<br>
+                                    <input type="text" id="numFinalInutilizarNfe" name="numFinalInutilizarNfe" style="width:250px; padding:5px 6px; font-size:14px; margin-bottom:18px;" >
+                                </th>
+                                <th style="border-bottom:1px solid #bbb;">
+                                    nroNFeInicial<br>
+                                    <input type="text" id="justificativaInutilizarNfe" name="justificativaInutilizarNfe" style="width:80px; padding:5px 6px; font-size:14px; margin-bottom:18px;">
+                                </th>
+                                <th style="border-bottom:1px solid #bbb;">
+                                    nroNFeFinal<br>
+                                    <input type="text" id="justificativaInutilizarNfe" name="justificativaInutilizarNfe" style="width:250px; padding:5px 6px; font-size:14px; margin-bottom:18px;">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border-bottom:1px dashed #bbb; height:22px;"></td>
+                                <td style="border-bottom:1px dashed #bbb;"></td>
+                                <td style="border-bottom:1px dashed #bbb;"></td>
+                                <td style="border-bottom:1px dashed #bbb;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="text-align:right; margin-top:18px; padding-bottom:12px;">
+                    <button type="button" class="btn-action" style="margin-right:8px;" onclick="abrirModalPrimeiraNfe()">INUTILIZAR</button> 
+                    <button type="button" class="btn-action" onclick="fecharDialogInutilizarNfe()">FECHAR</button>
+
+                    <!-- Modal estilo "Informe o n° da primeira NFe" -->
+                    <div id="modalPrimeiraNfe" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.29); justify-content:center; align-items:center;">
+                        <div style="background:#fff; padding:24px 20px 16px 20px; border-radius:7px; min-width:340px; position:relative; box-shadow:0 6px 18px rgba(0,0,0,0.13);">
+                            <div style="font-weight:bold; margin-bottom:14px; font-size:15px;">Informe o n° da primeira NFe</div>
+                            <input id="inputPrimeiraNfe" type="text" style="width:100%; padding:5px 6px; font-size:14px; margin-bottom:18px;">
+                            <div style="display:flex; justify-content:flex-end; gap:8px;">
+                                <button type="button" class="btn-action" style="min-width:62px;" onclick="okPrimeiraNfe()">OK</button>
+                                <button type="button" class="btn-action" onclick="fecharModalPrimeiraNfe()">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        function abrirModalPrimeiraNfe() {
+                            document.getElementById('modalPrimeiraNfe').style.display = 'flex';
+                            setTimeout(() => {
+                                document.getElementById('inputPrimeiraNfe').focus();
+                            }, 120);
+                        }
+                        function fecharModalPrimeiraNfe() {
+                            document.getElementById('modalPrimeiraNfe').style.display = 'none';
+                        }
+                        function okPrimeiraNfe() {
+                            var valor = document.getElementById('inputPrimeiraNfe').value;
+                            if (!valor) {
+                                document.getElementById('inputPrimeiraNfe').focus();
+                                return;
+                            }
+                            // Aqui vai sua lógica para inutilizar, usando o valor informado.
+                            alert('Número informado: ' + valor + ' (implementar lógica para inutilizar)');
+                            fecharModalPrimeiraNfe();
+                            fecharDialogInutilizarNfe();
+                        }
+                        // Enter para OK, ESC para Cancelar
+                        document.getElementById('inputPrimeiraNfe').addEventListener('keydown', function(e) {
+                            if (e.key === "Enter") {
+                                okPrimeiraNfe();
+                            }
+                            if (e.key === "Escape") {
+                                fecharModalPrimeiraNfe();
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <script>
+        function abrirDialogInutilizarNfe() {
+            document.getElementById('modalInutilizarNfe').style.display = 'flex';
+        }
+        function fecharDialogInutilizarNfe() {
+            document.getElementById('modalInutilizarNfe').style.display = 'none';
+        }
+        function confirmarInutilizarNfe() {
+            // Implemente a lógica para inutilizar
+            alert('Inutilizar requisitado (implementar lógica)');
+            fecharDialogInutilizarNfe();
+        }
+        </script>
         
         <button type="button" class="btn-action"><strong>Situação NFe</strong></button>
         <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
@@ -1114,116 +1262,3 @@
 
 </script>
 {% endblock %}
-
- {% comment %} 1. Estrutura geral do template 
-
-{% extends "base.html" %}: Este template herda de um arquivo base (base.html), que provavelmente tem o cabeçalho, rodapé, menu, links de CSS/JS comuns, etc.
-{% load static %}: Carrega a tag para usar arquivos estáticos (imagens, CSS, JS).
-<link rel="stylesheet" href="{% static 'style.css' %}">: Carrega seu arquivo CSS principal.
-
-O conteúdo fica dentro de {% block content %} → é aqui que você coloca o HTML específico desta página.
-2. Filtros no topo (.filter-header)
-Essa parte é uma barra de filtros para buscar NF-e's na lista principal.
-
-<div class="filter-header">: Container principal com fundo verde musgo (#c5d4b5 no seu CSS).
-Filtros (empresa, status, pedido, NF-e):
-São selects e inputs normais com class="form-control" (estilo Bootstrap-like).
-Empresa tem "Peninsula" selecionada por padrão (selected).
-Status tem várias opções típicas de NF-e (autorizado, cancelada, denegada, etc.).
-
-Botões de ação à direita (.top-action-buttons):
-"Voltar nº", "PESO/VOL", "BOLETO" (disabled), "LIMPAR" (com onclick para limpar filtros via JS).
-
-
-3. Tabela principal de listagem (.main-section)
-
-<div class="main-section">: Flex horizontal com tabela + barra lateral.
-Tabela (<table class="grid-table">):
-Cabeçalho com colunas: Pedido, NFe, Série, Status, Data, Cliente.
-Corpo vazio (<tbody></tbody>): provavelmente preenchido via JavaScript/AJAX depois (não tem dados estáticos aqui).
-
-Barra lateral (.side-bar-buttons):
-Botões verticais: Transmitir, Faturar COB, DANFE, Salvar (vermelho), Agrupar Orç, Menu Caixa.
-
-
-4. Barra de usuário no rodapé (.user-bar)
-
-Mostra "USUÁRIO:" + nome (vazio no código).
-Linha branca decorativa.
-
-5. Abas de navegação (.tabs)
-
-Lista horizontal de abas (.tabs + .tab-link).
-Cada aba tem data-tab="ID" para ativar o conteúdo correspondente via JS.
-Todas as abas estão marcadas como active (provavelmente erro de teste – só uma deve ser ativa).
-Abas incluem: Dados NF-e, Cliente, End.Entrega, Base de Cálculo, Produto, Pagamento, Cobrança, Transportadoras e Volumes, Informações Complementares, Arquivos da NFe, Info NFe.
-
-6. Formulário principal (<form method="post">)
-
-Tem {% csrf_token %} (segurança Django).
-Dentro dele ficam todas as abas (.tab-content).
-
-7. Conteúdo das abas (principais)
-Aba "Dados NF-e" (#NFe)
-
-Várias tabelas pequenas (form-table) com labels e inputs.
-Campos como pedido, número NF-e, série, modelo, tipo emissão, natureza operação, etc.
-Checkboxes para Transmitir, CCE, Cancelar.
-Textarea para justificativa.
-
-Aba "Cliente" (#cliente)
-
-Dados do cliente: tipo pessoa, CNPJ/CPF, IE, IM, SUFRAMA, nome, CEP, logradouro, etc.
-
-Aba "End.Entrega" (#End_Entrega)
-
-Endereço de entrega do cliente (CEP, logradouro, número, complemento, bairro, município, UF).
-
-Aba "Base de Cálculo" (#base_calculo)
-
-Tabela com valores totais e tributos (ICMS, IPI, PIS, COFINS, etc.).
-Dois modos:
-{% if nfe_form %} → modo edição → inputs editáveis ({{ nfe_form.vBC }}, etc.).
-{% elif nfe %} → modo visualização → valores formatados ({{ nfe.vBC|floatformat:2 }}).
-Sem dados → linhas vazias.
-
-
-Aba "Produto" (#produto)
-
-Tabela enorme com todos os itens da NF-e.
-Muitos campos: código, EAN, descrição, NCM, CFOP, quantidade, valores, tributos (ICMS, PIS, COFINS, etc.), dados de DI, etc.
-Usa item_formset para edição (inputs) ou lista de produtos salvos para visualização.
-
-Aba "Pagamento" (#Pagamento)
-
-Tabela com formas de pagamento (número, indicador, forma, valor, cartão, etc.).
-Inputs via pagamento_formset.
-Rodapé com campo "Troco" (readonly) e botão "Calcular Formas Pago".
-
-Aba "Cobrança" (#cobranca)
-
-Campos superiores: Valor Total, Desconto, Valor Líquido, Nº Fatura, idBanco (alguns como inputs, outros como form).
-Título "Duplicatas".
-Tabela com duplicatas (via formset ou dados salvos).
-Boleto no topo direito.
-Botão "Gerar os Boletos..." abaixo.
-
-8. JavaScript no final
-
-Ativa/desativa abas ao clicar (.tab-link → data-tab).
-Calcula valor total bruto automaticamente quando muda quantidade ou valor unitário nos itens (evento input).
-
-Resumo do que o código faz
-
-Página de gerenciamento de NF-e.
-Filtros + lista de NF-es no topo.
-Botões laterais de ações rápidas.
-Abas com todos os dados da NF-e (dados gerais, cliente, entrega, cálculos, produtos, pagamento, cobrança, etc.).
-Formulário POST para salvar alterações.
-Modo edição (com inputs) e visualização (com textos formatados).
-JavaScript simples para abas e cálculos automáticos.
-
-Se quiser que eu explique alguma aba específica em mais detalhes (ex: por que a Cobrança não aparece, como melhorar o layout, corrigir bugs, etc.), é só pedir! 😊
-
-
- {% endcomment %}
