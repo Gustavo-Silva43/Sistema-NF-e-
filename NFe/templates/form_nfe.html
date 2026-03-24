@@ -1117,9 +1117,18 @@
         <div id="modalInutilizarNfe" style="display:none; position:fixed; top:20px; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.14); z-index:10001; align-items:center; justify-content:center;">
             <div style="background:#fff; margin:40px auto; border-radius:5px; max-width:990px; width:96%; min-height:300px; box-shadow:0 6px 40px #0002; border:1px solid #eaeaea; padding:24px 20px 0 20px; position:relative;">
                 <div style="margin-bottom:16px;">
-                    <label for="empresaInutilizarNfe" style="font-weight:bold; margin-right:8px;">EMPRESA:</label>
-                    <select id="empresaInutilizarNfe" style="min-width:160px; padding:2px 4px;">
-                        <!-- Exemplos, popular dinamicamente se desejar -->
+                    <label for="empresaInutilizarNfe" style="font-weight:bold; margin-right:6px; vertical-align:middle;">EMPRESA:</label>
+                    <select id="empresaInutilizarNfe" style="
+                        width:105px; 
+                        min-width:unset; 
+                        max-width:120px; 
+                        height:24px; 
+                        padding-right:17px; 
+                        font-size:13px; 
+                        margin-left:0px; 
+                        vertical-align:middle; 
+                        border-radius:3px;
+                    ">
                         <option value="" selected></option>
                         <option value="cavemac">CAVEMAC</option>
                         <option value="peninsula">Peninsula</option>
@@ -1228,7 +1237,73 @@
         }
         </script>
         
-        <button type="button" class="btn-action"><strong>Situação NFe</strong></button>
+        <button type="button" class="btn-action" onclick="abrirAbaSituacaoNfe()"><strong>Situação NFe</strong></button>
+
+        <div id="abaSituacaoNfe" style="display:none; position:fixed; left:50%; top:54px; transform:translateX(-50%); background:#fff; z-index:10000; border:1px solid #bbb; min-width:680px; box-shadow:0 4px 20px #bbb; padding:28px 18px 26px 18px;">
+            <div style="font-size:2rem; font-weight:bold; text-align:center; margin-bottom:100pxpx;">Situação NF-e</div>
+            <div style="margin-bottom:16px; display:flex; align-items:center; gap:2px;">
+                <label style="font-weight:150; margin-right:2px; min-width:20px; display:inline-block;">Empresa</label>
+                <select id="empresaInutilizarNfe" style="width:110px; min-width:initial; padding:2px 4px; margin-right:13px; vertical-align:middle;">
+                    <option value="" selected></option>
+                    <option value="cavemac">CAVEMAC</option>
+                    <option value="peninsula">Peninsula</option>
+                    <option value="omega">Omega</option>
+                    <option value="starte/SP">Starte/SP</option>
+                    <option value="cavemac/SC">Cavemac/SC</option>
+                    <option value="green">Green</option>
+                    <option value="reach">Reach</option>
+                </select>
+                <label style="font-weight:100; margin-right:2px; min-width:15px; display:inline-block; vertical-align:middle;">NF-e</label>
+                <input type="text" style="width:110px; margin-right:12px; vertical-align:middle; display:inline-block;">
+                <button class="btn-action" style="padding: 5px 20px; margin-right:8px;">Filtrar</button>
+                <button class="btn-action" style="padding: 5px 20px; margin-right:8px;">Limpar</button>
+                <button class="btn-action" style="padding: 5px 20px;" onclick="fecharAbaSituacaoNfe()">Fechar</button>
+            </div>
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse; font-size:1rem; margin-bottom:13px; background:#f9f9f9;">
+                    <thead style="background:#e4e8f3;">
+                        <tr>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">data_histórico</th>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">pedido</th>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">série</th>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">NF</th>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">Status</th>
+                            <th style="padding:3px 8px; border:1px solid #ccc; font-weight:500;">usuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:#fff;">
+                            <td colspan="6" style="border:1px solid #ccc; padding:11px 0; color:#858585; text-align:center;">&nbsp;</td>
+                        </tr>
+                        <!-- Adicione linhas dinamicamente com JS ou pelo backend -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:9px;">
+                <div>
+                    <input type="text" placeholder="MES" style="width:34px; font-size:90%; margin-right:5px;">
+                    <input type="text" placeholder="Ano" style="width:38px; font-size:90%; margin-right:8px;">
+                    <button class="btn-action" style="padding:4px 10px;">Consulta SEFAZ</button>
+                </div>
+                <input type="text" placeholder="Pesquisar" style="width:122px; font-size:95%; border:1px solid #a0a0a0; border-radius:3px; padding:3px;">
+            </div>
+        </div>
+
+        <script>
+            function abrirAbaSituacaoNfe() {
+                document.getElementById('abaSituacaoNfe').style.display = 'block';
+            }
+            function fecharAbaSituacaoNfe() {
+                document.getElementById('abaSituacaoNfe').style.display = 'none';
+            }
+
+            // Fecha a aba ao apertar Escape
+            document.addEventListener('keydown', function(e){
+                if(e.key === "Escape") {
+                    fecharAbaSituacaoNfe();
+                }
+            });
+        </script>
         <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
         <button type="button" class="btn-action">Relat. NF Emitidas</button>
         <button type="button" class="btn-action">Frete/Prazo</button>
