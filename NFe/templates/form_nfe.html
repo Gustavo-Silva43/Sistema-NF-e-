@@ -106,101 +106,99 @@
 
 <hr class="header-divider">
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" style="background: #d7e7c2; padding: 8px 4px;">
     {% csrf_token %}
-
     <div id="NFe" class="tab-content active">
-        <div class="form-group-box">
-            <table class="form-table">
+        <div class="form-group-box" style="padding:0; margin:0;">
+            <table style="width:100%; border-collapse: collapse; background: transparent;">
                 <tr>
-                    <td class="label-cell">Pedido</td>
-                    <td class="label-cell">NF-e</td>
-                    <td class="label-cell">Série</td>
-                    <td class="label-cell">Modelo NF-e</td>
-                    <td class="label-cell">Tipo Emissão</td>
-                    <td class="label-cell">Tipo NF-e</td>
-                    <td class="label-cell"> Finalidade NF-e</td>
-                    <td class="label-cell">Natureza Operação</td>
+                    <td class="label-cell" style="width:7%;">Pedido</td>
+                    <td class="label-cell" style="width:7%;">NF-e</td>
+                    <td class="label-cell" style="width:7%;">Série</td>
+                    <td class="label-cell" style="width:9%;">Modelo NF-e</td>
+                    <td class="label-cell" style="width:9%;">Tipo Emissão</td>
+                    <td class="label-cell" style="width:7%;">Tipo NF-e</td>
+                    <td class="label-cell" style="width:13%;">Finalidade NF-e</td>
+                    <td class="label-cell" style="width:24%;">Natureza Operação</td>
                 </tr>
                 <tr>
-                    <td class="input-cell">{{ nfe_form.pedido}}</td>
-                    <td class="input-cell">{{ nfe_form.numero}}</td>
-                    <td class="input-cell">{{ nfe_form.serie}}</td>
-                    <td class="input-cell">{{ nfe_form.modelo}}</td>
-                    <td class="input-cell">{{ nfe_form.tipo_emissao}}</td>
-                    <td class="input-cell">{{nfe_form.tipo_nfe}}</td>
-                    <td class="input-cell">{{nfe_form.finalidade}}</td>
-                    <td class="input-cell">{{ nfe_form.naturza_operacao}}</td>
+                    <td class="input-cell">{{ nfe_form.pedido }}</td>
+                    <td class="input-cell">{{ nfe_form.numero }}</td>
+                    <td class="input-cell">{{ nfe_form.serie }}</td>
+                    <td class="input-cell">{{ nfe_form.modelo }}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_emissao }}</td>
+                    <td class="input-cell">{{ nfe_form.tipo_nfe }}</td>
+                    <td class="input-cell">{{ nfe_form.finalidade }}</td>
+                    <td class="input-cell">{{ nfe_form.naturza_operacao }}</td>
                 </tr>
             </table>
 
-            <table class="form-table">
+            <table style="width:100%; border-collapse: collapse; background: transparent;">
                 <tr>
-                    <td class="labe-cell"> Presença Comprador?</td>
-                    <td class="label-cell">Operação com Consumidor?</td>
-                    <td class="label-cell">Local Destino da Operação</td>
-                    <td class="input-cell">Chave de Acesso</td>
-                    <td class="input-cell">cDV</td>
+                    <td class="label-cell" style="width:17%;">Presença Comprador?</td>
+                    <td class="label-cell" style="width:18%;">Operação com Consumidor?</td>
+                    <td class="label-cell" style="width:20%;">Local Destino da Operação</td>
+                    <td class="label-cell" style="width:30%;">Chave de Acesso</td>
+                    <td class="label-cell" style="width:5%;">cDV</td>
                 </tr>
                 <tr>
-                    <td class="input-cell">{{nfe_form.presenca_comprador}}</td>
-                    <td class="input-cell">{{ nfe_form.operacao_consumidor}}</td>
+                    <td class="input-cell">{{ nfe_form.presenca_comprador }}</td>
+                    <td class="input-cell">{{ nfe_form.operacao_consumidor }}</td>
                     <td class="input-cell">{{ nfe_form.local_destino }}</td>
-                    <td class="input-cell">{{ nfe_form.chave_acesso}}</td>
+                    <td class="input-cell">{{ nfe_form.chave_acesso }}</td>
                     <td class="input-cell">{{ nfe_form.cdv }}</td>
                 </tr>
             </table>
 
-            <table class="form-table">
+            <table style="width:100%; border-collapse: collapse; background: transparent;">
                 <tr>
-                    <td class="label-cell">Recibo</td>
-                    <td class="label-cell">Protocolo</td>
-                    <td class="label-cell">Dígito Validador</td>
-                    <td class="label-cell">Data/Hora Emissão</td>
-                    <td class="label-cell">Data/Hora Recebimento</td>
-                    <td class="label-cell">Status SEFAZ</td>
+                    <td class="label-cell" style="width:13%;">Recibo</td>
+                    <td class="label-cell" style="width:18%;">Protocolo</td>
+                    <td class="label-cell" style="width:10%;">Dígito Validador</td>
+                    <td class="label-cell" style="width:18%;">Data/Hora Emissão</td>
+                    <td class="label-cell" style="width:20%;">Data/Hora Recebimento</td>
+                    <td class="label-cell" style="width:21%;">Status SEFAZ</td>
                 </tr>
                 <tr>
-                    <td class="input-cell">{{ nfe_form.recibo}}</td>
-                    <td class="input-cell">{{ nfe_form.protocolo}}</td>
-                    <td class="input-cell">{{ nfe_form.digito_validador}}</td>
-                    <td class="input-cell">{{ nfe_form.data_emissao}}</td>
-                    <td class="input-cell">{{ nfe_form.data_recebimento}}</td>
-                    <td class="input-cell">{{ nfe_form.status_sefaz}}</td>
+                    <td class="input-cell">{{ nfe_form.recibo }}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo }}</td>
+                    <td class="input-cell">{{ nfe_form.digito_validador }}</td>
+                    <td class="input-cell">{{ nfe_form.data_emissao }}</td>
+                    <td class="input-cell">{{ nfe_form.data_recebimento }}</td>
+                    <td class="input-cell">{{ nfe_form.status_sefaz }}</td>
                 </tr>
             </table>
 
-            <table class="form-table">
+            <table style="width:100%; border-collapse: collapse; background: transparent;">
                 <tr>
-                    <td class="label-cell">Código Retorno</td>
-                    <td class="label-cell">Tipo Evento</td>
-                    <td class="label-cell">Protocolo Evento</td>
-                    <td class="label-cell">Seq. Evento</td>
-                    <td class="label-cell">Referenciar Nf-e?</td>
+                    <td class="label-cell" style="width:18%;">Código Retorno</td>
+                    <td class="label-cell" style="width:15%;">Tipo Evento</td>
+                    <td class="label-cell" style="width:20%;">Protocolo Evento</td>
+                    <td class="label-cell" style="width:17%;">Seq. Evento</td>
+                    <td class="label-cell" style="width:30%;">Referenciar Nf-e?</td>
                 </tr>
                 <tr>
-                    <td class="input-cell">{{nfe_form.codigo_retorno}}</td>
+                    <td class="input-cell">{{ nfe_form.codigo_retorno }}</td>
                     <td class="input-cell">{{ nfe_form.tipo_evento }}</td>
-                    <td class="input-cell">{{ nfe_form.protocolo_evento}}</td>
-                    <td class="input-cell"> {{ nfe_form.sequencia_evento}}</td>
-                    <td class="input-cell">{{ nfe_form.referenciar_nfe}}</td>
+                    <td class="input-cell">{{ nfe_form.protocolo_evento }}</td>
+                    <td class="input-cell">{{ nfe_form.sequencia_evento }}</td>
+                    <td class="input-cell">{{ nfe_form.referenciar_nfe }}</td>
                 </tr>
             </table>
 
-            <div style="margin-top: 10px; display: flex; align-items: center; gap: 15px">
-                <label><input type="checkbox" name="transmitir"> Transmitir </label>
-                <label><input type="checkbox" name="cce"> CCE</label>
-                <label><input type="checkbox" name="cancelar"> Cancelar</label>
+            <div style="margin: 5px 0 0 0; display: flex; align-items: center; gap: 30px; justify-content: flex-end;">
+                <label style="font-size:1em;"><input type="checkbox" name="transmitir" style="margin-right:2px;">Transmitir</label>
+                <label style="font-size:1em;"><input type="checkbox" name="cce" style="margin-right:2px;">CCE</label>
+                <label style="font-size:1em;"><input type="checkbox" name="cancelar" style="margin-right:2px;">Cancelar</label>
             </div>
 
-            <div style="margin-top: 10px;">
-                <div class="label-cell">Justificativa</div>
+            <div style="margin-top: 7px;">
+                <div class="label-cell" style="margin-bottom:2px;">Justificativa</div>
                 <div class="input-cell">
                     <textarea name="justificativa" rows="3"
-                        style="width:100%; resize:vertical;"> {{nfe.justificativa|default:""}}</textarea>
+                        style="width: 100%; resize: vertical; font-size:1em;">{{ nfe.justificativa|default:"" }}</textarea>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -1240,7 +1238,8 @@
         <button type="button" class="btn-action" onclick="abrirAbaSituacaoNfe()"><strong>Situação NFe</strong></button>
 
         <div id="abaSituacaoNfe" style="display:none; position:fixed; left:50%; top:54px; transform:translateX(-50%); background:#fff; z-index:10000; border:1px solid #bbb; min-width:680px; box-shadow:0 4px 20px #bbb; padding:28px 18px 26px 18px;">
-            <div style="font-size:2rem; font-weight:bold; text-align:center; margin-bottom:100pxpx;">Situação NF-e</div>
+            <div style="font-size:2rem; font-weight:bold; text-align:center; margin-bottom:100px
+            px;">Situação NF-e</div>
             <div style="margin-bottom:16px; display:flex; align-items:center; gap:2px;">
                 <label style="font-weight:150; margin-right:2px; min-width:20px; display:inline-block;">Empresa</label>
                 <select id="empresaInutilizarNfe" style="width:110px; min-width:initial; padding:2px 4px; margin-right:13px; vertical-align:middle;">
@@ -1304,8 +1303,114 @@
                 }
             });
         </script>
-        <div class="spacer"></div> <button type="button" class="btn-action">Relat. NF Fiscal</button>
-        <button type="button" class="btn-action">Relat. NF Emitidas</button>
+        <div class="spacer"></div>
+        <button type="button" class="btn-action" onclick="abrirModalRelatorioNfeFiscal()">Relat. NF Fiscal</button>
+
+        <!-- Modal Relatório NF-E -->
+        <div id="modalRelatorioNfeFiscal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.23); z-index:9999; align-items:flex-start; justify-content:center;">
+            <div style="background:#fff; margin:48px auto 0 auto; border-radius:3px; box-shadow:0 4px 16px #0001; min-width:355px; max-width:98vw; padding:24px 36px 26px 32px; position:relative;">
+                <div style="background:#ded9d3; padding:7px 9px 7px 5px; margin:-24px -36px 18px -32px;">
+                    <span style="font-size:2rem; font-weight:700; letter-spacing:1px;">RELATÓRIO NF-E</span>
+                </div>
+
+                <form id="formRelatorioNfeFiscal" autocomplete="off" style="margin-bottom:0;">
+                    <div style="display:flex; flex-wrap:wrap; gap:20px 34px;">
+                        <div style="display:flex; flex-direction:column; flex:1 0 180px;">
+                            <label style="font-size:0.99em; margin-bottom:2px;">Empresa</label>
+                            <select style="min-width:170px; font-size:1em; padding:2px 6px;">
+                                <option value="" selected></option>
+                                <option value="" selected></option>
+                                <option value="cavemac">CAVEMAC</option>
+                                <option value="peninsula">Peninsula</option>
+                                <option value="omega">Omega</option>
+                                <option value="starte/SP">Starte/SP</option>
+                                <option value="cavemac/SC">Cavemac/SC</option>
+                                <option value="green">Green</option>
+                                <option value="reach">Reach</option>
+                            </select>
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="font-size:0.99em; margin-bottom:2px;">Data De:</label>
+                            <input type="date" style="min-width:122px; font-size:1em; padding:2px 6px;" value="2026-03-20">
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <label style="font-size:0.99em; margin-bottom:2px;">Data Até:</label>
+                            <input type="date" style="min-width:122px; font-size:1em; padding:2px 6px;" value="2026-03-20">
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:20px; margin-top:34px;">
+                        <button type="submit" class="btn-action" style="min-width:110px; background:#fff; color:#363636; border:1.3px solid #858585; font-size:1.09em; padding:5px 0;">Consultar</button>
+                        <button type="button" class="btn-action" style="min-width:110px; background:#ded9d3; color:#363636; border:1.3px solid #b4b1ad; font-size:1.09em; padding:5px 0; box-shadow:2px 2px 2px #b6b6b6;" onclick="fecharModalRelatorioNfeFiscal()">Fechar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            function abrirModalRelatorioNfeFiscal() {
+                document.getElementById('modalRelatorioNfeFiscal').style.display = 'flex';
+            }
+            function fecharModalRelatorioNfeFiscal() {
+                document.getElementById('modalRelatorioNfeFiscal').style.display = 'none';
+            }
+
+            // Fecha o modal Relat. NF Fiscal ao apertar Escape
+            document.addEventListener('keydown', function(e){
+                if (e.key === "Escape") {
+                    fecharModalRelatorioNfeFiscal();
+                }
+            });
+
+            // Evita submit real do formulário do modal Relat. NF Fiscal
+            document.getElementById('formRelatorioNfeFiscal').addEventListener('submit', function(e){
+                e.preventDefault();
+                // Aqui pode adicionar lógica para consulta real
+            });
+        </script>
+        <button type="button" class="btn-action" style="padding:3px 10px; font-size:0.99em; min-width:80px;" onclick="abrirModalRelatNFEmitidas()">Relat. NF Emitidas</button>
+
+        <div id="modalRelatNFEmitidas" style="display:none; position:fixed; z-index:1001; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.13); align-items:center; justify-content:center;">
+            <div style="background:#fff; padding:26px 37px 28px 37px; border-radius:7px; min-width:320px; display:flex; flex-direction:column;">
+                <form onsubmit="event.preventDefault()" style="display:flex; flex-direction:column; gap:15px;">
+                    <div style="display:flex; flex-direction:column; margin-bottom:3px;">
+                        <label style="font-size:15px; margin-bottom:4px;">Data De:</label>
+                        <input type="date" style="min-width:150px; font-size:1em; padding:2px 6px;">
+                    </div>
+                    <div style="display:flex; flex-direction:column; margin-bottom:3px;">
+                        <label style="font-size:15px; margin-bottom:4px;">Data Até:</label>
+                        <input type="date" style="min-width:150px; font-size:1em; padding:2px 6px;">
+                    </div>
+                    <div style="margin-left:8px; margin-top:6px; display:flex; flex-direction:column; gap:7px;">
+                        <label style="display:flex; align-items:center; gap:7px; font-size:1.08em;">
+                            <input type="radio" name="tipo_relatorio" value="resumido" checked style="accent-color:black; margin-right:4px;">
+                            <span style="font-size:1em; margin-right:4px;">Resumido</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:7px; font-size:1.08em;">
+                            <input type="radio" name="tipo_relatorio" value="detalhado" style="accent-color:black;">
+                            Detalhado
+                        </label>
+                    </div>
+                    <div style="display:flex; gap:18px; margin-top:13px; justify-content:left;">
+                        <button type="submit" style="min-width:90px; background:#fff; color:#363636; border:1.3px solid #858585; font-size:1em; padding:6px 0; box-shadow:2px 2px 2px #b6b6b6;">Consultar</button>
+                        <button type="button" style="min-width:90px; background:#ded9d3; color:#363636; border:1.3px solid #b4b1ad; font-size:1em; padding:6px 0; box-shadow:2px 2px 2px #b6b6b6;" onclick="fecharModalRelatNFEmitidas()">Fechar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            function abrirModalRelatNFEmitidas() {
+                document.getElementById('modalRelatNFEmitidas').style.display = 'flex';
+            }
+            function fecharModalRelatNFEmitidas() {
+                document.getElementById('modalRelatNFEmitidas').style.display = 'none';
+            }
+            // Fecha o modal ao apertar Escape
+            document.addEventListener('keydown', function(e){
+                if (e.key === "Escape") {
+                    fecharModalRelatNFEmitidas();
+                }
+            });
+        </script>
         <button type="button" class="btn-action">Frete/Prazo</button>
         <button type="button" class="btn-action">PIN</button>
         <button type="button" class="btn-action disabled">CSV (Correio)</button>
