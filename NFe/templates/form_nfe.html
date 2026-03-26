@@ -48,8 +48,8 @@
     </div>
 
     <div class="top-action-buttons">
-        <button type="button" class="btn-gray">Voltar nº</button>
-        <button type="button" class="btn-gray">PESO/VOL</button>
+        <button type="button" class="btn-gray" onclick="voltarNumeroNota()">Voltar nº</button>
+        <button type="button" class="btn-gray" onclick="abrirModalPesoVol()">PESO/VOL</button>
         <button type="button" class="btn-gray disabled">BOLETO</button>
         <button type="button" class="btn-gray" onclick="limparFiltros()">LIMPAR</button>
     </div>
@@ -78,10 +78,12 @@
     <div class="side-bar-buttons">
         <button class="btn-side">TRANSMITIR</button>
         <button class="btn-side">FATURAR COB</button>
-        <button class="btn-side">DANFE</button>
-        <button class="btn-side red-text">Salvar</button>
+        <button type="button" id="btnDanfeSidebar" class="btn-side">DANFE</button>
+        <button type="button" id="btnSalvarSidebar" class="btn-side red-text">Salvar</button>
         <button class="btn-side">Agrupar Orç</button>
         <button class="btn-side">Menu Caixa</button>
+        <button type="button" class="btn-side">Status SEFAZ</button>
+        <button type="button" id="btnAcertaNfeSidebar" class="btn-side" onclick="abrirModalAcertaNfe()">Acerta NF-e</button>
     </div>
 </div>
 
@@ -106,8 +108,9 @@
 
 <hr class="header-divider">
 
-<form method="post" enctype="multipart/form-data" style="background: #d7e7c2; padding: 8px 4px;">
+<form id="mainNfeForm" method="post" enctype="multipart/form-data" style="background: #d7e7c2; padding: 8px 4px;">
     {% csrf_token %}
+    <input type="hidden" id="sidebar_action" name="sidebar_action" value="">
     <div id="NFe" class="tab-content active">
         <div class="form-group-box" style="padding:0; margin:0;">
             <table style="width:100%; border-collapse: collapse; background: transparent;">
@@ -750,6 +753,7 @@
     </div>
 
     <div id="Transportadora_Volumes" class="tab-content">
+        <div id="pesoVolContent">
         <div class="transporte-layout">
             <div class="transporte-left">
                 <div class="transporte-box">
@@ -840,6 +844,8 @@
             </table>
         </div>
     </div>
+        </div>
+        <div id="pesoVolPlaceholder" style="display:none;"></div>
 
 <div id="Cobranca" class="tab-content">
     <div class="form-group-box">
@@ -1411,9 +1417,218 @@
                 }
             });
         </script>
-        <button type="button" class="btn-action">Frete/Prazo</button>
+        <button type="button" class="btn-action" onclick="abrirModalFretePrazo()">Frete/Prazo</button>
         <button type="button" class="btn-action">PIN</button>
-        <button type="button" class="btn-action disabled">CSV (Correio)</button>
+        <button type="button" class="btn-action disabled" disabled aria-disabled="true">CSV (Correio)</button>
+
+        <!-- Modal PESO/VOL -->
+        <div id="modalPesoVol" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.13); z-index:2050; align-items:center; justify-content:center;">
+            <div style="background:#f7f7f3; border:1px solid #888; box-shadow:2px 2px 12px rgba(0,0,0,0.20); width:min(980px, 96vw); padding:10px 12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <div style="font-weight:800; font-size:16px;">
+                        <span>Pedido:</span> <span id="pesoVolPedidoTxt" style="font-weight:900;"></span>
+                        <span style="margin-left:26px;">Nota:</span> <span id="pesoVolNotaTxt" style="font-weight:900;"></span>
+                    </div>
+                    <button type="button" onclick="fecharModalPesoVol()" style="border:1px solid #bbb; background:#eee; padding:4px 10px; cursor:pointer;">X</button>
+                </div>
+                <div id="pesoVolModalBody" style="background:#fff; border:1px solid #c9c9c9; padding:10px; max-height:72vh; overflow:auto;"></div>
+                <div style="display:flex; justify-content:flex-end; gap:14px; margin-top:10px;">
+                    <button type="button" class="btn-action" onclick="confirmarModalPesoVol()">Confirmar</button>
+                    <button type="button" class="btn-action" onclick="fecharModalPesoVol()">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Acerta NF-e -->
+        <div id="modalAcertaNfe" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:2060; align-items:center; justify-content:center;">
+            <div style="background:#e9e9ec; border:1px solid #8d8d8d; box-shadow:2px 2px 12px rgba(0,0,0,0.26); width:min(430px, 95vw);">
+                <div style="display:flex; border-bottom:1px solid #a7a7a7; background:#d9d9dc;">
+                    <div style="padding:6px 12px; font-size:14px; color:#2c2c2c; background:#f3f3f5; font-weight:700;">Acerta NF-e</div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 170px; gap:18px; padding:14px 14px 8px; align-items:start;">
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <label style="display:flex; align-items:center; gap:4px; font-size:20px; line-height:1.1; color:#1f1f1f;">
+                            <input type="radio" name="tipo_acerto_nfe" value="autorizado" checked style="transform:scale(1.05); margin:0;">
+                            <span>Autorizado</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:4px; font-size:20px; line-height:1.1; color:#1f1f1f;">
+                            <input type="radio" name="tipo_acerto_nfe" value="carta" style="transform:scale(1.05); margin:0;">
+                            <span>Carta</span>
+                        </label>
+                        <label style="display:flex; align-items:center; gap:4px; font-size:20px; line-height:1.1; color:#1f1f1f;">
+                            <input type="radio" name="tipo_acerto_nfe" value="cancelado" style="transform:scale(1.05); margin:0;">
+                            <span>Cancelado</span>
+                        </label>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <label for="acertaNfeNumero" style="font-size:20px; font-weight:700; color:#1d1d1d; line-height:1.1;">NF-e:</label>
+                        <input id="acertaNfeNumero" type="text" inputmode="numeric" style="height:32px; font-size:18px; border:1px solid #8d8d8d; background:#d7e4f6; padding:3px 7px; width:100%; box-sizing:border-box;">
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:20px; padding:10px 12px 14px;">
+                    <button type="button" class="btn-action" style="min-width:130px; font-size:1.08em;" onclick="confirmarAcertaNfe()">Acerta NF-e</button>
+                    <button type="button" class="btn-action" style="min-width:100px; font-size:1.08em;" onclick="fecharModalAcertaNfe()">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Frete/Prazo -->
+        <div id="modalFretePrazo" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.13); z-index:2000; align-items:center; justify-content:center;">
+            <div style="background:#fafafa; border:1.2px solid #b5b5b5; border-radius:6px; min-width:320px; box-shadow:2px 2px 12px #aaa; margin:60px auto 0; padding:24px 25px 18px 16px; display:flex; flex-direction:column; gap:12px; max-width:414px;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                    <label style="font-size:1.09em; font-weight:510; margin:0 10px 0 1px;">Pedido:</label>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                        <button type="button" onclick="okModalFretePrazo()" style="min-width:54px; margin-bottom:3px; font-size:1em; border:1.3px solid #7faaff; color:#1947a0; background:#fff; padding:2.5px 0; border-radius:2px; box-shadow:1px 1px 3px #c9daff;">OK</button>
+                                                        
+                        <button type="button" onclick="fecharModalFretePrazo()" style="min-width:54px; font-size:1em; border:1.3px solid #bababa; background:#ececea; color:#454545; padding:2.5px 0; border-radius:2px; margin-top:1.5px;">Cancelar</button>
+                    </div>
+                </div>
+                <input type="text" id="fretePrazoPedidoInput" style="box-sizing:border-box; width:100%; font-size:1.08em; margin-top:2px; margin-left:-1px; margin-bottom:1px; padding:3px 6px; border:1.2px solid #5c9fd6; border-radius:2.5px;">
+            </div>
+        </div>
+
+        <!-- Modal Cálculo Frete/Prazo -->
+        <div id="modalCalculoFretePrazo" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.13); z-index:2020; align-items:center; justify-content:center;">
+            <div style="background:#fff; border-radius:8px; min-width:560px; max-width:96vw; box-shadow:2px 2px 22px #888; margin:50px auto 0; padding:18px 26px 16px 26px; display:flex; flex-direction:column; gap:12px;">
+                <div style="font-size:2.2rem; font-weight:700; text-align:center; letter-spacing:1px; margin-bottom:6px;">
+                    Cálculo Frete/Prazo
+                </div>
+                <div style="display:flex; gap:18px; flex-wrap:wrap;">
+                    <div style="display:flex; flex-direction:column; min-width:140px; flex:0 0 160px;">
+                        <label style="font-size:1.05em; margin-bottom:3px; font-weight:600;">Pedido:</label>
+                        <input type="text" id="freteCalcPedido" style="font-size:1.08em; padding:3px 6px; border:1px solid #888; border-radius:2px;" />
+                    </div>
+                    <div style="display:flex; flex-direction:column; min-width:220px; flex:1 1 260px;">
+                        <label style="font-size:1.05em; margin-bottom:3px; font-weight:600;">Cidade Destino:</label>
+                        <select id="freteCalcCidade" style="font-size:1.06em; padding:3px 6px; border:1px solid #888; border-radius:2px;">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:flex; gap:18px; flex-wrap:wrap;">
+                    <div style="display:flex; flex-direction:column; min-width:260px; flex:1 1 330px;">
+                        <label style="font-size:1.05em; margin-bottom:3px; font-weight:600;">Transportadora:</label>
+                        <select id="freteCalcTransportadora" style="font-size:1.06em; padding:3px 6px; border:1px solid #888; border-radius:2px;">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; min-width:120px; flex:0 0 140px;">
+                        <label style="font-size:1.05em; margin-bottom:3px; font-weight:600;">Peso (kg):</label>
+                        <input type="number" id="freteCalcPeso" step="0.01" min="0" style="font-size:1.06em; padding:3px 6px; border:1px solid #888; border-radius:2px;" />
+                    </div>
+                </div>
+                <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start;">
+                    <div style="flex:1 1 320px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:1.05em;">
+                            <tr>
+                                <td style="padding:4px 8px 4px 0; font-weight:600;">Total Produtos:</td>
+                                <td style="padding:4px 0;"><input type="text" id="freteCalcTotalProdutos" style="width:130px; text-align:right; padding:2px 6px; border:1px solid #888; border-radius:2px;" /></td>
+                                <td style="padding-left:8px; font-weight:700;">+</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px 8px 4px 0; font-weight:600;">Total ST:</td>
+                                <td style="padding:4px 0;"><input type="text" id="freteCalcTotalST" style="width:130px; text-align:right; padding:2px 6px; border:1px solid #888; border-radius:2px;" /></td>
+                                <td style="padding-left:8px; font-weight:700;">+</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px 8px 4px 0; font-weight:600;">Total IPI:</td>
+                                <td style="padding:4px 0;"><input type="text" id="freteCalcTotalIPI" style="width:130px; text-align:right; padding:2px 6px; border:1px solid #888; border-radius:2px;" /></td>
+                                <td style="padding-left:8px; font-weight:700;">+</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:4px 8px 4px 0; font-weight:700;">Total Frete:</td>
+                                <td style="padding:4px 0;"><input type="text" id="freteCalcTotalFrete" style="width:130px; text-align:right; padding:2px 6px; border:1px solid #888; border-radius:2px;" /></td>
+                                <td style="padding-left:8px; font-weight:700;">=</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:6px 8px 4px 0; font-weight:800;">Total:</td>
+                                <td style="padding:6px 0;"><input type="text" id="freteCalcTotal" style="width:130px; text-align:right; padding:2px 6px; border:1px solid #555; border-radius:2px; font-weight:800;" /></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="flex:0 0 220px; display:flex; gap:18px; justify-content:flex-end; align-self:center;">
+                        <button type="button" class="btn-action" style="min-width:96px; padding:10px 14px; font-size:1.05em;" onclick="calcularFretePrazo()">Calcular</button>
+                        <button type="button" class="btn-action" style="min-width:96px; padding:10px 14px; font-size:1.05em;" onclick="fecharModalCalculoFretePrazo()">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function abrirModalFretePrazo() {
+                const modal = document.getElementById('modalFretePrazo');
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('fretePrazoPedidoInput').focus();
+                }, 120);
+            }
+            function fecharModalFretePrazo() {
+                document.getElementById('modalFretePrazo').style.display = 'none';
+                document.getElementById('fretePrazoPedidoInput').value = '';
+            }
+            function okModalFretePrazo() {
+                const pedido = (document.getElementById('fretePrazoPedidoInput').value || '').trim();
+                if (!pedido) {
+                    alert('Informe o número do pedido.');
+                    document.getElementById('fretePrazoPedidoInput').focus();
+                    return;
+                }
+                fecharModalFretePrazo();
+                abrirModalCalculoFretePrazo(pedido);
+            }
+            function abrirModalCalculoFretePrazo(pedido) {
+                const modal = document.getElementById('modalCalculoFretePrazo');
+                modal.style.display = 'flex';
+                document.getElementById('freteCalcPedido').value = pedido || '';
+                document.getElementById('freteCalcPeso').value = '';
+                document.getElementById('freteCalcTotalProdutos').value = '';
+                document.getElementById('freteCalcTotalST').value = '';
+                document.getElementById('freteCalcTotalIPI').value = '';
+                document.getElementById('freteCalcTotalFrete').value = '';
+                document.getElementById('freteCalcTotal').value = '';
+                setTimeout(() => document.getElementById('freteCalcPeso').focus(), 120);
+            }
+            function fecharModalCalculoFretePrazo() {
+                document.getElementById('modalCalculoFretePrazo').style.display = 'none';
+            }
+            function calcularFretePrazo() {
+                // Placeholder (você disse que não precisa preencher os dados automaticamente aqui)
+                // Se depois quiser integrar com Correios/API, eu conecto.
+            }
+            // ESC/ENTER nos modais
+            document.addEventListener('keydown', function(e){
+                const modalFretePrazo = document.getElementById('modalFretePrazo');
+                const modalCalculo = document.getElementById('modalCalculoFretePrazo');
+
+                if (modalFretePrazo && modalFretePrazo.style.display === 'flex') {
+                    if (e.key === 'Escape') {
+                        fecharModalFretePrazo();
+                    }
+                    if (e.key === 'Enter' && document.activeElement === document.getElementById('fretePrazoPedidoInput')) {
+                        okModalFretePrazo();
+                    }
+                    return;
+                }
+
+                if (modalCalculo && modalCalculo.style.display === 'flex') {
+                    if (e.key === 'Escape') {
+                        fecharModalCalculoFretePrazo();
+                        return;
+                    }
+                    if (e.key === 'Enter') {
+                        const pesoInput = document.getElementById('freteCalcPeso');
+                        if (pesoInput && document.activeElement === pesoInput) {
+                            e.preventDefault();
+                            calcularFretePrazo();
+                        }
+                    }
+                }
+            });
+        </script>
+
     </div>
     
 <script>
@@ -1430,6 +1645,197 @@
         });
     });
 
+    function voltarNumeroNota() {
+        const pedidoSelecionadoEl =
+            document.querySelector('form #id_pedido') ||
+            document.querySelector('form [name="pedido"]');
+        const pedidoSelecionado = (pedidoSelecionadoEl?.value || '').trim();
+
+        if (!pedidoSelecionado) return;
+
+        // Campo "NF-e" do formulário ({{ nfe_form.numero }})
+        const numeroNotaFormEl =
+            document.querySelector('form #id_numero') ||
+            document.querySelector('form [name="numero"]');
+
+        // Campo "NF-e" do filtro (name="numero_nfe")
+        const numeroNotaFiltroEl = document.querySelector('[name="numero_nfe"]');
+
+        if (numeroNotaFormEl) numeroNotaFormEl.value = '';
+        if (numeroNotaFiltroEl) numeroNotaFiltroEl.value = '';
+
+        const focoEl = numeroNotaFormEl || numeroNotaFiltroEl;
+        if (focoEl) focoEl.focus();
+
+        alert('Nº de nota resetada com sucesso!');
+    }
+
+    let __pesoVolOriginalParent = null;
+    let __pesoVolOriginalNextSibling = null;
+
+    function __getPedidoNotaSelecionados() {
+        const pedidoEl =
+            document.querySelector('form #id_pedido') ||
+            document.querySelector('form [name="pedido"]') ||
+            document.querySelector('[name="pedido"]');
+
+        const notaEl =
+            document.querySelector('form #id_numero') ||
+            document.querySelector('form [name="numero"]') ||
+            document.querySelector('[name="numero_nfe"]');
+
+        const pedidoVal = pedidoEl && typeof pedidoEl.value === 'string' ? pedidoEl.value.trim() : '';
+        const notaVal = notaEl && typeof notaEl.value === 'string' ? notaEl.value.trim() : '';
+
+        return { pedido: pedidoVal, nota: notaVal };
+    }
+
+    function abrirModalPesoVol() {
+        const { pedido, nota } = __getPedidoNotaSelecionados();
+        if (!pedido) {
+            alert('Selecione um pedido antes de abrir PESO/VOL.');
+            return;
+        }
+
+        const modal = document.getElementById('modalPesoVol');
+        const body = document.getElementById('pesoVolModalBody');
+        const content = document.getElementById('pesoVolContent');
+
+        const pedidoTxt = document.getElementById('pesoVolPedidoTxt');
+        const notaTxt = document.getElementById('pesoVolNotaTxt');
+        if (pedidoTxt) pedidoTxt.textContent = pedido;
+        if (notaTxt) notaTxt.textContent = nota;
+
+        if (content && body) {
+            if (!__pesoVolOriginalParent) {
+                __pesoVolOriginalParent = content.parentElement;
+                __pesoVolOriginalNextSibling = content.nextSibling;
+            }
+            body.appendChild(content);
+        }
+
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function fecharModalPesoVol() {
+        const modal = document.getElementById('modalPesoVol');
+        const content = document.getElementById('pesoVolContent');
+
+        if (__pesoVolOriginalParent && content) {
+            if (__pesoVolOriginalNextSibling) {
+                __pesoVolOriginalParent.insertBefore(content, __pesoVolOriginalNextSibling);
+            } else {
+                __pesoVolOriginalParent.appendChild(content);
+            }
+        }
+
+        if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarModalPesoVol() {
+        fecharModalPesoVol();
+    }
+
+    function abrirModalAcertaNfe() {
+        const modal = document.getElementById('modalAcertaNfe');
+        const numeroInput = document.getElementById('acertaNfeNumero');
+        const numeroNfeAtual =
+            document.querySelector('form #id_numero') ||
+            document.querySelector('form [name="numero"]');
+
+        if (numeroInput) {
+            numeroInput.value = (numeroNfeAtual?.value || '').trim();
+        }
+
+        if (modal) {
+            modal.style.display = 'flex';
+            setTimeout(function () {
+                if (numeroInput) numeroInput.focus();
+            }, 80);
+        }
+    }
+
+    function fecharModalAcertaNfe() {
+        const modal = document.getElementById('modalAcertaNfe');
+        if (modal) modal.style.display = 'none';
+    }
+
+    function confirmarAcertaNfe() {
+        const numeroInput = document.getElementById('acertaNfeNumero');
+        const nfeNumero = (numeroInput?.value || '').trim();
+        if (!nfeNumero) {
+            alert('Informe o número da NF-e.');
+            if (numeroInput) numeroInput.focus();
+            return;
+        }
+        fecharModalAcertaNfe();
+    }
+
+    function __submitSidebarAction(actionName, precisaNota = false) {
+        const form = document.getElementById('mainNfeForm');
+        if (!form) {
+            alert('Formulário principal da NFe não encontrado.');
+            return;
+        }
+
+        const pedidoEl =
+            document.querySelector('form #id_pedido') ||
+            document.querySelector('form [name="pedido"]');
+        const notaEl =
+            document.querySelector('form #id_numero') ||
+            document.querySelector('form [name="numero"]');
+
+        const pedido = (pedidoEl?.value || '').trim();
+        const nota = (notaEl?.value || '').trim();
+
+        if (!pedido) {
+            alert('Informe o Pedido antes de gerar a NFe.');
+            return;
+        }
+        if (precisaNota && !nota) {
+            alert('Informe o número da NF-e antes de gerar o DANFE.');
+            return;
+        }
+
+        const mensagem = precisaNota
+            ? `Deseja gerar DANFE da NF-e ${nota} do pedido ${pedido}?`
+            : `Deseja gerar NFe do pedido ${pedido}${nota ? ` (NF-e ${nota})` : ''}?`;
+
+        if (!window.confirm(mensagem)) {
+            return;
+        }
+
+        const sidebarActionInput = document.getElementById('sidebar_action');
+        if (sidebarActionInput) {
+            sidebarActionInput.value = actionName;
+        }
+
+        form.submit();
+    }
+
+    const btnSalvarSidebar = document.getElementById('btnSalvarSidebar');
+    if (btnSalvarSidebar) {
+        btnSalvarSidebar.addEventListener('click', function () {
+            __submitSidebarAction('gerar_nfe');
+        });
+    }
+
+    const btnDanfeSidebar = document.getElementById('btnDanfeSidebar');
+    if (btnDanfeSidebar) {
+        btnDanfeSidebar.addEventListener('click', function () {
+            __submitSidebarAction('gerar_danfe', true);
+        });
+    }
+
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('danfe') === '1') {
+            setTimeout(function () {
+                window.print();
+            }, 300);
+        }
+    })();
+
     document.addEventListener('input', function (e) {
         if (e.target.name.includes('quantidade') || e.target.name.includes('valor_unitario')) {
             let row = e.target.closest('tr');
@@ -1437,6 +1843,18 @@
             let unit = parseFloat(row.querySelector('input[name$="-valor_unitario"]').value) || 0;
             let totalField = row.querySelector('input[name$="-valor_total_bruto"]');
             if (totalField) totalField.value = (qtd * unit).toFixed(2);
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        const modal = document.getElementById('modalAcertaNfe');
+        if (!modal || modal.style.display !== 'flex') return;
+
+        if (e.key === 'Escape') {
+            fecharModalAcertaNfe();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            confirmarAcertaNfe();
         }
     });
 
